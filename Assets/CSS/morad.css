@@ -1,0 +1,151 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;900&display=swap');
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Roboto', Courier, monospace;
+}
+
+header {
+    height: 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+}
+
+header img {
+    width: 20px;
+    height: auto;
+}
+
+header .price {
+    font-weight: lighter;
+}
+
+header .price li {
+    display: flex;
+}
+
+header ul {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+header ul {
+    list-style: none;
+    width: 450px;
+}
+
+header li {
+    margin: 0 10px;
+}
+
+
+/* SLIDER */
+
+slider {
+    display: block;
+    width: 80%;
+    height: 500px;
+    background-color: #1f1f1f;
+    overflow: hidden;
+    position: absolute;
+}
+
+slider>* {
+    position: absolute;
+    display: block;
+    width: 850px;
+    height: 500px;
+    background: hsl(0, 0%, 12%);
+    animation: slide 12s infinite;
+    overflow: hidden;
+}
+
+slide:nth-child(1) {
+    left: 0%;
+    animation-delay: -1s;
+    background-color: #f1f1f1;
+}
+
+slide:nth-child(2) {
+    animation-delay: 2s;
+    background-color: #f1f1f1;
+}
+
+slide:nth-child(3) {
+    animation-delay: 5s;
+    background-color: #f1f1f1;
+}
+
+slide:nth-child(4) {
+    left: 0%;
+    animation-delay: 8s;
+    background-color: #f1f1f1;
+}
+
+@keyframes slide {
+    0% {
+        left: 100%;
+        width: 100%;
+    }
+    5% {
+        left: 0%;
+    }
+    25% {
+        left: 0%;
+    }
+    30% {
+        left: -100%;
+        width: 100%;
+    }
+    30.0001% {
+        left: -100%;
+        width: 0%;
+    }
+    100% {
+        left: 100%;
+        width: 0%;
+    }
+}
+
+
+/* POSITION SLIDER */
+
+.slider {
+    display: flex;
+    justify-content: center;
+}
+
+slide {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+slide p {
+    font-weight: lighter;
+    text-align: left;
+    display: inline-block;
+    width: 100%;
+    margin-top: 40px;
+    color: rgb(58, 58, 58);
+}
+
+slide img {
+    height: 500px;
+    width: auto;
+}
+
+slide div {
+    padding: 0 50px 130px 50px;
+}
