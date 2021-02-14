@@ -8,47 +8,6 @@ body {
     font-family: 'Roboto', Courier, monospace;
 }
 
-header {
-    height: 80px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #fff;
-}
-
-header img {
-    width: 20px;
-    height: auto;
-}
-
-header .price {
-    font-weight: lighter;
-}
-
-header .price li {
-    display: flex;
-}
-
-header ul {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-a {
-    color: inherit;
-    text-decoration: none;
-}
-
-header ul {
-    list-style: none;
-    width: 450px;
-}
-
-header li {
-    margin: 0 10px;
-}
-
 
 /* SLIDER */
 
