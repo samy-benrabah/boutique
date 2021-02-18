@@ -7,10 +7,10 @@
                 </div>
         
                 <?php
-
+                
                     if (isset($_POST['add'])) {
                         echo  '
-                            <form class="article_solo">
+                            <form class="article_solo" method="post" enctype="multipart/form-data">
                                 <div class="img_et_text">
                                     <div>
                                         <div class="image"><p>1024<br>x<br>1024</p></div>
@@ -28,9 +28,9 @@
                                         <label for="categorie">Categorie: </label>
                                         <select name="categorie" id="categorie">
                                             <option>Choisir une categorie</option>
-                                            <option value="table">table</option>
-                                            <option value="cuisine">cuisine</option>
-                                            <option value="sale de baine">salle de bain</option>
+                                            <option value="1">table</option>
+                                            <option value="2">cuisine</option>
+                                            <option value="3">salle de bain</option>
                                         </select>
                                         <br><br>
                                         <textarea name="description" id="description" cols="30" rows="10" placeholder="description de l‘article"></textarea>

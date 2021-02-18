@@ -1,4 +1,42 @@
-<!DOCTYPE html>
+<?php
+
+    require '../../Class/morad.php';
+    $product = new product();
+
+    if (isset($_POST['add_to_db'])) {
+        $file  = $_FILES['image'];
+        
+        $fileName = $_FILES['image']['name'];
+        $fileTmpName = $_FILES['image']['tmp_name'];
+        $fileSize = $_FILES['image']['size'];
+        $fileError = $_FILES['image']['error'];
+        $fileType = $_FILES['image']['type'];
+
+        $fileExt = explode('.', $fileName);
+        $fileActualExt = strtolower(end($fileExt));
+
+        $allowed  =array('jpg', 'jpeg', 'png');
+
+        if (in_array($fileActualExt, $allowed)) {
+            if ($fileError === 0) {
+                if ($fileSize < 1000000) {
+                    $fileNameNew = uniqid('', true).".".$fileActualExt;
+                    $fileDestination = '../Images/products/'.$fileNameNew;
+                    move_uploaded_file($fileTmpName ,$fileDestination);
+                    $send = $product -> add_product($fileNameNew,$_POST['title'],$_POST['description'],$_POST['price'],date("Y-m-d"),$_POST['categorie'],1,$_FILES['image']);
+                    echo "image envoyer";
+                }else {
+                    echo "Votre image est très grande";
+                }
+            }else {
+                echo "Il y'a un probleme de telechargement";
+            }
+        }else {
+            echo "Veuillez chosir un format de type png, jpg ou jpeg";
+        }
+    }
+
+?><!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -32,7 +70,7 @@
         <section class="categories">
             
             <div class="categorie_solo">
-                <a href="admin.php?articles#articles">
+                <a href="admin.php?articles#block">
                     <div class="categorie_img">
                         <img src="../Images/box.svg" alt="photo box">
                     </div>
@@ -85,6 +123,11 @@
         <br><br><br><br><br>
         <!-- ‡‡‡‡‡‡‡‡‡‡‡‡‡‡ START BLOCK LES ARTICLES ‡‡‡‡‡‡‡‡‡‡‡‡‡‡ -->
         <?php 
+
+
+
+        
+  
         if (isset($_GET['articles'])) {
             include'admin/articles.php';
         }elseif (isset($_GET['utilisateurs'])) {
@@ -93,11 +136,9 @@
             include'admin/reductions.php';
         }elseif (isset($_GET['sliders'])) {
             include'admin/sliders.php';
-        }
-        elseif (isset($_GET['commandes'])) {
+        }elseif (isset($_GET['commandes'])) {
             include'admin/commandes.php';
-        }
-        elseif (isset($_GET['categories'])) {
+        }elseif (isset($_GET['categories'])) {
             include'admin/categories.php';
         }
         ?>
