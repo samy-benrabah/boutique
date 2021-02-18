@@ -1,9 +1,10 @@
 header {
-    height: 80px;
+    height: 100px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     background-color: #fff;
+    padding: 0 7%;
 }
 
 header img {
@@ -13,16 +14,20 @@ header img {
 
 header .price {
     font-weight: lighter;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
 }
 
 header .price li {
     display: flex;
+    margin-right: 30px;
 }
 
 header ul {
     display: flex;
-    justify-content: center;
     align-items: center;
+    width: 450px;
 }
 
 a {
@@ -30,11 +35,21 @@ a {
     text-decoration: none;
 }
 
-header ul {
-    list-style: none;
-    width: 450px;
+header li {
+    margin: 0 10px 0 0;
 }
 
-header li {
-    margin: 0 10px;
+
+/* FOOOOOTER */
+
+footer {
+    display: flex;
+    justify-content: space-around;
+    background-color: black;
+    color: white;
+    padding: 40px 7%;
+}
+
+ul {
+    list-style: none;
 }

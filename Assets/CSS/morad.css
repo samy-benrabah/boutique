@@ -1,0 +1,444 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;900&display=swap');
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Roboto', Courier, monospace;
+    font-weight: 300;
+}
+
+main {
+    padding: 0 7%;
+}
+
+
+/* SLIDER */
+
+slider {
+    display: block;
+    width: 86%;
+    height: 500px;
+    background-color: #1f1f1f;
+    overflow: hidden;
+    position: absolute;
+}
+
+slider>* {
+    position: absolute;
+    display: block;
+    width: 86%;
+    height: 500px;
+    background: hsl(0, 0%, 12%);
+    animation: slide 12s infinite;
+    overflow: hidden;
+}
+
+slide:nth-child(1) {
+    left: 0%;
+    animation-delay: -1s;
+    background-color: #f1f1f1;
+}
+
+slide:nth-child(2) {
+    animation-delay: 2s;
+    background-color: #f1f1f1;
+}
+
+slide:nth-child(3) {
+    animation-delay: 5s;
+    background-color: #f1f1f1;
+}
+
+slide:nth-child(4) {
+    left: 0%;
+    animation-delay: 8s;
+    background-color: #f1f1f1;
+}
+
+@keyframes slide {
+    0% {
+        left: 100%;
+        width: 100%;
+    }
+    5% {
+        left: 0%;
+    }
+    25% {
+        left: 0%;
+    }
+    30% {
+        left: -100%;
+        width: 100%;
+    }
+    30.0001% {
+        left: -100%;
+        width: 0%;
+    }
+    100% {
+        left: 100%;
+        width: 0%;
+    }
+}
+
+
+/* POSITION SLIDER */
+
+.slider {
+    display: flex;
+    justify-content: center;
+    height: 500px;
+}
+
+slide {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+slide p {
+    font-weight: lighter;
+    text-align: left;
+    display: inline-block;
+    width: 100%;
+    margin-top: 40px;
+    color: rgb(58, 58, 58);
+}
+
+slide img {
+    height: 500px;
+    width: auto;
+}
+
+slide div {
+    padding: 0 50px 130px 50px;
+}
+
+
+/* ///////////////////////// */
+
+.products {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 280px);
+    justify-content: space-between;
+}
+
+.products .product_img {
+    height: 340px;
+    width: 280px;
+    background-position: center;
+    background-size: cover;
+}
+
+.product_img:hover {
+    background-size: 450px;
+}
+
+.products .product_solo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 50px;
+}
+
+.products .titre {
+    font-weight: bolder;
+    text-transform: uppercase;
+    margin-top: 18px;
+}
+
+.products .prix {
+    font-weight: lighter;
+    margin-top: 8px;
+}
+
+
+/* ///////////////////////// */
+
+.button {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+button {
+    background-color: black;
+    color: white;
+    border: none;
+    outline: none;
+    padding: 15px 30px;
+    cursor: pointer;
+    transition-duration: 0.6s;
+    text-transform: uppercase;
+}
+
+button:hover {
+    letter-spacing: 1px;
+}
+
+
+/* ---------- ADMIN PAGES ---------- */
+
+.categories {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+.categories .categorie_img {
+    height: 250px;
+    width: 250px;
+    background-color: #F0F0F0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.categories .categorie_img img {
+    width: 100px;
+    height: auto;
+    transition: 0.6s;
+}
+
+.categories .categorie_img img:hover {
+    transform: scale(1.2);
+}
+
+.categories .categorie_solo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 50px;
+}
+
+.categories .titre {
+    text-transform: uppercase;
+    margin-top: 18px;
+}
+
+
+/*  ADMIN PAGES / LES ARTICLES  */
+
+.articles {
+    background-color: #F0F0F0;
+    padding: 10px;
+    margin-bottom: 100px;
+}
+
+.articles .article_solo {
+    background-color: #1f1f1f1f;
+    padding: 10px;
+    display: grid;
+    grid-template-columns: 4fr 1fr;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.articles .article_solo .image {
+    width: 100px;
+    height: 100px;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    margin-right: 10px;
+    background-color: #f1f1f1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+    font-weight: 500;
+    font-size: 24px;
+    text-align: center;
+}
+
+.img_et_text {
+    display: flex;
+}
+
+.commandes {
+    display: flex;
+    justify-content: space-around;
+}
+
+.img_et_text div {
+    margin-right: 20px;
+}
+
+.space_text {
+    margin-top: 6px;
+    margin-bottom: 6px;
+}
+
+input[type=submit] {
+    background-color: #00000050;
+    color: white;
+    border: none;
+    outline: none;
+    width: 130px;
+    height: 60px;
+    margin: 2px 0;
+    transition: 0.6s;
+    cursor: pointer;
+}
+
+input[type=submit]:hover {
+    background-color: #000000;
+}
+
+textarea {
+    width: 100%;
+    height: 60px;
+    resize: none;
+    overflow: scroll;
+}
+
+.divv {
+    width: 80%;
+    margin-right: 10px;
+}
+
+input[type=file] {
+    /* Apply absolute positioning and move it to top-left corner of parent div element */
+    position: absolute;
+    top: 0px;
+    left: 0;
+    /* Making the file input element to cover the whole div element */
+    right: 0px;
+    bottom: 0px;
+    width: 100%;
+    /* Hiding the tap color when it is clicked on touch devices ( this is not widely supported ) */
+    -webkit-tap-highlight-color: transparent;
+    /* Make it invisible ( it is present at it's position but just invisible ) */
+    opacity: 0;
+    /* Move it to the upper layer above the container div's layer to ensure that it is always clickable */
+    z-index: 1;
+}
+
+.file {
+    /* Our input type file element is going to be absolute positioned so the div element should be relatively positioned to act as container for it. */
+    position: relative;
+    width: 76px;
+    /* Aligning the div at the center of the webpage horizontally and providing some space from top of webpage */
+    /* Making the div better looking */
+    padding: 10px 12px;
+    text-align: center;
+    color: #fff;
+    font-size: 10px;
+    background-color: #00000050;
+    /* Hide that part of input type file element that is overflowed out of container div */
+    overflow: hidden;
+    transition: 0.6s;
+}
+
+.file:hover {
+    background-color: #000000;
+}
+
+.entete {
+    display: flex;
+    justify-content: space-between;
+}
+
+.entete input {
+    background: #00000050;
+    cursor: pointer;
+    height: 20px;
+    color: white;
+    padding: 2px 10px;
+    width: 100%;
+}
+
+.entete input:hover {
+    background: #000000;
+}
+
+.notraitee {
+    background-color: #FFEA8A;
+    margin-left: 30px;
+}
+
+.precessing {
+    display: flex;
+    justify-content: space-between;
+}
+
+.main_img {
+    padding: 0;
+}
+
+.image_back {
+    height: 500px;
+    background: url(../Images/image.png) no-repeat center;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #F0F0F0;
+    font-size: 34px;
+    font-weight: 500;
+}
+
+.connexion {
+    width: 400px;
+    border: 2px solid black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.connexion p {
+    width: 100%;
+    height: 40px;
+    background-color: black;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.connexion input {
+    width: 250px;
+    height: 30px;
+    background: none;
+    border: 1px solid #00000050;
+    outline: none;
+    padding: 0 6px;
+}
+
+.connexion input[type=submit] {
+    background-color: #00000050;
+    color: white;
+    border: none;
+    outline: none;
+    width: 120px;
+    margin: 2px 0;
+    transition: 0.6s;
+    cursor: pointer;
+    margin-bottom: 50px;
+}
+
+.connexion input[type=submit]:hover {
+    background-color: #000000;
+}
+
+.block_bottom {
+    padding: 0 5%;
+    width: 90%;
+    height: 40px;
+    background-color: black;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.register_block {
+    margin: 50px 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
