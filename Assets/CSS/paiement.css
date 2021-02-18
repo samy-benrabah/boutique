@@ -1,0 +1,156 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+*,
+html {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+
+/* DEBUT SECTION 1 */
+
+main .section1 .img-background {
+    width: 100%;
+    height: 500px;
+    background-size: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+main .section1 .img-background p {
+    font-size: 45px;
+    color: white;
+    text-align: center;
+    padding-top: 15%;
+}
+
+
+/* FIN SECTION 1 */
+
+
+/* DEBUT SECTION2 */
+
+main .section2 {
+    padding: 3% 7% 5%;
+}
+
+main .section2 .full-formulaire {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+
+/* DEBUT FORMULAIRE LEFT */
+
+main .section2 .full-formulaire .formulaire-left {
+    height: 350px;
+    width: 700px;
+}
+
+main .section2 .full-formulaire .formulaire-left p span {
+    font-weight: bold;
+    font-size: 20px;
+}
+
+main .section2 .full-formulaire .formulaire-left .full-cb form {
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 1em;
+}
+
+main .section2 .full-formulaire .formulaire-left .full-cb form .nom-date-code_securite {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+main .section2 .full-formulaire .formulaire-left .full-cb form .label-input {
+    display: flex;
+    flex-direction: column;
+}
+
+main .section2 .full-formulaire .formulaire-left .full-cb form .label-input input {
+    height: 35px;
+    text-align: center;
+}
+
+main .section2 .full-formulaire .formulaire-left .full-cb form .button-valider {
+    display: flex;
+    justify-content: center;
+}
+
+main .section2 .full-formulaire .formulaire-left .full-cb form .button-valider input {
+    background-color: black;
+    color: white;
+    height: 35px;
+    width: 150px;
+    border: none;
+    outline: none;
+}
+
+
+/* FIN FORMULAIRE LEFT */
+
+
+/* DEBUT FORMULAIRE RIGHT */
+
+main .full-formulaire .formulaire-right {
+    background-color: #f0f0f0;
+    height: 600px;
+    width: 500px;
+    align-self: center;
+    padding: 1em;
+}
+
+main .full-formulaire .formulaire-right .titre-panier p {
+    font-size: 25px;
+    font-weight: bold;
+    text-align: center;
+}
+
+main .full-formulaire .formulaire-right .product-price {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 80%;
+    padding: 1em;
+}
+
+main .full-formulaire .formulaire-right .product-price .product {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-bottom: 0.5px solid gray;
+}
+
+main .full-formulaire .formulaire-right .product-price .product .description {
+    display: flex;
+    justify-content: space-between;
+    width: 60%;
+}
+
+main .full-formulaire .formulaire-right .product-price .product .description span {
+    font-weight: bold;
+}
+
+main .full-formulaire .formulaire-right .total .description {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+main .full-formulaire .formulaire-right .total span {
+    font-weight: bold;
+}
+
+
+/* FIN FORMULAIRE RIGHT */
+
+
+/* FIN SECTION 2 */

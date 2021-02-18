@@ -1,0 +1,167 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+*,
+html {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    padding: 0 7%;
+}
+
+main .section1 {
+    width: 100%;
+    background-color: #fafafa;
+}
+
+main .section1 .section1-topic1 {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+main .section1 .description_image {
+    display: flex;
+    flex-direction: column;
+    height: 530px;
+    width: 530px;
+    padding: 10%;
+}
+
+main .section1 .description_image p {
+    margin-bottom: 5%;
+}
+
+main .section1 .section1-topic2 {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 60%;
+    margin-top: 5%;
+    margin-right: 30px;
+    text-align: left;
+}
+
+main .sous-section1-topic2 {
+    height: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+main .section1-topic2 .sous-section1-topic2 .star-avis {
+    display: flex;
+    align-items: center;
+}
+
+main .section1-topic2 .sous-section1-topic2 .star-avis div {
+    display: flex;
+    flex-direction: row;
+}
+
+main .section1-topic2 .sous-section1-topic2 .star-avis div p {
+    font-size: 25px;
+    margin-right: 15px;
+    transition: 0.6s;
+    color: gold;
+}
+
+main .section1-topic2 .sous-section1-topic2 .star-avis div p:hover {
+    transform: scale(1.2);
+}
+
+main .section1-topic2 .sous-section1-topic2 input[type=number] {
+    width: 100px;
+    height: 30px;
+}
+
+main .section1-topic2 .sous-section1-topic2 input[type=submit] {
+    width: 200px;
+    height: 35px;
+    color: white;
+    background-color: black;
+}
+
+main .section2 .sous-section2 .product-img {
+    height: 340px;
+    width: 240px;
+    background-size: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+main .section2 .description {
+    border-bottom: solid 1px #f0f0f0;
+    border-top: solid 1px #f0f0f0;
+    height: 485px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: left;
+}
+
+main .section2 .description .sous-description {
+    padding: 15%;
+    width: 1000px;
+}
+
+main .section2 .description .sous-description h1 {
+    margin-bottom: 5%;
+}
+
+main .section2 .sous-section2 {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 280px);
+    justify-content: space-between;
+    text-align: center;
+}
+
+main .section2 .sous-section2 .product-img {
+    display: flex;
+    width: auto;
+}
+
+main .section2 .sous-section2 .stars {
+    color: gold;
+}
+
+main .section2 .full-commentaire {
+    height: 485px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    border-bottom: solid 1px #f0f0f0;
+}
+
+main .section2 .full-commentaire form input[name="titre-commentaire"] {
+    height: 30px;
+    width: 300px;
+}
+
+main .section2 .full-commentaire form select#nombre-etoile {
+    height: 30px;
+    margin-left: 10px;
+}
+
+main .section2 .full-commentaire form input[name="adresse"] {
+    height: 200px;
+    width: 300px;
+}
+
+main .section2 .full-commentaire form[name="adresse"] {
+    display: flex;
+    flex-direction: column;
+}
+
+main .section2 .full-commentaire input[name="envoyer-commentaire"] {
+    background-color: black;
+    color: white;
+    width: 200px;
+    height: 35px;
+}
