@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../CSS/profil.css">
     <link rel="stylesheet" href="../CSS/header-footer.css">
+
     <script src="https://kit.fontawesome.com/218e7c5bb4.js" crossorigin="anonymous"></script>
     <title>Profil</title>
 </head>
@@ -164,6 +165,9 @@ echo $phone;
                 <!-- FIN SECTION 2 -->
     </main>
     <footer>
+        <?php
+include 'footer.php'
+?>
     </footer>
 </body>
 </html>

@@ -1,40 +1,40 @@
 <?php
 
-    require '../../Class/morad.php';
-    $product = new product();
+require '../../Class/product.php';
+$product = new Product();
 
-    if (isset($_POST['add_to_db'])) {
-        $file  = $_FILES['image'];
-        
-        $fileName = $_FILES['image']['name'];
-        $fileTmpName = $_FILES['image']['tmp_name'];
-        $fileSize = $_FILES['image']['size'];
-        $fileError = $_FILES['image']['error'];
-        $fileType = $_FILES['image']['type'];
+if (isset($_POST['add_to_db'])) {
+    $file = $_FILES['image'];
 
-        $fileExt = explode('.', $fileName);
-        $fileActualExt = strtolower(end($fileExt));
+    $fileName = $_FILES['image']['name'];
+    $fileTmpName = $_FILES['image']['tmp_name'];
+    $fileSize = $_FILES['image']['size'];
+    $fileError = $_FILES['image']['error'];
+    $fileType = $_FILES['image']['type'];
 
-        $allowed  =array('jpg', 'jpeg', 'png');
+    $fileExt = explode('.', $fileName);
+    $fileActualExt = strtolower(end($fileExt));
 
-        if (in_array($fileActualExt, $allowed)) {
-            if ($fileError === 0) {
-                if ($fileSize < 1000000) {
-                    $fileNameNew = uniqid('', true).".".$fileActualExt;
-                    $fileDestination = '../Images/products/'.$fileNameNew;
-                    move_uploaded_file($fileTmpName ,$fileDestination);
-                    $send = $product -> add_product($fileNameNew,$_POST['title'],$_POST['description'],$_POST['price'],date("Y-m-d"),$_POST['categorie'],1,$_FILES['image']);
-                    echo "image envoyer";
-                }else {
-                    echo "Votre image est très grande";
-                }
-            }else {
-                echo "Il y'a un probleme de telechargement";
+    $allowed = array('jpg', 'jpeg', 'png');
+
+    if (in_array($fileActualExt, $allowed)) {
+        if ($fileError === 0) {
+            if ($fileSize < 1000000) {
+                $fileNameNew = uniqid('', true) . "." . $fileActualExt;
+                $fileDestination = '../Images/products/' . $fileNameNew;
+                move_uploaded_file($fileTmpName, $fileDestination);
+                $send = $product->add_product($fileNameNew, $_POST['title'], $_POST['description'], $_POST['price'], date("Y-m-d"), $_POST['categorie'], 1, $_FILES['image']);
+                echo "image envoyer";
+            } else {
+                echo "Votre image est très grande";
             }
-        }else {
-            echo "Veuillez chosir un format de type png, jpg ou jpeg";
+        } else {
+            echo "Il y'a un probleme de telechargement";
         }
+    } else {
+        echo "Veuillez chosir un format de type png, jpg ou jpeg";
     }
+}
 
 ?><!DOCTYPE html>
 <html lang="en">
@@ -50,7 +50,7 @@
 </head>
 
 <body>
-    <!-- <?php include'Assets/HTML/header.php'?> -->
+    <!-- <?php include 'Assets/HTML/header.php'?> -->
     <header>
         <ul>
             <li><a href="">Accueil</a></li>
@@ -68,7 +68,7 @@
     <main>
         <!-- ‡‡‡‡‡‡‡‡‡‡‡‡‡‡ START PRODUCTS ‡‡‡‡‡‡‡‡‡‡‡‡‡‡ -->
         <section class="categories">
-            
+
             <div class="categorie_solo">
                 <a href="admin.php?articles#block">
                     <div class="categorie_img">
@@ -77,7 +77,7 @@
                     <p class="titre">Les articles</p>
                 </a>
             </div>
-            
+
             <div class="categorie_solo">
                 <a href="admin.php?utilisateurs#block">
                     <div class="categorie_img">
@@ -122,30 +122,26 @@
         <!-- ‡‡‡‡‡‡‡‡‡‡‡‡‡‡ END PRODUCTS ‡‡‡‡‡‡‡‡‡‡‡‡‡‡ -->
         <br><br><br><br><br>
         <!-- ‡‡‡‡‡‡‡‡‡‡‡‡‡‡ START BLOCK LES ARTICLES ‡‡‡‡‡‡‡‡‡‡‡‡‡‡ -->
-        <?php 
+        <?php
 
-
-
-        
-  
-        if (isset($_GET['articles'])) {
-            include'admin/articles.php';
-        }elseif (isset($_GET['utilisateurs'])) {
-            include'admin/utilisateurs.php';
-        }elseif (isset($_GET['reductions'])) {
-            include'admin/reductions.php';
-        }elseif (isset($_GET['sliders'])) {
-            include'admin/sliders.php';
-        }elseif (isset($_GET['commandes'])) {
-            include'admin/commandes.php';
-        }elseif (isset($_GET['categories'])) {
-            include'admin/categories.php';
-        }
-        ?>
+if (isset($_GET['articles'])) {
+    include 'admin/articles.php';
+} elseif (isset($_GET['utilisateurs'])) {
+    include 'admin/utilisateurs.php';
+} elseif (isset($_GET['reductions'])) {
+    include 'admin/reductions.php';
+} elseif (isset($_GET['sliders'])) {
+    include 'admin/sliders.php';
+} elseif (isset($_GET['commandes'])) {
+    include 'admin/commandes.php';
+} elseif (isset($_GET['categories'])) {
+    include 'admin/categories.php';
+}
+?>
         <!-- ‡‡‡‡‡‡‡‡‡‡‡‡‡‡ END BLOCK LES ARTICLES ‡‡‡‡‡‡‡‡‡‡‡‡‡‡ -->
     </main>
     <footer>
-        <!-- <?php include'Assets/HTML/footer.php'?> -->
+        <!-- <?php include 'Assets/HTML/footer.php'?> -->
         <ul>
             <li><a href="">Service client</a></li>
             <br>
