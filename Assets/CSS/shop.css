@@ -24,16 +24,25 @@ main .section1 p {
     text-align: center;
 }
 
+
+/*DEBUT SECTION2  */
+
 main .section2 {
     padding: 0 7%;
 }
 
 main .section2 .product-img {
-    height: 340px;
+    height: 300px;
     width: 240px;
     background-size: 100%;
     background-position: center;
     background-repeat: no-repeat;
+    padding: 7% 3% 2%;
+}
+
+main .section2 .product-img img {
+    height: 240px;
+    width: 240px;
 }
 
 main .section2 {
