@@ -1,4 +1,4 @@
-
+<link rel="stylesheet" href="../CSS/header-footer.css">
 <header>
     <ul>
         <li><a href="">Accueil</a></li>

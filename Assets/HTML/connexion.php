@@ -12,34 +12,20 @@
 </head>
 
 <body>
-    <!-- <?php include'Assets/HTML/header.php'?> -->
-    <header>
-        <ul>
-            <li><a href="">Accueil</a></li>
-            <li><a href="">Nos Produits</a></li>
-            <li><a href="">TOP Produits</a></li>
-            <li><a href="">Nouveautés</a></li>
-        </ul>
-        <h1>D&CODE</h1>
-        <ul class="price">
-            <li>
-                <a href=""><img src="../Images/cart.svg" alt="cart-photo"></a>(0€)</li>
-            <li>
-                <a href=""><img src="../Images/user.svg" alt="cart-photo"></a>(Login)</li>
-        </ul>
-    </header>
+    <?php require '../HTML/header.php'?>
+
 
     <main class="main_img">
         <section>
             <div class="image_back">
-                <p>Connextion</p>
+                <p>Connexion</p>
             </div>
         </section>
 
         <section class="register_block">
         <?php
-        if ($_GET['block'] == '') {
-        $block = '
+if (!empty($_GET['block']) == '') {
+    $block = '
             <form class="connexion" action="" method="post">
                 <p>Connexion</p>
                 <br><br>
@@ -53,9 +39,8 @@
                     <a href="connexion.php?block=mdp_oublie">Mot de passe oublié?</a>
                 </div>
             </form>';
-        }
-        elseif ($_GET['block'] == 'inscription') {
-            $block= '
+} elseif ($_GET['block'] == 'inscription') {
+    $block = '
             <form class="connexion" action="" method="post">
                 <p>Inscription</p>
                 <br>
@@ -83,9 +68,8 @@
                     <a href="connexion.php?block=mdp_oublie">Mot de passe oublié?</a>
                 </div>
             </form>';
-        }
-        elseif ($_GET['block'] == 'mdp_oublie') {
-            $block = '
+} elseif ($_GET['block'] == 'mdp_oublie') {
+    $block = '
             <form class="connexion" action="" method="post">
                 <p>RÉINITIALISER LE MOT DE PASSE</p>
                 <br><br>
@@ -97,13 +81,13 @@
                     <a href="connexion.php?block=inscription">inscription</a>
                 </div>
             </form>';
-        }
-            echo $block;
-            ?>
+}
+echo $block;
+?>
         </section>
     </main>
     <footer>
-        <!-- <?php include'Assets/HTML/footer.php'?> -->
+        <!-- <?php include 'Assets/HTML/footer.php'?> -->
         <ul>
             <li><a href="">Service client</a></li>
             <br>
