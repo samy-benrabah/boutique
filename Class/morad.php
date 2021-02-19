@@ -15,10 +15,10 @@
 
 
 
-        public function add_product($image, $title, $description, $price, $product_date, $id_categorie, $id_creator, $file){
+        public function add_product($title, $description, $price, $product_date, $id_categorie, $id_creator, $file){
             $conn = new PDO('mysql:host=localhost;dbname=boutique', "root", "");
             
-            if (!empty($image & $title & $description & $price & $product_date & $id_categorie & $id_creator)) {
+            if (!empty($title & $description & $price & $product_date & $id_categorie)) {
                 
                 $fileName = $file['name'];
                 $fileTmpName = $file['tmp_name'];
@@ -58,6 +58,10 @@
                     $this->msg = "Veuillez chosir un format de type png, jpg ou jpeg";
                 }
             }else $this->msg = "veuillez remplir tous les champ";
+        }
+
+        public function show_products(){
+            
         }
 
 

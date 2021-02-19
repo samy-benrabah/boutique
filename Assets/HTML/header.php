@@ -8,7 +8,7 @@
     </ul>
     <h1>D&CODE</h1>
     <ul class="price">
-        <li><a href=""><img src="Assets/Images/cart.svg" alt="cart-photo"></a>(0€)</li>
-        <li><a href=""><img src="Assets/Images/user.svg" alt="cart-photo"></a>(Login)</li>
+        <li><a href=""><img src="../Images/cart.svg" alt="cart-photo"></a>(0€)</li>
+        <li><a href=""><img src="../Images/user.svg" alt="cart-photo"></a>(Login)</li>
     </ul>
 </header>
