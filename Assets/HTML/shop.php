@@ -4,6 +4,7 @@ require '../../Class/product.php';
 $show_product = new Product();
 $tab = $show_product->showProduct();
 
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

@@ -2,153 +2,96 @@
                 <div class="entete">
                     <p>Les articles (5)</p>
                     <form action="" method="post">
-                        <input type="submit" name="add" value="Ajouter un article">
+                        <input type="submit" name="add" value="+">
+                        <input type="submit" name="annuler" value="x">
                     </form>
                 </div>
         
                 <?php
-
-                    if (isset($_POST['add'])) {
-                        echo  '
-                            <form class="article_solo">
-                                <div class="img_et_text">
-                                    <div class="divv">
-                                        <label for="title">Titre: </label>
-                                        <input type="text" name="title" id="title" placeholder="Nom de l‘article">
-                                        <br><br>
-                                        <textarea name="description" id="description" cols="30" rows="10" placeholder="description de l‘article"></textarea>
-                                    </div>
+                if (isset($_POST['add'])) {
+                    echo  '
+                        <form class="article_solo" method="post">
+                            <div class="img_et_text">
+                                <div class="divv">
+                                    <label for="title">Titre: </label>
+                                    <input type="text" name="title" id="title" placeholder="Nom de l‘article">
+                                    <br><br>
+                                    <textarea name="description" id="description" cols="30" rows="10" placeholder="description de l‘article"></textarea>
                                 </div>
-                                <div action="" method="post">
-                                    <input type="submit" name="add_to_db" value="AJOUTER">
+                            </div>
+                            <div>
+                                <input type="submit" name="add_categorie" value="AJOUTER">
+                                <br>
+                                <input type="submit" name="annuler" value="ANNULER">
+                            </div>
+                        </form>
+                        ';
+                }
+                if (isset($_POST["add_categorie"])) {
+                    $product->add_categorie($_POST['title'],$_POST['description']);
+                }
+                $i = 0;
+                foreach ($get_categorie as $cat) {
+                    //  Formulaire pour supprimer -------------------------------------------------------+
+                    $form = 
+                        '<form action="" method="post">
+                            <input type="submit" name="modifier'.$i.'" value="MODIFIER">
+                            <br>
+                            <input type="submit" name="delete'.$i.'" value="SUPPRIMER">
+                        </form>';
+                        //  Formulaire si je clique sur delete (supprimer) ------------------------------+
+                        if (isset($_POST["delete$i"])) {
+                            $form =  
+                                '<form action="" method="post">
+                                    <input type="submit" name="oui'.$i.'" value="SUPPRIMER">
                                     <br>
-                                    <input type="submit" name="annuler" value="ANNULER">
-                                </div>
-                            </form>
-                            ';
-                    }
+                                    <input type="submit" name="non'.$i.'" value="GARDER">
+                                </form>';       
+                        }
+                        //  -----------------------------------------------------------------------------+
                     $article = '
                     <div class="article_solo">
                         <div class="img_et_text">
                             <div>
-                                <p>PAPA basse 4 pierds</p>
+                                <p><u>Nom de la categorie:</u> '.$cat->categorie_title.'</p>
                                 <br>
-                                <p class="description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias rem numquam eius! Ea rerum fugit repellat ipsa, magni nostrum vero dolore minus labore. Quas adipisci, sunt quod assumenda ut deleniti.</p>
+                                <p class="description"><u>Description de la categorie:</u> '.$cat->description_title.'</p>
                             </div>
                         </div>
-                        <form action="" method="post">
-                            <input type="submit" name="modifier" value="MODIFIER">
-                            <br>
-                            <input type="submit" name="delete" value="SUPPRIMER">
-                        </form>
+                        '.$form.'
                     </div>
                     ';
-                    if (isset($_POST['modifier'])) {
-                        $article = '
-                            <form class="article_solo">
-                                <div class="img_et_text">
-                                    <div class="divv">
-                                        <label for="title">Titre: </label>
-                                        <input type="text" name="title" id="title" value="TABLE BASE">
-                                        <br><br>
-                                        <textarea class="description" name="description" id="description" cols="30" rows="10">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iure eveniet suscipit, saepe dolorem voluptates, inventore eligendi possimus iusto minus assumenda temporibus! Magnam rem error veniam animi maxime, omnis quis quisquam.
-                                        </textarea>
-                                    </div>
-                                </div>
-                                <div action="" method="post">
-                                    <input type="submit" name="maj" value="METTRE A JOUR">
-                                    <br>
-                                    <input type="submit" name="annuler" value="ANNULER">
-                                </div>
-                            </form>
-                            ';
+                    if (isset($_POST["modifier$i"])) {
+                        $article = '<form class="article_solo" method="post">
+                                        <div class="img_et_text">
+                                            <div class="divv">
+                                                <label for="title">Nom: </label>
+                                                <br>
+                                                <input type="text" name="title" id="title" value="'.$cat->categorie_title.'">
+                                                <br><br>
+                                                <label for="description">Description: </label>
+                                                <textarea class="description" name="description" id="description" cols="30" rows="10">'.$cat->description_title.'</textarea>
+                                            </div>
+                                        </div>
+                                        <div action="" method="post">
+                                            <input type="submit" name="maj'.$i.'" value="METTRE A JOUR">
+                                            <br>
+                                            <input type="submit" name="annuler" value="ANNULER">
+                                        </div>
+                                    </form>';
                     }
-                    echo $article
+                    echo $article;
+                    //  -----------Pour supprimer une categorie -----------------------------------------------+
+                    if (isset($_POST["oui$i"])) {
+                        $product->delete_product('categories', 'id_cat', $cat->id_cat);
+                    }
+                    if (isset($_POST["maj$i"])) {
+                        $product->edit_categorie($_POST['title'],$_POST['description'],$cat->id_cat);
+                    }
+                    
+                    $i++;
+                }
+                    
                 ?>
-            </div>
-
-            <div class="article_solo">
-                <div class="img_et_text">
-                    <div>
-                        <div class="image" style="background-image: url(https://depot.qodeinteractive.com/wp-content/uploads/2017/01/h1-product-6-1024x1024.jpg);"></div>
-                    </div>
-                    <div>
-                        <p>Table basse 4 pierds | 300€</p>
-                        <p class="space_text">Categorie: Table</p>
-                        <p class="description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias rem numquam eius! Ea rerum fugit repellat ipsa, magni nostrum vero dolore minus labore. Quas adipisci, sunt quod assumenda ut deleniti.</p>
-                    </div>
-                </div>
-                <form action="" method="post">
-                    <input type="submit" name="delete" value="METTRE A JOUR">
-                    <input type="submit" name="delete" value="SUPPRIMER">
-                </form>
-            </div>
-            <div class="article_solo">
-                <div class="img_et_text">
-                    <div>
-                        <div class="image" style="background-image: url(https://depot.qodeinteractive.com/wp-content/uploads/2017/01/h1-product-6-1024x1024.jpg);"></div>
-                    </div>
-                    <div>
-                        <p>Table basse 4 pierds | 300€</p>
-                        <p class="space_text">Categorie: Table</p>
-                        <p class="description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias rem numquam eius! Ea rerum fugit repellat ipsa, magni nostrum vero dolore minus labore. Quas adipisci, sunt quod assumenda ut deleniti.</p>
-                    </div>
-                </div>
-                <div>
-                    <form action="" method="post">
-                        <input type="submit" name="delete" value="METTRE A JOUR">
-                        <input type="submit" name="delete" value="SUPPRIMER">
-                    </form>
-                </div>
-            </div>
-            <div class="article_solo">
-                <div class="img_et_text">
-                    <div>
-                        <div class="image" style="background-image: url(https://depot.qodeinteractive.com/wp-content/uploads/2017/01/h1-product-6-1024x1024.jpg);"></div>
-                    </div>
-                    <div>
-                        <p>Table basse 4 pierds | 300€</p>
-                        <p class="space_text">Categorie: Table</p>
-                        <p class="description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias rem numquam eius! Ea rerum fugit repellat ipsa, magni nostrum vero dolore minus labore. Quas adipisci, sunt quod assumenda ut deleniti.</p>
-                    </div>
-                </div>
-                <form action="" method="post">
-                    <input type="submit" name="delete" value="METTRE A JOUR">
-                    <input type="submit" name="delete" value="SUPPRIMER">
-                </form>
-            </div>
-            <div class="article_solo">
-                <div class="img_et_text">
-                    <div>
-                        <div class="image" style="background-image: url(https://depot.qodeinteractive.com/wp-content/uploads/2017/01/h1-product-6-1024x1024.jpg);"></div>
-                    </div>
-                    <div>
-                        <p>Table basse 4 pierds | 300€</p>
-                        <p class="space_text">Categorie: Table</p>
-                        <p class="description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias rem numquam eius! Ea rerum fugit repellat ipsa, magni nostrum vero dolore minus labore. Quas adipisci, sunt quod assumenda ut deleniti.</p>
-                    </div>
-                </div>
-                <div>
-                    <form action="" method="post">
-                        <input type="submit" name="delete" value="METTRE A JOUR">
-                        <input type="submit" name="delete" value="SUPPRIMER">
-                    </form>
-                </div>
-            </div>
-            <div class="article_solo">
-                <div class="img_et_text">
-                    <div>
-                        <div class="image" style="background-image: url(https://depot.qodeinteractive.com/wp-content/uploads/2017/01/h1-product-6-1024x1024.jpg);"></div>
-                    </div>
-                    <div>
-                        <p>Table basse 4 pierds | 300€</p>
-                        <p class="space_text">Categorie: Table</p>
-                        <p class="description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias rem numquam eius! Ea rerum fugit repellat ipsa, magni nostrum vero dolore minus labore. Quas adipisci, sunt quod assumenda ut deleniti.</p>
-                    </div>
-                </div>
-                <form action="" method="post">
-                    <input type="submit" name="delete" value="METTRE A JOUR">
-                    <input type="submit" name="delete" value="SUPPRIMER">
-                </form>
             </div>
         </section>
