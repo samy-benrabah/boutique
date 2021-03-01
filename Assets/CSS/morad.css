@@ -382,7 +382,7 @@ input[type=file] {
 
 .connexion {
     width: 400px;
-    border: 2px solid black;
+    border: solid black;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -413,7 +413,7 @@ input[type=file] {
     color: white;
     border: none;
     outline: none;
-    width: 120px;
+    width: 265px;
     margin: 2px 0;
     transition: 0.6s;
     cursor: pointer;
@@ -441,4 +441,14 @@ input[type=file] {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+.err_msg {
+    color: red;
+    margin-bottom: 5%;
+}
+
+.valid_msg {
+    color: green;
+    margin-bottom: 5%;
 }

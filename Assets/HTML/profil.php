@@ -19,7 +19,7 @@ include 'header.php';
          <!-- DEBUT SECTION 1 -->
         <section class="section1">
             <div class="img-background" style="background-image:url(https://depot.qodeinteractive.com/wp-content/uploads/2017/01/faq-title-img.jpg)" alt="img-background">
-                <p><strong>PANIER</strong> </p>
+                <p>Profil </p>
             </div>
         </section>
          <!-- FIN SECTION 1 -->
