@@ -35,27 +35,24 @@ slider>* {
     overflow: hidden;
 }
 
-slide:nth-child(1) {
+
+/* slide:nth-child(1) {
     left: 0%;
     animation-delay: -1s;
-    background-color: #f1f1f1;
 }
 
 slide:nth-child(2) {
     animation-delay: 2s;
-    background-color: #f1f1f1;
 }
 
 slide:nth-child(3) {
     animation-delay: 5s;
-    background-color: #f1f1f1;
 }
 
 slide:nth-child(4) {
     left: 0%;
     animation-delay: 8s;
-    background-color: #f1f1f1;
-}
+} */
 
 @keyframes slide {
     0% {
@@ -259,7 +256,8 @@ button:hover {
 
 .commandes {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
+    padding: 0 100px;
 }
 
 .img_et_text div {
@@ -269,6 +267,10 @@ button:hover {
 .space_text {
     margin-top: 6px;
     margin-bottom: 6px;
+}
+
+.space_text2 {
+    width: 300px;
 }
 
 input[type=submit] {
@@ -361,7 +363,7 @@ input[type=file] {
     background: #3ca02f;
 }
 
-.entete input[name=annuler]:hover {
+.entete input[name=retour]:hover {
     background: #c52d2d;
 }
 
@@ -374,13 +376,13 @@ input[type=file] {
 }
 
 .notraitee {
-    background-color: #FFEA8A;
     margin-left: 30px;
+    height: 20px;
+    outline: none;
 }
 
 .precessing {
     display: flex;
-    justify-content: space-between;
 }
 
 .main_img {
@@ -460,4 +462,8 @@ input[type=file] {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+hr {
+    margin: 10px 0;
 }

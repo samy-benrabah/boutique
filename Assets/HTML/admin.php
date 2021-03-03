@@ -2,15 +2,16 @@
 
 require '../../Class/product.php';
 $product = new Product();
-$get_categorie = $product->get_categories();
-
-    if (isset($_POST['add_to_db'])) {
-        $send = $product -> add_product($_POST['title'],$_POST['description'],$_POST['price'],date("Y-m-d"),$_POST['categorie'],2,$_FILES['image']);
+$get_categories = $product->get_categories('categories', 'categorie_title');
+$get_discounts = $product->get_categories('discounts', 'name');
+$get_sliders = $product->get_sliders();
+$get_sliders_admin = $product->get_sliders_admin();
+$get_users = $product->get_users();
+$get_commandes = $product->get_commandes();
+$get_products = $product->get_products();
+    if (isset($_POST['retour'])) {
+        header( "refresh:0;url=admin.php" );
     }
-    if (isset($_POST['annuler'])) {
-        header('location: admin.php');
-    }
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -26,20 +27,8 @@ $get_categorie = $product->get_categories();
 </head>
 
 <body>
-    <!-- <?php include 'Assets/HTML/header.php'?> -->
-    <header>
-        <ul>
-            <li><a href="">Accueil</a></li>
-            <li><a href="">Nos Produits</a></li>
-            <li><a href="">TOP Produits</a></li>
-            <li><a href="">Nouveautés</a></li>
-        </ul>
-        <h1>D&CODE</h1>
-        <ul class="price">
-            <li><a href=""><img src="../Images/cart.svg" alt="cart-photo"></a>(0€)</li>
-            <li><a href=""><img src="../Images/user.svg" alt="cart-photo"></a>(Login)</li>
-        </ul>
-    </header>
+    <?php include '../HTML/header.php'?>
+
 
     <main>
         <!-- ‡‡‡‡‡‡‡‡‡‡‡‡‡‡ START PRODUCTS ‡‡‡‡‡‡‡‡‡‡‡‡‡‡ -->

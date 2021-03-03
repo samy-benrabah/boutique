@@ -20,13 +20,12 @@ class Product
     }
 
     
-    // ------------------------------------------------------------------------------------------+
-    //  FUNCTION Pour ajouter les produits dans la base de donnée  / Morad                       |
-    // ------------------------------------------------------------------------------------------+
-    public function add_product($title, $description, $price, $product_date, $id_categorie, $id_creator, $file){
-        
+    //*------------------------------------------------------------------------------------------+
+    //*  FUNCTION Pour ajouter les produits dans la base de donnée  / Morad                      |
+    //*------------------------------------------------------------------------------------------+
+    public function add_product($title, $description, $price, $product_date, $id_categorie, $admin, $file){
         if (!empty($title & $description & $price & $product_date & $id_categorie)) {
-            
+
             $fileName = $file['name'];
             $fileTmpName = $file['tmp_name'];
             $fileSize = $file['size'];
@@ -45,15 +44,16 @@ class Product
                         $fileDestination = '../Images/products/'.$fileNameNew;
                         move_uploaded_file($fileTmpName ,$fileDestination);
                     
-                        $insert = $this->pdo->prepare('INSERT INTO products(image, title, description, price, product_date, id_categorie, id_creator) VALUES(:image, :title, :description, :price, :product_date, :id_categorie, :id_creator)');
+                        $insert = $this->pdo->prepare('INSERT INTO products(image, title, description, price, product_date, id_cate, id_admin) VALUES(:image, :title, :description, :price, :product_date, :id_categorie, :id_admin)');
                         $insert -> bindParam('image', $fileNameNew);
                         $insert -> bindParam('title', $title);
                         $insert -> bindParam('description', $description);
                         $insert -> bindParam('price', $price);
                         $insert -> bindParam('product_date', $product_date);
                         $insert -> bindParam('id_categorie', $id_categorie);
-                        $insert -> bindParam('id_creator', $id_creator);
+                        $insert -> bindParam('id_admin', $admin);
                         $insert -> execute();
+                        
                         $this->msg = "image envoyer";
                     }else {
                         $this->msg = "Votre image est très grande";
@@ -68,60 +68,106 @@ class Product
     }
 
 
-    // ------------------------------------------------------------------------------------------+
-    //  FUNCTION pour modifier les produits dans la base de donnée  / Morad                      |
-    // ------------------------------------------------------------------------------------------+
+    //*------------------------------------------------------------------------------------------+
+    //*  FUNCTION pour modifier les produits SANS IMAGE dans la base de donnée  / Morad          |
+    //*------------------------------------------------------------------------------------------+
     public function edit_product($title, $description, $price, $id_categorie,$id_product){
         
-        $maj = $this->pdo->prepare("UPDATE products SET title=:title, description=:description, price=:price, id_categorie=:id_categorie WHERE id=$id_product");
+        $maj = $this->pdo->prepare("UPDATE products SET title=:title, description=:description, price=:price, id_cate=:id_categorie WHERE id=$id_product");
         $maj -> bindParam('title', $title);
         $maj -> bindParam('description', $description);
         $maj -> bindParam('price', $price);
         $maj -> bindParam('id_categorie', $id_categorie);
         $maj -> execute();
         $this->msg = "Mise a jour ok";
-        
     }
-
-    // ------------------------------------------------------------------------------------------+
-    //  FUNCTION pour modifier les Categories dans la base de donnée  / Morad                    |
-    // ------------------------------------------------------------------------------------------+
-    public function edit_categorie($title, $description,$id_categorie){
+    //*------------------------------------------------------------------------------------------+
+    //*  FUNCTION pour modifier les produits AVEC IMAGE dans la base de donnée  / Morad          |
+    //*------------------------------------------------------------------------------------------+
+    public function edit_product_with($file, $title, $description, $price, $id_categorie,$id_product){
         
-        $maj = $this->pdo->prepare("UPDATE categories SET categorie_title=:title, description_title=:description WHERE id_cat=$id_categorie");
-        $maj -> bindParam('title', $title);
-        $maj -> bindParam('description', $description);
+        
+            $fileName = $file['name'];
+            $fileTmpName = $file['tmp_name'];
+            $fileSize = $file['size'];
+            $fileError = $file['error'];
+            $fileType = $file['type'];
+
+            $fileExt = explode('.', $fileName);
+            $fileActualExt = strtolower(end($fileExt));
+
+            $allowed  =array('jpg', 'jpeg', 'png');
+
+            if (in_array($fileActualExt, $allowed)) {
+                if ($fileError === 0) {
+                    if ($fileSize < 1000000) {
+                        $fileNameNew = uniqid('', true).".".$fileActualExt;
+                        $fileDestination = '../Images/products/'.$fileNameNew;
+                        move_uploaded_file($fileTmpName ,$fileDestination);
+                        $maj = $this->pdo->prepare("UPDATE products SET image=:image, title=:title, description=:description, price=:price, id_cate=:id_categorie WHERE id=$id_product");
+                        $maj -> bindParam('image', $fileNameNew);
+                        $maj -> bindParam('title', $title);
+                        $maj -> bindParam('description', $description);
+                        $maj -> bindParam('price', $price);
+                        $maj -> bindParam('id_categorie', $id_categorie);
+                        $maj -> execute();
+                        $this->msg = "Mise a jour ok";
+                    }else {
+                        $this->msg = "Votre image est très grande";
+                    }
+                }else {
+                    $this->msg = "Il y'a un probleme de telechargement";
+                }
+            }else {
+                $this->msg = "Veuillez chosir un format de type png, jpg ou jpeg";
+            }
+    }
+    //*------------------------------------------------------------------------------------------+
+    //*  FUNCTION pour modifier les Categories dans la base de donnée  / Morad                   |
+    //*------------------------------------------------------------------------------------------+
+    public function edit_categorie($table,$column1,$column2,$id,$title, $description,$id_to){
+        
+        $maj = $this->pdo->prepare("UPDATE $table SET $column1=:column1, $column2=:column2 WHERE $id=$id_to");
+        $maj -> bindParam('column1', $title);
+        $maj -> bindParam('column2', $description);
         $maj -> execute();
         $this->msg = "Mise a jour ok";
     }
 
     // ------------------------------------------------------------------------------------------+
-    //  FUNCTION pour Supprimer les produits dans la base de donnée  / Morad                     |
+    //  FUNCTION pour Supprimer de la base de donnée  / Morad                                    |
     // ------------------------------------------------------------------------------------------+
-    public function delete_product($tabelName,$columnName,$idNumber){
+    public function delete_product($tabelName,$id,$id_to){
 
-        $delete = $this->pdo->prepare("DELETE from $tabelName WHERE $columnName=:id_product");
-        $delete -> bindParam('id_product', $idNumber);
+        $delete = $this->pdo->prepare("DELETE FROM $tabelName WHERE $id=:id_to");
+        $delete -> bindParam('id_to', $id_to);
         $delete -> execute();
         $this->msg = "Produit supprimée";
+    }
 
+    // ------------------------------------------------------------------------------------------+
+    //  FUNCTION pour Supprimer de la base de donnée  / Morad                                    |
+    // ------------------------------------------------------------------------------------------+
+    public function delete_image($image){
+        unlink("../Images/products/$image");
     }
 
 
     // ------------------------------------------------------------------------------------------+
-    //  FUNCTION pour Supprimer les produits dans la base de donnée  / Morad                     |
+    //  FUNCTION pour Ajouter une Categorie ou un Discount dans la base de donnée  / Morad       |
     // ------------------------------------------------------------------------------------------+
-    public function add_categorie($name,$description){
+    public function add_categorie($table,$column1,$column2,$name,$description){
 
-        $insert = $this->pdo->prepare('INSERT INTO categories(categorie_title, description_title) VALUES(:title, :description)');
-        $insert -> bindParam('title', $name);
-        $insert -> bindParam('description', $description);
+        $insert = $this->pdo->prepare("INSERT INTO $table($column1, $column2) VALUES(:column1, :column2)");
+        $insert -> bindParam('column1', $name);
+        $insert -> bindParam('column2', $description);
         $insert -> execute();
         $this->msg = "categories ajoutée";
     }
 
+
     // ------------------------------------------------------------------------------------------+
-    //  FUNCTION pour afficher les categories dans block article / Morad                         |
+    //  FUNCTION pour afficher les categories dans block article dans la page admin/ Morad       |
     // ------------------------------------------------------------------------------------------+
     public function option(){
         $get_categorie = $this->pdo->prepare("SELECT * FROM categories");
@@ -130,7 +176,7 @@ class Product
         
         foreach ($get_categorie as $categorie) {
                 echo '
-                    <option value="'.$categorie->id.'">'.$categorie->categorie_title.'</option>
+                    <option value="'.$categorie->id_categorie.'">'.$categorie->categorie_title.'</option>
                 ';
         }
     }
@@ -140,103 +186,227 @@ class Product
     //  FUNCTION pour afficher les produits dans la page Admin  / Morad                          |
     // ------------------------------------------------------------------------------------------+
     public function get_products(){
-        $get = $this->pdo->prepare('SELECT * FROM products INNER JOIN categories ON products.id_categorie = categories.id_cat INNER JOIN admin ON products.id_creator = admin.id_admin ORDER BY products.id DESC');
+        $get = $this->pdo->prepare('SELECT * FROM products JOIN categories ON products.id_cate = categories.id_categorie JOIN admin on products.id_admin = admin.id_admin ORDER BY products.id DESC');
         $get -> execute();
         $get = $get->fetchALL(PDO::FETCH_OBJ);
 
-        $i = 0;
-        foreach ($get as $product) {
-            $id_product = $product->id;
-            // ---- Si on click sur le button modifier affichera le formulaire suivant ---------------+
-            if (isset($_POST["modifier$i"])) {
-                    echo  '<form class="article_solo" method="get" enctype="multipart/form-data">
-                            <div class="img_et_text">
-                                <div>
-                                <img class="image" src="../Images/products/'.$product->image.'" alt="product photo">
-                                    <div class="file">
-                                        Choisir une image<input type="file" name="image" id="image" value"aaa";>
-                                    </div>
-                                </div>
-                                <div class="divv">
-                                    <label for="title">Titre: </label>
-                                    <input type="text" name="title" id="title" value="'.$product->title.'">
-                                    <label for="price">Prix: </label>
-                                    <input type="number" name="price" id="price" value="'.$product->price.'"><br>
-                                    <br>
-                                    <label for="categorie">Categorie: </label>
-                                    <select name="categorie" id="categorie">
-                                        <option value="'.$product->id_categorie.'">'.$product->categorie_title.'</option>';
-                                        $this->option();
-                               echo '</select>
-                                    <br><br>
-                                    <textarea class="description" name="description" id="description" cols="30" rows="10">'.$product->description.'</textarea>
-                                </div>
-                            </div>
-                            <div action="" method="post">
-                                <input type="submit" name="maj'.$i.'" value="METTRE A JOUR">
-                                <br>
-                                <input type="submit" name="annuler" value="ANNULER">
-                            </div>
-                        </form>
-                        ';
-            }else   {
-                $form = 
-                        '<form action="" method="post">
-                            <input type="submit" name="modifier'.$i.'" value="MODIFIER">
-                            <br>
-                            <input type="submit" name="delete'.$i.'" value="SUPPRIMER">
-                        </form>';
-                if (isset($_POST["delete$i"])) {
-                    $form =  
-                        '<form action="" method="post">
-                            <input type="submit" name="oui'.$i.'" value="SUPPRIMER">
-                            <br>
-                            <input type="submit" name="non'.$i.'" value="GARDER">
-                        </form>';       
-                }
-                // ------------------------------ Affichage normal ------------------------------+
-                echo '<div class="article_solo">
-                            <div class="img_et_text">
-                                <div>
-                                <img class="image" src="../Images/products/'.$product->image.'" alt="product photo">
-                                </div>
-                                <div>
-                                    <p>'.$product->title. ' || ' .$product->price.'€</p>
-                                    <p class="space_text">Categorie: '.$product->categorie_title.'</p>
-                                    <p class="description">'.$product->description.'</p>
-                                    <p class="description">Crée par: '.$product->first_name.' '.$product->last_name.'</p>
-                                </div>
-                            </div>
-                            '.$form.'
-                        </div>
-                        ';
-            }
-            // ---------- SI on clique sur le button MAJ on appel la function edit_product ----------+
-            if (isset($_POST["maj$i"])) {
-                $this->edit_product($_POST['title'],$_POST['description'],$_POST['price'],$_POST['categorie'],$id_product);
-            }
-            // --------- SI on clique sur le button OUI on appel la function delete_product ---------+
-            if (isset($_POST["oui$i"])) {
-                $this->delete_product('products', 'id', $id_product);
-            }
-            $i++;
-        }
+        return $get;
     }
 
 
     // ------------------------------------------------------------------------------------------+
-    //  FUNCTION pour afficher les categories dans la page Admin  / Morad                        |
+    //  FUNCTION pour afficher les categories ou les discounts dans la page Admin  /  Morad      |
     // ------------------------------------------------------------------------------------------+
-    public function get_categories(){
-        $get = $this->pdo->prepare('SELECT * FROM categories ORDER BY categorie_title ASC');
+    public function get_categories($table, $sortirPar ){
+        $get = $this->pdo->prepare("SELECT * FROM $table ORDER BY $sortirPar ASC");
         $get -> execute();
         $get = $get->fetchALL(PDO::FETCH_OBJ);
         return $get;
     }
 
+
+    // ------------------------------------------------------------------------------------------+
+    //  FUNCTION pour afficher les sliders dans la page accueil  /  Morad                        |
+    // ------------------------------------------------------------------------------------------+
+        public function get_sliders(){
+            $show = 1;
+        $get = $this->pdo->prepare("SELECT * FROM sliders WHERE afficher = $show");
+        $get -> execute();
+        $get = $get->fetchALL(PDO::FETCH_OBJ);
+        return $get;
+    }
+    // ------------------------------------------------------------------------------------------+
+    //  FUNCTION pour afficher les sliders dans la page Admin  /  Morad                        |
+    // ------------------------------------------------------------------------------------------+
+    public function get_sliders_admin(){
+        $show = 1;
+    $get = $this->pdo->prepare("SELECT * FROM sliders");
+    $get -> execute();
+    $get = $get->fetchALL(PDO::FETCH_OBJ);
+    return $get;
+    }
+
+
+    // ------------------------------------------------------------------------------------------+
+    //  FUNCTION pour Ajouter les sliders dans la page accueil  /  Morad                         |
+    // ------------------------------------------------------------------------------------------+
+        public function add_slider($file,$title,$description,$color){
+            $fileName = $file['name'];
+            $fileTmpName = $file['tmp_name'];
+            $fileSize = $file['size'];
+            $fileError = $file['error'];
+            $fileType = $file['type'];
+
+            $fileExt = explode('.', $fileName);
+            $fileActualExt = strtolower(end($fileExt));
+
+            $allowed  =array('jpg', 'jpeg', 'png');
+            if (in_array($fileActualExt, $allowed)) {
+                if ($fileError === 0) {
+                    if ($fileSize < 1000000) {
+                        $fileNameNew = uniqid('', true).".".$fileActualExt;
+                        $fileDestination = '../Images/sliders/'.$fileNameNew;
+                        move_uploaded_file($fileTmpName ,$fileDestination);
+                        $insert = $this->pdo->prepare("INSERT INTO sliders(image, title, description, back_color, show) VALUES(:image, :title, :description, :color, :show)");
+                        $insert -> bindParam('title', $title);
+                        $insert -> bindParam('description', $description);
+                        $insert -> bindParam('image', $fileNameNew);
+                        $insert -> bindParam('color', $color);
+                        $insert -> bindParam('show', "oui");
+                        $insert -> execute();
+                        $this->msg = "Slider ajouté";
+                    }else $this->msg = "Votre image est très grande";
+                }else $this->msg = "Il y'a un probleme de telechargement";
+                    
+            }else $this->msg = "Veuillez chosir un format de type png, jpg ou jpeg";
+            
+        
+    }
+
+
+    // ------------------------------------------------------------------------------------------+
+    //  FUNCTION pour Supprimer le slider de la base de donnée  / Morad                          |
+    // ------------------------------------------------------------------------------------------+
+    public function delete_slider($id){
+        $delete = $this->pdo->prepare("DELETE FROM sliders WHERE id=:id_to");
+        $delete -> bindParam('id_to', $id);
+        $delete -> execute();
+        $this->msg = "Slider supprimé";
+    }
+
+    //  ------------------------------------------------------------------------------------------+
+    //   FUNCTION pour Modifier le slider dans la base de donnée  / Morad                         |
+    //  ------------------------------------------------------------------------------------------+
+    public function edite_slider($title, $description, $color,$affichage ,$id_to){
+        $maj = $this->pdo->prepare("UPDATE sliders SET title=:title, description=:description, back_color=:color, afficher=:affichage WHERE id=$id_to");
+        $maj -> bindParam('title', $title);
+        $maj -> bindParam('description', $description);
+        $maj -> bindParam('color', $color);
+        $maj -> bindParam('affichage', $affichage);
+        $maj -> execute();
+        $this->msg = "Mise a jour ok";
+    }
+
+    // ------------------------------------------------------------------------------------------+
+    //  FUNCTION pour Modifier les Orders dans la base de donnée  / Morad                        |
+    // ------------------------------------------------------------------------------------------+
+    public function edite_order($status, $id_to){
+        $maj = $this->pdo->prepare("UPDATE orders SET processing=:statue WHERE id_order=$id_to");
+        $maj -> bindParam('statue', $status);
+        $maj -> execute();
+        $this->msg = "Mise a jour ok";
+    }
+
+    // ------------------------------------------------------------------------------------------+
+    //  FUNCTION pour afficher les USERS dans la page Admin  /  Morad                            |
+    // ------------------------------------------------------------------------------------------+
+    public function get_users(){
+    $get = $this->pdo->prepare("SELECT * FROM users");
+    $get -> execute();
+    $get = $get->fetchALL(PDO::FETCH_OBJ);
+    return $get;
+    }
+
+    // ------------------------------------------------------------------------------------------+
+    //  FUNCTION pour afficher les USERS dans la page Admin  /  Morad                            |
+    // ------------------------------------------------------------------------------------------+
+    public function count_discount($id){
+        $get = $this->pdo->prepare("SELECT * FROM orders WHERE id_discount=:id");
+        $get -> bindParam('id', $id);
+        $get -> execute();
+        $get = $get->rowCount();
+        return $get;
+    }
+
+
+    // ------------------------------------------------------------------------------------------+
+    //  FUNCTION pour afficher les COMMANDES dans la page Admin  /  Morad                        |
+    // ------------------------------------------------------------------------------------------+
+    public function get_commandes(){
+        $get = $this->pdo->prepare("SELECT * FROM orders INNER JOIN users ON orders.id_user = users.id INNER JOIN discounts ON orders.id_discount = discounts.id ORDER BY orders.id_order DESC");
+        $get -> execute();
+        $get = $get->fetchAll(PDO::FETCH_OBJ);
+        return $get;
+    }
+
+
+    //! // ------------------------------------------------------------------------------------------+
+    //! //  FUNCTION pour afficher les COMMANDES dans la page Admin  /  Morad                        |
+    //! // ------------------------------------------------------------------------------------------+
+    //! public function get_products_in_order($id){
+    //!     $get = $this->pdo->prepare("SELECT * FROM container INNER JOIN products ON container.id_product = products.id  WHERE id_order=$id");
+    //!     $get -> execute();
+    //!     $get = $get->fetchAll(PDO::FETCH_OBJ);
+    //!     foreach ($get as $key) {
+    //!        echo "<br>-$key->title";
+    //!     }
+    //! }
+
+
+    //? ------------------------------------------------------------------------------------------+
+    //?  FUNCTION pour afficher les COMMANDES dans la page Admin  /  Morad                        |
+    //? ------------------------------------------------------------------------------------------+
+    //? public function get_prices_in_order($id){
+    //?     $get = $this->pdo->prepare("SELECT * FROM container INNER JOIN products ON container.id_product = products.id  WHERE id_order=$id");
+    //?     $get -> execute();
+    //?     $get = $get->fetchAll(PDO::FETCH_OBJ);
+    //?     $somme = 0;
+    //?     $i=1;
+    //?     foreach ($get as $key) {
+    //?        echo "<br>$i-$key->title -- $key->price €";
+    //?        $somme += $key->price;
+    //?        $i++;
+    //?     }
+    //?     echo "<br>Total: $somme €";
+    //?}
+
+
+    //* ------------------------------------------------------------------------------------------+
+    //*  FUNCTION pour afficher les COMMANDES dans la page Admin  /  Morad                        |
+    //* ------------------------------------------------------------------------------------------+
+    public function get_prices_in_order($id,$name,$value){
+        $get = $this->pdo->prepare("SELECT * FROM container INNER JOIN products ON container.id_product = products.id  WHERE id_order=$id");
+        $get -> execute();
+        $get = $get->fetchAll(PDO::FETCH_OBJ);
+        $somme = 0;
+        if ($value == 0) {
+            $name = "PAS DE REDUCTION";
+        }
+        foreach ($get as $key) {
+            $link = "product.php?article=$key->title";
+            $total = $key->quantity*$key->price;
+            echo "<hr>";
+            echo "<a href=".$link.">$key->title/$key->price € -- x$key->quantity -- $total"."€</a>";
+           $somme += $total;
+
+
+        }
+        echo "<hr>Sous Total: &nbsp;$somme €";
+        echo "<hr>Réduction: &nbsp;&nbsp;&nbsp;||&nbsp;&nbsp;&nbsp; $name &nbsp;&nbsp;&nbsp;|| $value%";
+        echo "<hr><b>TOTAL: ".($somme-($somme*($value/100))) ."€</b>";
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     public function showProduct()
     {
-        $stmt = $this->pdo->prepare("SELECT image, title, price FROM products");
+        $stmt = $this->pdo->prepare("SELECT id, image, title, price FROM products");
         $stmt->execute();
         $tab = $stmt->fetchALL(PDO::FETCH_OBJ);
         return $tab;

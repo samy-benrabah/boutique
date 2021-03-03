@@ -21,9 +21,7 @@ $tab = $show_product->showProduct();
 <body>
 <!-- ///////////////////////////DEBUT HEADER ///////////////////////////////////////////// -->
 
-        <?php
-include 'header.php';
-?>
+        <?php include 'header.php' ?>
 <!-- ///////////////////////////FIN HEADER ///////////////////////////////////////////// -->
 
 <main>
@@ -36,19 +34,18 @@ include 'header.php';
     </section>
     <section class="section2">
         <?php
-foreach ($tab as $product) {?>
-                <div  class ="product">
-
+foreach ($tab as $product) {
+               echo '<div  class ="product">
+<a href="product.php?id='.$product->id.'">
                     <div class="product-img">
-                        <img src="../Images/products/<?=$product->image;?>">
+                        <img src="../Images/products/'.$product->image.'">
                     </div>
 
-                                <h4><?=$product->title?></h4>
-                                    <p><?=$product->price . ' $'?></p>
-
-                </div>
-                </div>
-         <?php }
+                        <h4>'.$product->title.'</h4>
+                        <p>'.$product->price.'€</p>
+</a>
+                </div>';
+          }
 ?>
 
 

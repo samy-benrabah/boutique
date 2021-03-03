@@ -3,13 +3,13 @@
                     <p>Les articles (5)</p>
                     <form action="" method="post">
                         <input type="submit" name="add" value="+">
-                        <input type="submit" name="annuler" value="x">
+                        <input type="submit" name="retour" value="x">
                     </form>
                 </div>
         
                 <?php
                 if (isset($_POST['add'])) {
-                    echo  '
+                    echo'
                         <form class="article_solo" method="post">
                             <div class="img_et_text">
                                 <div class="divv">
@@ -28,10 +28,10 @@
                         ';
                 }
                 if (isset($_POST["add_categorie"])) {
-                    $product->add_categorie($_POST['title'],$_POST['description']);
+                    $product->add_categorie('categories','categorie_title','description_title',$_POST['title'],$_POST['description']);
                 }
                 $i = 0;
-                foreach ($get_categorie as $cat) {
+                foreach ($get_categories as $cat) {
                     //  Formulaire pour supprimer -------------------------------------------------------+
                     $form = 
                         '<form action="" method="post">
@@ -39,7 +39,7 @@
                             <br>
                             <input type="submit" name="delete'.$i.'" value="SUPPRIMER">
                         </form>';
-                        //  Formulaire si je clique sur delete (supprimer) ------------------------------+
+                        //  Formulaire si je clique sur OUI (supprimer) ------------------------------+
                         if (isset($_POST["delete$i"])) {
                             $form =  
                                 '<form action="" method="post">
@@ -49,7 +49,7 @@
                                 </form>';       
                         }
                         //  -----------------------------------------------------------------------------+
-                    $article = '
+                    $categories = '
                     <div class="article_solo">
                         <div class="img_et_text">
                             <div>
@@ -62,7 +62,7 @@
                     </div>
                     ';
                     if (isset($_POST["modifier$i"])) {
-                        $article = '<form class="article_solo" method="post">
+                        $categories = '<form class="article_solo" method="post">
                                         <div class="img_et_text">
                                             <div class="divv">
                                                 <label for="title">Nom: </label>
@@ -80,13 +80,13 @@
                                         </div>
                                     </form>';
                     }
-                    echo $article;
+                    echo $categories;
                     //  -----------Pour supprimer une categorie -----------------------------------------------+
                     if (isset($_POST["oui$i"])) {
-                        $product->delete_product('categories', 'id_cat', $cat->id_cat);
+                        $product->delete_product('categories', 'id_categorie', $cat->id_cat);
                     }
                     if (isset($_POST["maj$i"])) {
-                        $product->edit_categorie($_POST['title'],$_POST['description'],$cat->id_cat);
+                        $product->edit_categorie('categories','categorie_title','description_title','id_cat',$_POST['title'],$_POST['description'],$cat->id_cat);
                     }
                     
                     $i++;

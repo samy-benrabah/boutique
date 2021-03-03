@@ -1,4 +1,10 @@
+<?php
+require '../../Class/product.php';
+$product = new Product();
+$get_products = $product->get_products();
 
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -60,10 +66,10 @@ include 'header.php';
                                 itaque iure, ut neque vitae repellendus.</p>
                             </div>
                         </div>
-                            <div>
-                                <input type="number" placeholder="Quantité" min="1" max="10">
+                            <form method="get">
+                                <input type="number" name="quantite" value="1" min="1" max="10">
                                 <input type="submit" value="Ajouter au panier">
-                            </div>
+                            </form>
                     </div>
                 </div>
             </div>
