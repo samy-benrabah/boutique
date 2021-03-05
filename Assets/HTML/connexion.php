@@ -1,3 +1,82 @@
+<?php
+session_start();
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
+require '../../PHPMailer/src/Exception.php';
+require '../../PHPMailer/src/PHPMailer.php';
+require '../../PHPMailer/src/SMTP.php';
+require '../../Class/user.php';
+$user = new User();
+$msg = '';
+$msg_valid = '';
+$title_inscription = '';
+$title_reset = '';
+
+if (isset($_POST['valider_register'])) {
+    $firstName = htmlspecialchars(trim($_POST['first_name']));
+    $lastName = htmlspecialchars(trim($_POST['last_name']));
+    $userName = htmlspecialchars(trim($_POST['username']));
+    $email = filter_var(trim($_POST['email']), FILTER_VALIDATE_EMAIL);
+    $password = htmlspecialchars(trim($_POST['password']));
+    $adress = htmlspecialchars(trim($_POST['adress']));
+    $zip = htmlspecialchars(trim($_POST['zip']));
+    $city = htmlspecialchars(trim($_POST['city']));
+    $country = htmlspecialchars(trim($_POST['country']));
+
+    
+    $msg = $user->register($firstName, $lastName, $userName, $email, $password, $adress, $zip, $city, $country);
+
+}
+if (isset($_POST['valider_conn'])) {
+    $username = htmlspecialchars(trim($_POST['useremail']));
+    $email = filter_var(trim($_POST['useremail']), FILTER_VALIDATE_EMAIL);
+    $password = htmlspecialchars(trim($_POST['password']));
+    $msg = $user->connexion($username, $email, $password);
+}
+if (isset($_POST['valider_reinilisation'])) {
+    $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL);
+    // $user->getNewPassword($email);
+    
+
+//Import PHPMailer classes into the global namespace
+//These must be at the top of your script, not inside a function
+ 
+
+//Instantiation and passing `true` enables exceptions
+$mail = new PHPMailer(true);
+
+try {
+    //Server settings                     //Enable verbose debug output
+    $mail->isSMTP();                                            //Send using SMTP
+    $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
+    $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
+    $mail->Username   = 'testemailsb13@gmail.com';                     //SMTP username
+    $mail->Password   = '/testemailsb13/';                               //SMTP password
+    $mail->SMTPSecure = 'ssl';         //Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
+    $mail->Port       = 465;                                    //TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
+
+    //Recipients
+    $mail->setFrom('testemailsb13@gmail.com', 'D&Code');
+    $mail->addAddress($email);              //Name is optional
+    $mail->addReplyTo('no-reply@gmail.com', 'No reply');
+        
+
+    //Content
+    $mail->isHTML(true);                                  //Set email format to HTML
+    $mail->Subject = 'Here is the subject';
+    $mail->Body    = 'This is the HTML message body <b>in bold!</b>';
+    $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+
+    $mail->send();
+    echo 'Message has been sent';
+} catch (Exception $e) {
+    echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+}
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,6 +87,7 @@
     <script src="https://kit.fontawesome.com/d34f22fe3f.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../CSS/morad.css">
     <link rel="stylesheet" href="../CSS/header-footer.css">
+    
     <title>Document</title>
 </head>
 
@@ -17,27 +97,40 @@
     <main class="main_img">
         <section>
             <div class="image_back">
-                <p>Connexion</p>
+                <p><?php
+if (!empty($_GET['block']) == '') {
+    echo "Connexion";
+} else {
+    echo $_GET['block'];
+}
+?></p>
             </div>
         </section>
         <section class="register_block">
+        <div>
+                <?php if ($msg) {?>
+                    <p class = "err_msg"><strong> <?=$msg;?></strong> </p>
+                <?php }?>
+
+                    </div>
         <?php
-if (!empty($_GET['block']) == '') {
-    $block = '
-            <form class="connexion" action="" method="post">
-                <p>Connexion</p>
-                <br><br>
-                <input type="text" name="user" id="user" placeholder="User ou email">
-                <br><br>
-                <input type="password" name="password" id="password" placeholder="Password">
-                <br><br>
-                <input type="submit" name="valider_conn" value="Connexion">
-                <div class="block_bottom">
-                    <a href="connexion.php?block=inscription">Inscription</a>
-                    <a href="connexion.php?block=mdp_oublie">Mot de passe oublié?</a>
-                </div>
-            </form>';
-} elseif ($_GET['block'] == 'inscription') {
+if (isset($_GET['block']) == '') {
+    $block = '<div class="full-form">
+                    <form class="connexion" action="" method="post">
+                        <p>Connexion</p>
+                        <br><br>
+                        <input type="text" name="useremail" id="user" placeholder="User ou Email">
+                        <br><br>
+                        <input type="password" name="password" id="password" placeholder="Password">
+                        <br><br>
+                        <input type="submit" name="valider_conn" value="Connexion">
+                        <div class="block_bottom">
+                            <a href="connexion.php?block=Inscription">Inscription</a>
+                            <a href="connexion.php?block=Reinitialisation">Mot de passe oublié?</a>
+                        </div>
+                    </form>';
+
+} elseif (($_GET['block']) == 'Inscription') {
     $block = '
             <form class="connexion" action="" method="post">
                 <p>Inscription</p>
@@ -63,25 +156,26 @@ if (!empty($_GET['block']) == '') {
                 <input type="submit" name="valider_register" value="Inscription">
                 <div class="block_bottom">
                     <a href="connexion.php">Connexion</a>
-                    <a href="connexion.php?block=mdp_oublie">Mot de passe oublié?</a>
+                    <a href="connexion.php?block=Reinitialisation">Mot de passe oublié?</a>
                 </div>
             </form>';
-} elseif ($_GET['block'] == 'mdp_oublie') {
+} elseif (($_GET['block']) == 'Reinitialisation') {
     $block = '
             <form class="connexion" action="" method="post">
                 <p>RÉINITIALISER LE MOT DE PASSE</p>
-                <br><br>
+                <br>
                 <input type="email" name="email" id="email" placeholder="Votre adresse email">
-                <br><br>
-                <input type="submit" name="valider_conn" value="Réinitialiser">
+                <br>
+                <input type="submit" onClick="sendEmail()" name="valider_reinilisation" value="Envoyer un nouveau mot de passe ">
                 <div class="block_bottom">
                     <a href="connexion.php">Connexion</a>
-                    <a href="connexion.php?block=inscription">inscription</a>
+                    <a href="connexion.php?block=Inscription">Inscription</a>
                 </div>
             </form>';
 }
 echo $block;
 ?>
+
         </section>
     </main>
     <footer>
