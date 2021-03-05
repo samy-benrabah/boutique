@@ -4,6 +4,7 @@ require '../../Class/product.php';
 $show_product = new Product();
 $tab = $show_product->showProduct();
 
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -20,9 +21,7 @@ $tab = $show_product->showProduct();
 <body>
 <!-- ///////////////////////////DEBUT HEADER ///////////////////////////////////////////// -->
 
-        <?php
-include 'header.php';
-?>
+        <?php include 'header.php' ?>
 <!-- ///////////////////////////FIN HEADER ///////////////////////////////////////////// -->
 
 <main>
@@ -35,19 +34,26 @@ include 'header.php';
     </section>
     <section class="section2">
         <?php
-foreach ($tab as $product) {?>
-                <div  class ="product">
+foreach ($tab as $product) {
+     $date = strtotime($product->product_date);
+     $mtn = strtotime(date('Y-m-d'));
+     $to = $mtn - $date;
+    $floor = floor($to/(60*60*24));
+     if ($floor < 15) {
+          $new = '<p class="new" >NEW</p>';
+     }else $new = '';
 
-                    <div class="product-img">
-                        <img src="../Images/products/<?=$product->image;?>">
-                    </div>
-
-                                <h4><?=$product->title?></h4>
-                                    <p><?=$product->price . ' $'?></p>
-
-                </div>
-                </div>
-         <?php }
+    echo '<div  class ="product">
+            <div class="product-img">
+                '.$new.'
+                <a href="product.php?id='.$product->id.'&name='.$product->title.'">
+                <img src="../Images/products/'.$product->image.'">
+            </div>
+                <h4>'.$product->title.'</h4>
+                <p>'.$product->price.'€</p>
+                </a>
+        </div>';
+}
 ?>
 
 
@@ -55,10 +61,10 @@ foreach ($tab as $product) {?>
     <!-- ///////////////////////////FIN SECTION 1 ///////////////////////////////////////////// -->
 
 </main>
-<footer>
+
 <?php
 require '../HTML/footer.php';
 ?>
-</footer>
+
 </body>
 </html>

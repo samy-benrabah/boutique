@@ -42,7 +42,6 @@ main .section2 .full_code_price-product {
 main .section2 .code_price-product {
     display: flex;
     flex-direction: column;
-    height: 450px;
     overflow-y: scroll;
 }
 
@@ -52,10 +51,8 @@ main .section2 .img-number {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    margin-top: 10%;
     align-items: center;
     border-bottom: solid 1px gray;
-    border-top: solid 1px gray;
 }
 
 main .section2 .product-img {
@@ -78,7 +75,7 @@ main .section2 .product-img p {
 
 main .section2 input[name="quantité-number"] {
     height: 30px;
-    width: 100px;
+    width: 50px;
 }
 
 main .section2 .product-prix-number {
@@ -87,17 +84,21 @@ main .section2 .product-prix-number {
 }
 
 main .section2 .prix-nombre {
-    height: 32.5px;
-    width: 35px;
+    height: 28px;
+    width: 60px;
     border-top: solid 0.5px rgb(59, 59, 59);
     border-bottom: solid 0.5px rgb(59, 59, 59);
     border-right: solid 0.5px rgb(59, 59, 59);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 main .section2 .code-reduction {
     border: solid 2px grey;
     background-color: #f0f0f0;
     padding: 5px;
+    margin-top: 20px;
 }
 
 main .section2 .code-reduction form {
@@ -167,4 +168,8 @@ main .section2 .total-panier form input[type="submit"] {
     height: 35px;
     width: auto;
     padding: 3%;
+}
+
+.h2 {
+    margin-bottom: 35px;
 }
