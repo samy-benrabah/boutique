@@ -35,27 +35,24 @@ slider>* {
     overflow: hidden;
 }
 
-slide:nth-child(1) {
+
+/* slide:nth-child(1) {
     left: 0%;
     animation-delay: -1s;
-    background-color: #f1f1f1;
 }
 
 slide:nth-child(2) {
     animation-delay: 2s;
-    background-color: #f1f1f1;
 }
 
 slide:nth-child(3) {
     animation-delay: 5s;
-    background-color: #f1f1f1;
 }
 
 slide:nth-child(4) {
     left: 0%;
     animation-delay: 8s;
-    background-color: #f1f1f1;
-}
+} */
 
 @keyframes slide {
     0% {
@@ -259,7 +256,8 @@ button:hover {
 
 .commandes {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
+    padding: 0 100px;
 }
 
 .img_et_text div {
@@ -269,6 +267,10 @@ button:hover {
 .space_text {
     margin-top: 6px;
     margin-bottom: 6px;
+}
+
+.space_text2 {
+    width: 300px;
 }
 
 input[type=submit] {
@@ -302,18 +304,21 @@ textarea {
 input[type=file] {
     /* Apply absolute positioning and move it to top-left corner of parent div element */
     position: absolute;
-    top: 0px;
-    left: 0;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     /* Making the file input element to cover the whole div element */
     right: 0px;
     bottom: 0px;
     width: 100%;
+    height: 100px;
     /* Hiding the tap color when it is clicked on touch devices ( this is not widely supported ) */
     -webkit-tap-highlight-color: transparent;
     /* Make it invisible ( it is present at it's position but just invisible ) */
-    opacity: 0;
+    opacity: 1;
     /* Move it to the upper layer above the container div's layer to ensure that it is always clickable */
     z-index: 1;
+    cursor: pointer;
 }
 
 .file {
@@ -339,15 +344,31 @@ input[type=file] {
 .entete {
     display: flex;
     justify-content: space-between;
+    margin-bottom: 10px;
 }
 
 .entete input {
     background: #00000050;
     cursor: pointer;
-    height: 20px;
+    height: 40px;
+    width: 40px;
     color: white;
-    padding: 2px 10px;
+    padding: 0 15px;
     width: 100%;
+    font-size: 22px;
+    margin-left: 10px;
+}
+
+.entete input[name=add]:hover {
+    background: #3ca02f;
+}
+
+.entete input[name=retour]:hover {
+    background: #c52d2d;
+}
+
+.entete form {
+    display: flex;
 }
 
 .entete input:hover {
@@ -355,13 +376,13 @@ input[type=file] {
 }
 
 .notraitee {
-    background-color: #FFEA8A;
     margin-left: 30px;
+    height: 20px;
+    outline: none;
 }
 
 .precessing {
     display: flex;
-    justify-content: space-between;
 }
 
 .main_img {
@@ -382,7 +403,7 @@ input[type=file] {
 
 .connexion {
     width: 400px;
-    border: 2px solid black;
+    border: solid black;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -413,7 +434,7 @@ input[type=file] {
     color: white;
     border: none;
     outline: none;
-    width: 120px;
+    width: 265px;
     margin: 2px 0;
     transition: 0.6s;
     cursor: pointer;
@@ -441,4 +462,18 @@ input[type=file] {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+hr {
+    margin: 10px 0;
+}
+
+.err_msg {
+    color: red;
+    margin-bottom: 5%;
+}
+
+.valid_msg {
+    color: green;
+    margin-bottom: 5%;
 }

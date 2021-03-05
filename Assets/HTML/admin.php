@@ -38,10 +38,18 @@ if (isset($_POST['add_to_db'])) {
     if (isset($_POST['add_to_db'])) {
         $send = $product -> add_product($_POST['title'],$_POST['description'],$_POST['price'],date("Y-m-d"),$_POST['categorie'],2,$_FILES['image']);
 >>>>>>> prod
+$get_categories = $product->get_categories('categories', 'categorie_title');
+$get_discounts = $product->get_categories('discounts', 'name');
+$get_sliders = $product->get_sliders();
+$get_sliders_admin = $product->get_sliders_admin();
+$get_users = $product->get_users();
+$get_commandes = $product->get_commandes();
+$get_products = $product->get_products();
+    if (isset($_POST['retour'])) {
+        header( "refresh:0;url=admin.php" );
     }
-}
-
-?><!DOCTYPE html>
+?>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -55,20 +63,8 @@ if (isset($_POST['add_to_db'])) {
 </head>
 
 <body>
-    <!-- <?php include 'Assets/HTML/header.php'?> -->
-    <header>
-        <ul>
-            <li><a href="">Accueil</a></li>
-            <li><a href="">Nos Produits</a></li>
-            <li><a href="">TOP Produits</a></li>
-            <li><a href="">Nouveautés</a></li>
-        </ul>
-        <h1>D&CODE</h1>
-        <ul class="price">
-            <li><a href=""><img src="../Images/cart.svg" alt="cart-photo"></a>(0€)</li>
-            <li><a href=""><img src="../Images/user.svg" alt="cart-photo"></a>(Login)</li>
-        </ul>
-    </header>
+    <?php include '../HTML/header.php'?>
+
 
     <main>
         <!-- ‡‡‡‡‡‡‡‡‡‡‡‡‡‡ START PRODUCTS ‡‡‡‡‡‡‡‡‡‡‡‡‡‡ -->
@@ -129,20 +125,22 @@ if (isset($_POST['add_to_db'])) {
         <!-- ‡‡‡‡‡‡‡‡‡‡‡‡‡‡ START BLOCK LES ARTICLES ‡‡‡‡‡‡‡‡‡‡‡‡‡‡ -->
         <?php
 
-if (isset($_GET['articles'])) {
-    include 'admin/articles.php';
-} elseif (isset($_GET['utilisateurs'])) {
-    include 'admin/utilisateurs.php';
-} elseif (isset($_GET['reductions'])) {
-    include 'admin/reductions.php';
-} elseif (isset($_GET['sliders'])) {
-    include 'admin/sliders.php';
-} elseif (isset($_GET['commandes'])) {
-    include 'admin/commandes.php';
-} elseif (isset($_GET['categories'])) {
-    include 'admin/categories.php';
-}
-?>
+            if (isset($_GET['articles'])) {
+                include 'admin/articles.php';
+            } elseif (isset($_GET['utilisateurs'])) {
+                include 'admin/utilisateurs.php';
+            } elseif (isset($_GET['reductions'])) {
+                include 'admin/reductions.php';
+            } elseif (isset($_GET['sliders'])) {
+                include 'admin/sliders.php';
+            } elseif (isset($_GET['commandes'])) {
+                include 'admin/commandes.php';
+            } elseif (isset($_GET['categories'])) {
+                include 'admin/categories.php';
+                
+                
+            }
+        ?>
         <!-- ‡‡‡‡‡‡‡‡‡‡‡‡‡‡ END BLOCK LES ARTICLES ‡‡‡‡‡‡‡‡‡‡‡‡‡‡ -->
     </main>
     <footer>
