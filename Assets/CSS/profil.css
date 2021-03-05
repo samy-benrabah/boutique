@@ -39,17 +39,38 @@ main .section2 {
 
 main .section2 .full-profil {
     display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 800px;
+    border: solid black;
+}
+
+main .section2 .full-profil .welcome-login {
+    text-align: center;
+}
+
+main .section2 .full-profil .welcome-login p {
+    font-size: 30px;
+}
+
+
+/* DEBUT SOUS FULL PROFIL */
+
+main .section2 .full-profil .sous_full-profil {
+    display: flex;
     flex-direction: row;
     justify-content: space-around;
-    height: 600px;
 }
+
+
+/* FIN SOUS FULL PROFIL */
 
 
 /*  DEBUT PROFIL LEFT */
 
 main .section2 .full-profil .profil-left {
-    height: 600px;
-    width: 500px;
+    height: 1500px;
+    width: 600px;
     border: solid gainsboro;
     display: flex;
     flex-direction: column;
@@ -60,7 +81,7 @@ main .section2 .full-profil .profil-left {
 main .section2 .full-profil .profil-left form {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-between;
     width: 100%;
 }
 
@@ -72,15 +93,11 @@ main .section2 .full-profil .profil-left form input[type="email"] {
     height: 30px;
 }
 
-main .section2 .full-profil .profil-left .welcome-login {
-    text-align: center;
-}
-
 main .section2 .full-profil .profil-left .modification-profil .text-button {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
-    padding: 3% 7% 5%;
+    justify-content: space-around;
+    padding: 3% 4% 5%;
 }
 
 main .section2 .full-profil .profil-left .modification-profil .text-button .text p {
@@ -99,6 +116,62 @@ main .section2 .full-profil .profil-left .modification-profil .text-button .butt
 
 
 /* FIN PROFIL LEFT */
+
+
+/* DEBUT PROFIL RIGHT */
+
+main .section2 .full-profil .profil-right {
+    height: 1500px;
+    width: 600px;
+    border: solid gainsboro;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 90%;
+}
+
+main .section2 .full-profil .profil-right form {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+}
+
+main .section2 .full-profil .profil-right form input[type="text"] {
+    height: 30px;
+}
+
+main .section2 .full-profil .profil-right form input[type="password"] {
+    height: 30px;
+}
+
+main .section2 .full-profil .profil-right form input[type="email"] {
+    height: 30px;
+}
+
+main .section2 .full-profil .profil-right .modification-profil .text-button {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 3% 4% 5%;
+}
+
+main .section2 .full-profil .profil-right .modification-profil .text-button .text p {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+main .section2 .full-profil .profil-right .modification-profil .text-button .button input[type="submit"] {
+    background-color: black;
+    color: white;
+    height: 35px;
+    width: 130px;
+    outline: none;
+}
+
+
+/* FIN PROFIL RIGHT */
 
 
 /* FIN SECTION 2 */

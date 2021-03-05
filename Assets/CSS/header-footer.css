@@ -13,6 +13,23 @@ header img {
     height: auto;
 }
 
+header form {
+    place-content: center;
+}
+
+header form input {
+    border: none;
+    border-bottom: solid black;
+    outline: none;
+    background-color: transparent;
+}
+
+header form button {
+    background-color: transparent;
+    border: none;
+    outline: none;
+}
+
 header .price {
     font-weight: lighter;
     display: flex;
@@ -28,7 +45,6 @@ header .price li {
 header ul {
     display: flex;
     align-items: center;
-    width: 450px;
 }
 
 a {
