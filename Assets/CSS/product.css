@@ -34,6 +34,11 @@ main .section1 .description_image {
     padding: 10%;
 }
 
+main .section1 .description_image img {
+    width: 550px;
+    height: 550px;
+}
+
 main .section1 .description_image p {
     margin-bottom: 5%;
 }
@@ -79,13 +84,20 @@ main .section1-topic2 .sous-section1-topic2 .star-avis div p:hover {
 main .section1-topic2 .sous-section1-topic2 input[type=number] {
     width: 100px;
     height: 30px;
+    padding: 6px 10px;
+    outline: none;
 }
 
-main .section1-topic2 .sous-section1-topic2 input[type=submit] {
-    width: 200px;
-    height: 35px;
-    color: white;
+main .section1-topic2 .sous-section1-topic2 input[type=submit],
+.full-commentaire input[type=submit] {
     background-color: black;
+    color: white;
+    border: none;
+    outline: none;
+    padding: 15px 30px;
+    cursor: pointer;
+    transition-duration: 0.6s;
+    text-transform: uppercase;
 }
 
 main .section2 .sous-section2 .product-img {
@@ -97,46 +109,53 @@ main .section2 .sous-section2 .product-img {
 }
 
 main .section2 .description {
-    border-bottom: solid 1px #f0f0f0;
-    border-top: solid 1px #f0f0f0;
-    height: 485px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     text-align: left;
+    padding: 100px 20px;
 }
 
-main .section2 .description .sous-description {
-    padding: 15%;
-    width: 1000px;
+main .section2 .description .sous-description form input {
+    background: none;
+    font-size: 20px;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 2%;
 }
 
-main .section2 .description .sous-description h1 {
-    margin-bottom: 5%;
+main .section2 .description .sous-description .bold {
+    font-weight: 900;
+    font-size: 22px;
 }
 
 main .section2 .sous-section2 {
     display: grid;
-    grid-template-columns: repeat(auto-fill, 280px);
-    justify-content: space-between;
+    grid-template-columns: repeat(auto-fill, 300px);
+    justify-content: center;
     text-align: center;
 }
 
 main .section2 .sous-section2 .product-img {
-    display: flex;
-    width: auto;
+    width: 240px;
+    height: auto;
 }
 
 main .section2 .sous-section2 .stars {
     color: gold;
+    display: flex;
+    justify-content: center;
 }
 
 main .section2 .full-commentaire {
-    height: 485px;
+    height: 385px;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    border-bottom: solid 1px #f0f0f0;
+    border-top: 1px solid rgb(217, 217, 217);
+    border-bottom: 1px solid rgb(217, 217, 217);
+    margin-bottom: 20px;
 }
 
 main .section2 .full-commentaire form input[name="titre-commentaire"] {
@@ -164,4 +183,54 @@ main .section2 .full-commentaire input[name="envoyer-commentaire"] {
     color: white;
     width: 200px;
     height: 35px;
+}
+
+.product {
+    margin: 30px;
+}
+
+.new {
+    position: absolute;
+    background-color: black;
+    color: white;
+    width: 50px;
+    height: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2px 0;
+    font-size: 12px;
+    margin: 10px 10px;
+}
+
+.star {
+    display: flex;
+}
+
+.star i {
+    font-size: 12px;
+}
+
+textarea {
+    resize: none;
+    width: 350px;
+    height: 100px;
+    padding: 10px;
+}
+
+.similar {
+    border-bottom: 1px solid rgb(217, 217, 217);
+}
+
+pre {
+    white-space: -moz-pre-wrap;
+    /* Mozilla, supported since 1999 */
+    white-space: -pre-wrap;
+    /* Opera */
+    white-space: -o-pre-wrap;
+    /* Opera */
+    white-space: pre-wrap;
+    /* CSS3 - Text module (Candidate Recommendation) http://www.w3.org/TR/css3-text/#white-space */
+    word-wrap: break-word;
+    /* IE 5.5+ */
 }

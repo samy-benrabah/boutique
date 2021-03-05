@@ -1,3 +1,10 @@
+<?php
+require 'Class/product.php';
+$slider = new Product();
+$get_sliders = $slider->get_sliders();
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,6 +15,23 @@
     <script src="https://kit.fontawesome.com/d34f22fe3f.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="Assets/CSS/morad.css">
     <link rel="stylesheet" href="Assets/CSS/header-footer.css">
+    <!------------ BOOTSTRAP -------------->
+    <style>
+    <?php
+        $i=1;
+        $k=(-1);
+        foreach ($get_sliders as $slide) {
+            echo 'slide:nth-child('.$i.') {
+                left: 0%;
+                animation-delay: '.$k.'s;
+            }';
+            $i+=1;
+            $k+=3;
+        }
+    ?>
+    </style>
+    
+    <!------------ BOOTSTRAP -------------->
     <title>Document</title>
 </head>
 
@@ -33,34 +57,19 @@
         <!-- |||||||||| START SLIDERS |||||||||| -->
         <section class="slider">
             <slider>
-                <slide>
-                    <div>
-                        <h2>Chaise</h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Esse minus autem amet nesciunt voluptate perspiciatis iste dicta cum reprehenderit. Id reprehenderit tenetur quo voluptas doloribus? Ipsam excepturi ullam magnam non.</p>
-                    </div>
-                    <img src="https://depot.qodeinteractive.com/wp-content/uploads/2017/01/h1-product-8-1024x1024.jpg" alt="">
-                </slide>
-                <slide>
-                    <div>
-                        <h2>Slide 2</h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Esse minus autem amet nesciunt voluptate perspiciatis iste dicta cum reprehenderit. Id reprehenderit tenetur quo voluptas doloribus? Ipsam excepturi ullam magnam non.</p>
-                    </div>
-                    <img src="https://depot.qodeinteractive.com/wp-content/uploads/2017/01/h4-product-27-1024x1024.jpg" alt="">
-                </slide>
-                <slide>
-                    <div>
-                        <h2>Lampe</h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Esse minus autem amet nesciunt voluptate perspiciatis iste dicta cum reprehenderit. Id reprehenderit tenetur quo voluptas doloribus? Ipsam excepturi ullam magnam non.</p>
-                    </div>
-                    <img src="https://depot.qodeinteractive.com/wp-content/uploads/2017/01/h3-product-2-1024x1024.jpg" alt="">
-                </slide>
-                <slide>
-                    <div>
-                        <h3>Horloge</h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Esse minus autem amet nesciunt voluptate perspiciatis iste dicta cum reprehenderit. Id reprehenderit tenetur quo voluptas doloribus? Ipsam excepturi ullam magnam non.</p>
-                    </div>
-                    <img src="https://depot.qodeinteractive.com/wp-content/uploads/2017/01/h1-product-5-1024x1024.jpg" alt="">
-                </slide>
+                <?php
+                    foreach ($get_sliders as $slide) {
+                    echo
+                    '<slide style="background-color: '.$slide->back_color.'">
+                        <div>
+                            <h2>'.$slide->title.'</h2>
+                            <p>'.$slide->description.'</p>
+                        </div>
+                        <img src="Assets/Images/sliders/'.$slide->image.'" alt="image de slider">
+                    </slide>';
+                    
+                }
+                ?>
             </slider>
         </section>
         <!-- |||||||||| END SLIDERS |||||||||| -->
