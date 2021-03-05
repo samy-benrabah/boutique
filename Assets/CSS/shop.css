@@ -27,27 +27,39 @@ main .section1 p {
 
 /*DEBUT SECTION2  */
 
-main .section2 {
-    padding: 0 7%;
-}
-
 main .section2 .product-img {
-    height: 300px;
-    width: 240px;
-    background-size: 100%;
+    /* background-size: 100%;
     background-position: center;
-    background-repeat: no-repeat;
-    padding: 7% 3% 2%;
+    background-repeat: no-repeat; */
 }
 
 main .section2 .product-img img {
-    height: 240px;
-    width: 240px;
+    height: 260px;
+    width: 260px;
+}
+
+.product {
+    margin-bottom: 40px;
 }
 
 main .section2 {
     display: grid;
-    grid-template-columns: repeat(auto-fill, 280px);
-    justify-content: space-between;
+    grid-template-columns: repeat(auto-fill, 300px);
+    justify-content: center;
     text-align: center;
+    margin: 50px 0;
+}
+
+.new {
+    position: absolute;
+    background-color: black;
+    color: white;
+    width: 50px;
+    height: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2px 0;
+    font-size: 12px;
+    margin: 10px 40px;
 }

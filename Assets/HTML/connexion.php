@@ -14,14 +14,12 @@
 <body>
     <?php require '../HTML/header.php'?>
 
-
     <main class="main_img">
         <section>
             <div class="image_back">
                 <p>Connexion</p>
             </div>
         </section>
-
         <section class="register_block">
         <?php
 if (!empty($_GET['block']) == '') {

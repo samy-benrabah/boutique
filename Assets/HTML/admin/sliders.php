@@ -2,15 +2,14 @@
                 <div class="entete">
                     <p>Les sliders (5)</p>
                     <form action="" method="post">
-                        <input type="submit" name="add" value="Ajouter un article">
+                        <input type="submit" name="add" value="+">
+                        <input type="submit" name="retour" value="x">
                     </form>
                 </div>
-        
                 <?php
-
                     if (isset($_POST['add'])) {
                         echo  '
-                            <form class="article_solo">
+                            <form class="article_solo" method="post" enctype="multipart/form-data">
                                 <div class="img_et_text">
                                     <div>
                                         <div class="image"><p>1024<br>x<br>1024</p></div>
@@ -22,148 +21,105 @@
                                         <label for="title">Titre: </label>
                                         <input type="text" name="title" id="title" placeholder="Nom de l‘article">
                                         <br><br>
+                                        <label for="title">Background Couleur: </label>
+                                        <input type="text" name="color" id="color" placeholder="Couleur de l‘arrière plan">
+                                        <br><br>
                                         <textarea name="description" id="description" cols="30" rows="10" placeholder="description de l‘article"></textarea>
                                     </div>
                                 </div>
-                                <div action="" method="post">
-                                    <input type="submit" name="add_to_db" value="AJOUTER">
+                                <div>
+                                    <input type="submit" name="add_slider" value="AJOUTER">
                                     <br>
                                     <input type="submit" name="annuler" value="ANNULER">
                                 </div>
                             </form>
                             ';
                     }
-                    $sliders = '
-                    <div class="article_solo">
-                        <div class="img_et_text">
-                            <div>
-                                <div class="image" style="background-image: url(https://depot.qodeinteractive.com/wp-content/uploads/2017/01/h1-product-6-1024x1024.jpg);"></div>
-                            </div>
-                            <div>
-                                <p>Titre: PAPA basse 4 pierds</p>
-                                <br>
-                                <p class="description">Description: Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias rem numquam eius! Ea rerum fugit repellat ipsa, magni nostrum vero dolore minus labore. Quas adipisci, sunt quod assumenda ut deleniti.</p>
-                            </div>
-                        </div>
-                        <form action="" method="post">
-                            <input type="submit" name="modifier" value="MODIFIER">
+                    if (isset($_POST["add_slider"])) {
+                        $product->add_slider($_FILES['image'],$_POST['title'],$_POST['description'],$_POST['color']);
+                    }
+                    $i = 0;
+                    foreach ($get_sliders_admin as $slide) {
+                        if ($slide->afficher == 0) {
+                            $affichage = "Non";
+                        }else $affichage = "Oui";
+                        //  Formulaire pour supprimer -------------------------------------------------------+
+                        $form = 
+                        '<form action="" method="post">
+                            <input type="submit" name="modifier'.$i.'" value="MODIFIER">
                             <br>
-                            <input type="submit" name="delete" value="SUPPRIMER">
-                        </form>
-                    </div>
-                    ';
-                    if (isset($_POST['modifier'])) {
+                            <input type="submit" name="delete'.$i.'" value="SUPPRIMER">
+                        </form>';
+                        //  Formulaire si je clique sur OUI (supprimer) ------------------------------+
+                        if (isset($_POST["delete$i"])) {
+                            $form =  
+                                '<form action="" method="post">
+                                    <input type="submit" name="oui'.$i.'" value="SUPPRIMER">
+                                    <br>
+                                    <input type="submit" name="non'.$i.'" value="GARDER">
+                                </form>';       
+                        }
+                        //  -----------------------------------------------------------------------------+
                         $sliders = '
-                            <form class="article_solo">
-                                <div class="img_et_text">
-                                    <div>
-                                        <div class="image" style="background-image: url(https://depot.qodeinteractive.com/wp-content/uploads/2017/01/h1-product-6-1024x1024.jpg);"></div>
-                                        <div class="file">
-                                            Choisir une image<input type="file" name="image" id="image">
+                        <div class="article_solo">
+                            <div class="img_et_text">
+                                <div>
+                                    <img class="image" src="../Images/sliders/'.$slide->image.'" alt="">
+                                </div>
+                                <div>
+                                    <p>Titre: '.$slide->title.'</p>
+                                    <br>
+                                    <p>Couleur de l‘arrière plan: <b style="color:'.$slide->back_color.'">'.$slide->back_color.'</b></p>
+                                    <br><p>Affichage: '.$affichage.'</p>
+                                    <br>
+                                    <p class="description">Description: '.$slide->description.'</p>
+                                </div>
+                            </div>
+                            '.$form.'
+                        </div>
+                        ';
+                        if (isset($_POST["modifier$i"])) {
+                            $sliders = '
+                                <form class="article_solo" method="post">
+                                    <div class="img_et_text">
+                                        <div>
+                                            <img class="image" src="../Images/sliders/'.$slide->image.'" alt="">
+                                            <div class="file">
+                                                Choisir une image<input type="file" name="image" id="image">
+                                            </div>
+                                        </div>
+                                        <div class="divv">
+                                            <label for="title">Titre: </label>
+                                            <input type="text" name="title" id="title" value="'.$slide->title.'">
+                                            <br><br>
+                                            <input type="text" name="color" id="color" value="'.$slide->back_color.'">
+                                            <br><br>
+                                            <select name="affichage" id="affichage">
+                                                <option value="1">OUI</option>
+                                                <option value="0">NON</option>
+                                            </select>
+                                            <br><br>
+                                            <textarea class="description" name="description" id="description" cols="30" rows="10">'.$slide->description.'</textarea>
                                         </div>
                                     </div>
-                                    <div class="divv">
-                                        <label for="title">Titre: </label>
-                                        <input type="text" name="title" id="title" value="TABLE BASE">
-                                        <br><br>
-                                        <textarea class="description" name="description" id="description" cols="30" rows="10">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iure eveniet suscipit, saepe dolorem voluptates, inventore eligendi possimus iusto minus assumenda temporibus! Magnam rem error veniam animi maxime, omnis quis quisquam.
-                                        </textarea>
+                                    <div>
+                                        <input type="submit" name="maj'.$i.'" value="METTRE A JOUR">
+                                        <br>
+                                        <input type="submit" name="annuler" value="ANNULER">
                                     </div>
-                                </div>
-                                <div action="" method="post">
-                                    <input type="submit" name="maj" value="METTRE A JOUR">
-                                    <br>
-                                    <input type="submit" name="annuler" value="ANNULER">
-                                </div>
-                            </form>
-                            ';
+                                </form>
+                                ';
+                        }
+                        echo $sliders;
+                        //  -----------Pour supprimer une categorie -----------------------------------------------+
+                        if (isset($_POST["oui$i"])) {
+                            $product->delete_product('sliders', 'id', $slide->id);
+                        }
+                        if (isset($_POST["maj$i"])) {
+                            $product->edite_slider($_POST['title'],$_POST['description'],$_POST['color'],$_POST['affichage'],$slide->id);
+                        }
+                        $i++;
                     }
-                    echo $sliders
                 ?>
-            </div>
-
-            <div class="article_solo">
-                <div class="img_et_text">
-                    <div>
-                        <div class="image" style="background-image: url(https://depot.qodeinteractive.com/wp-content/uploads/2017/01/h1-product-6-1024x1024.jpg);"></div>
-                    </div>
-                    <div>
-                        <p>Table basse 4 pierds | 300€</p>
-                        <p class="space_text">Categorie: Table</p>
-                        <p class="description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias rem numquam eius! Ea rerum fugit repellat ipsa, magni nostrum vero dolore minus labore. Quas adipisci, sunt quod assumenda ut deleniti.</p>
-                    </div>
-                </div>
-                <form action="" method="post">
-                    <input type="submit" name="delete" value="METTRE A JOUR">
-                    <input type="submit" name="delete" value="SUPPRIMER">
-                </form>
-            </div>
-            <div class="article_solo">
-                <div class="img_et_text">
-                    <div>
-                        <div class="image" style="background-image: url(https://depot.qodeinteractive.com/wp-content/uploads/2017/01/h1-product-6-1024x1024.jpg);"></div>
-                    </div>
-                    <div>
-                        <p>Table basse 4 pierds | 300€</p>
-                        <p class="space_text">Categorie: Table</p>
-                        <p class="description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias rem numquam eius! Ea rerum fugit repellat ipsa, magni nostrum vero dolore minus labore. Quas adipisci, sunt quod assumenda ut deleniti.</p>
-                    </div>
-                </div>
-                <div>
-                    <form action="" method="post">
-                        <input type="submit" name="delete" value="METTRE A JOUR">
-                        <input type="submit" name="delete" value="SUPPRIMER">
-                    </form>
-                </div>
-            </div>
-            <div class="article_solo">
-                <div class="img_et_text">
-                    <div>
-                        <div class="image" style="background-image: url(https://depot.qodeinteractive.com/wp-content/uploads/2017/01/h1-product-6-1024x1024.jpg);"></div>
-                    </div>
-                    <div>
-                        <p>Table basse 4 pierds | 300€</p>
-                        <p class="space_text">Categorie: Table</p>
-                        <p class="description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias rem numquam eius! Ea rerum fugit repellat ipsa, magni nostrum vero dolore minus labore. Quas adipisci, sunt quod assumenda ut deleniti.</p>
-                    </div>
-                </div>
-                <form action="" method="post">
-                    <input type="submit" name="delete" value="METTRE A JOUR">
-                    <input type="submit" name="delete" value="SUPPRIMER">
-                </form>
-            </div>
-            <div class="article_solo">
-                <div class="img_et_text">
-                    <div>
-                        <div class="image" style="background-image: url(https://depot.qodeinteractive.com/wp-content/uploads/2017/01/h1-product-6-1024x1024.jpg);"></div>
-                    </div>
-                    <div>
-                        <p>Table basse 4 pierds | 300€</p>
-                        <p class="space_text">Categorie: Table</p>
-                        <p class="description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias rem numquam eius! Ea rerum fugit repellat ipsa, magni nostrum vero dolore minus labore. Quas adipisci, sunt quod assumenda ut deleniti.</p>
-                    </div>
-                </div>
-                <div>
-                    <form action="" method="post">
-                        <input type="submit" name="delete" value="METTRE A JOUR">
-                        <input type="submit" name="delete" value="SUPPRIMER">
-                    </form>
-                </div>
-            </div>
-            <div class="article_solo">
-                <div class="img_et_text">
-                    <div>
-                        <div class="image" style="background-image: url(https://depot.qodeinteractive.com/wp-content/uploads/2017/01/h1-product-6-1024x1024.jpg);"></div>
-                    </div>
-                    <div>
-                        <p>Table basse 4 pierds | 300€</p>
-                        <p class="space_text">Categorie: Table</p>
-                        <p class="description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias rem numquam eius! Ea rerum fugit repellat ipsa, magni nostrum vero dolore minus labore. Quas adipisci, sunt quod assumenda ut deleniti.</p>
-                    </div>
-                </div>
-                <form action="" method="post">
-                    <input type="submit" name="delete" value="METTRE A JOUR">
-                    <input type="submit" name="delete" value="SUPPRIMER">
-                </form>
             </div>
         </section>
