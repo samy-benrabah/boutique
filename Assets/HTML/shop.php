@@ -35,17 +35,25 @@ $tab = $show_product->showProduct();
     <section class="section2">
         <?php
 foreach ($tab as $product) {
-               echo '<div  class ="product">
-<a href="product.php?id='.$product->id.'">
-                    <div class="product-img">
-                        <img src="../Images/products/'.$product->image.'">
-                    </div>
+     $date = strtotime($product->product_date);
+     $mtn = strtotime(date('Y-m-d'));
+     $to = $mtn - $date;
+    $floor = floor($to/(60*60*24));
+     if ($floor < 15) {
+          $new = '<p class="new" >NEW</p>';
+     }else $new = '';
 
-                        <h4>'.$product->title.'</h4>
-                        <p>'.$product->price.'€</p>
-</a>
-                </div>';
-          }
+    echo '<div  class ="product">
+            <div class="product-img">
+                '.$new.'
+                <a href="product.php?id='.$product->id.'&name='.$product->title.'">
+                <img src="../Images/products/'.$product->image.'">
+            </div>
+                <h4>'.$product->title.'</h4>
+                <p>'.$product->price.'€</p>
+                </a>
+        </div>';
+}
 ?>
 
 
@@ -53,10 +61,10 @@ foreach ($tab as $product) {
     <!-- ///////////////////////////FIN SECTION 1 ///////////////////////////////////////////// -->
 
 </main>
-<footer>
+
 <?php
 require '../HTML/footer.php';
 ?>
-</footer>
+
 </body>
 </html>

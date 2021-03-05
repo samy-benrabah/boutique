@@ -17,17 +17,17 @@ $get_sliders = $slider->get_sliders();
     <link rel="stylesheet" href="Assets/CSS/header-footer.css">
     <!------------ BOOTSTRAP -------------->
     <style>
-<?php
-    $i=1;
-    $k=(-1);
-    foreach ($get_sliders as $slide) {
-        echo 'slide:nth-child('.$i.') {
-            left: 0%;
-            animation-delay: '.$k.'s;
-        }';
-        $i+=1;
-        $k+=3;
-    }
+    <?php
+        $i=1;
+        $k=(-1);
+        foreach ($get_sliders as $slide) {
+            echo 'slide:nth-child('.$i.') {
+                left: 0%;
+                animation-delay: '.$k.'s;
+            }';
+            $i+=1;
+            $k+=3;
+        }
     ?>
     </style>
     
@@ -176,7 +176,6 @@ $get_sliders = $slider->get_sliders();
             <li><a href="">Twitter</a></li>
         </ul>
     </footer>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
 </body>
 
 </html>

@@ -308,7 +308,7 @@ class Product
     }
 
     // ------------------------------------------------------------------------------------------+
-    //  FUNCTION pour afficher les USERS dans la page Admin  /  Morad                            |
+    //  FUNCTION pour afficher les CODE DE REDUCTION dans la page Admin  /  Morad                |
     // ------------------------------------------------------------------------------------------+
     public function count_discount($id){
         $get = $this->pdo->prepare("SELECT * FROM orders WHERE id_discount=:id");
@@ -388,11 +388,108 @@ class Product
 
 
 
+    //* ------------------------------------------------------------------------------------------+
+    //*  FUNCTION pour afficher le produit dans la page Product  / Morad                          |
+    //* ------------------------------------------------------------------------------------------+
+    public function get_product($id){
+        $get = $this->pdo->prepare("SELECT * FROM products JOIN categories ON products.id_cate = categories.id_categorie WHERE id=$id");
+        $get -> execute();
+        $get = $get->fetch(PDO::FETCH_OBJ);
+        return $get;
+    }
 
 
 
+    // ------------------------------------------------------------------------------------------+
+    //  FUNCTION pour afficher le nombre d'etoile dans la page Admin  /  Morad                   |
+    // ------------------------------------------------------------------------------------------+
+    public function get_reviews($id){
+        $get = $this->pdo->prepare("SELECT * FROM reviews JOIN users ON reviews.id_user = users.id  WHERE id_product=$id ORDER BY reviews.id DESC");
+        $get -> execute();
+        $get = $get->fetchALL(PDO::FETCH_OBJ);
+        $i=0;
+        $total=0;
+        foreach ($get as $key) {
+            $total += $key->star;
+            $i++;
+        }
+        
+        if ($i == 0) {
+            $msg = "Pas d'avis! <a href='#commentaire'>Ajouter un avi</>";
+            return ([0, $msg,$get]);
+        }else {
+            $msg = "Sur $i Avis";
+            return ([$total/$i,$msg,$get]);
+        }
+    }
+    // ------------------------------------------------------------------------------------------+
+    //  FUNCTION pour afficher le nombre d'etoile dans la page product  /  Morad                 |
+    // ------------------------------------------------------------------------------------------+
+    public function get_stars($star){
+        if ($star > 0) {
+            for ($i=(5-$star); $i < 5; $i++) { 
+                echo '<p><i class="fas fa-star"></i></p>';
+            }
+        
+            for ($i=0; $i < (5-$star) ; $i++) { 
+                echo'<p><i class="far fa-star"></i></p>';
+            }
+        }
+    }
+
+    // ------------------------------------------------------------------------------------------+
+    //  FUNCTION pour afficher le nombre d'etoile dans la page product  /  Morad                 |
+    // ------------------------------------------------------------------------------------------+
+    public function get_stars_user($star){
+        if ($star > 0) {
+            for ($i=(5-$star); $i < 5; $i++) { 
+                echo '<p><i class="fas fa-star"></i></p>';
+            }
+        
+            for ($i=0; $i < (5-$star) ; $i++) { 
+                echo'<p><i class="far fa-star"></i></p>';
+            }
+        }
+    }
+
+    // ------------------------------------------------------------------------------------------+
+    //  FUNCTION pour afficher les produits Similaire dans la page Admin  / Morad                |
+    // ------------------------------------------------------------------------------------------+
+    public function get_similaire($id,$like){
+        $get = $this->pdo->prepare("SELECT * FROM products WHERE id_cate=$like  AND id  NOT IN (SELECT id FROM products WHERE id=$id)");
+        $get -> execute();
+        $get = $get->fetchALL(PDO::FETCH_OBJ);
+
+        return $get;
+    }
 
 
+    // ------------------------------------------------------------------------------------------+
+    //  FUNCTION pour Ajouter un AVIS dans la base de donnée  / Morad                            |
+    // ------------------------------------------------------------------------------------------+
+    public function send_avis($star,$comment,$id_user,$date,$id_product){
+
+        $insert = $this->pdo->prepare("INSERT INTO reviews(star, comment, id_user, date, id_product) VALUES(:star, :comment, :id_user, :date, :id_product)");
+        $insert -> bindParam('star', $star);
+        $insert -> bindParam('comment', $comment);
+        $insert -> bindParam('id_user', $id_user);
+        $insert -> bindParam('date', $date);
+        $insert -> bindParam('id_product', $id_product);
+        $insert -> execute();
+        $this->msg = "Comment added";
+    }
+
+
+    // ------------------------------------------------------------------------------------------+
+    //  FUNCTION pour afficher les produits Similaire dans la page Admin  / Morad                |
+    // ------------------------------------------------------------------------------------------+
+    public function get_panier($id){
+        $get = $this->pdo->prepare("SELECT * FROM products  WHERE id=$id)");
+        $get -> execute();
+        $get = $get->fetchALL(PDO::FETCH_OBJ);
+
+        return $get;
+    }
 
 
 
@@ -406,7 +503,7 @@ class Product
 
     public function showProduct()
     {
-        $stmt = $this->pdo->prepare("SELECT id, image, title, price FROM products");
+        $stmt = $this->pdo->prepare("SELECT * FROM products ORDER BY product_date DESC");
         $stmt->execute();
         $tab = $stmt->fetchALL(PDO::FETCH_OBJ);
         return $tab;

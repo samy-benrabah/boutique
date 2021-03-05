@@ -1,3 +1,19 @@
+<?php
+    session_start();
+    require '../../Class/panier_class.php';
+
+    $panier = new Panier('produits');
+    $listeProduits = $panier->getPanier();
+   
+    if (isset($_POST['unset'])) {
+        $unset = $panier->clear();
+    }
+   
+
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -32,57 +48,41 @@ include 'header.php';
     <section class="section2">
         <div>
             <div>
-                <h2><strong>VOTRE PANIER</strong></h2>
+                <h2 class="h2" ><strong>VOTRE PANIER</strong></h2>
             </div>
             <div class="full_code_price-product">
-                <div class="code_price-product">
-                    <div class="img-number">
-                            <div class="product-img" style="background-image:url(https://depot.qodeinteractive.com/wp-content/uploads/2017/01/h1-product-4-550x550.jpg)">
-                        </div>
-                        <div class="price-product">
-                            <p>Lampe</p>
-                            <p>25$</p>
-                        </div>
+                <form action="" method="post">
+                <?php
 
-                            <div class="product-prix-number">
-                                <input type="number" name="quantité-number" id="">
-                                <div class="prix-nombre">
+                    if ($listeProduits) {
+                        foreach ($listeProduits as $key) {
+                            $total = $key['price']*$key['qte'];
+                            echo '
+                            <div class="code_price-product">
+                                <div class="img-number">
+                                    <div class="product-img" style="background-image:url(../Images/products/'.$key['image'].')"></div>
+                                    <div class="price-product">
+                                        <p>'.$key['titre'].'</p>
+                                        <p>'.$key['price'].'€</p>
+                                    </div>
+                                    <div class="product-prix-number">
+                                        <input type="number" name="quantité-number" value="'.$key['qte'].'"  min="1" max="10">
+                                        <div class="prix-nombre">
+                                            <p><b>'.$total.'€</b></p>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-
-                    </div>
-                    <div class="img-number">
-                            <div class="product-img" style="background-image:url(https://depot.qodeinteractive.com/wp-content/uploads/2017/01/h1-product-4-550x550.jpg)">
-                        </div>
-                        <div class="price-product">
-                            <p>Lampe</p>
-                            <p>25$</p>
-                        </div>
-
-                            <div class="product-prix-number">
-                                <input type="number" name="quantité-number" id="">
-                                <div class="prix-nombre">
-                                </div>
-                            </div>
-
-                    </div>
-                    <div class="img-number">
-                            <div class="product-img" style="background-image:url(https://depot.qodeinteractive.com/wp-content/uploads/2017/01/h1-product-4-550x550.jpg)">
-                        </div>
-                        <div class="price-product">
-                            <p>Lampe</p>
-                            <p>25$</p>
-                        </div>
-
-                            <div class="product-prix-number">
-                                <input type="number" name="quantité-number" id="">
-                                <div class="prix-nombre">
-                                </div>
-                            </div>
-
-                    </div>
-
-                </div>
+                            </div>';
+                        }
+                    }else {
+                        echo "panier vide";
+                    }
+                
+                
+                ?>
+                    <input type="submit" name="maj" value="METTRE A JOUR">
+                </form>
+                
                 <div class="code-reduction">
                             <form action="" method="get">
                                 <img src="../Images/coupon.png" alt="coupon-reduction">
@@ -113,7 +113,7 @@ include 'header.php';
             </div>
             <div>
                 <form action="" method="post">
-                    <input type="submit" value="CONFIRMER LA COMMANDE">
+                    <input type="submit" name="unset" value="CONFIRMER LA COMMANDE">
                 </form>
             </div>
         </div>
