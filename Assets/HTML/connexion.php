@@ -1,24 +1,19 @@
 <?php
 session_start();
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\SMTP;
-use PHPMailer\PHPMailer\Exception;
-
-require '../../PHPMailer/src/Exception.php';
-require '../../PHPMailer/src/PHPMailer.php';
-require '../../PHPMailer/src/SMTP.php';
 require '../../Class/user.php';
+
 $user = new User();
 $msg = '';
 $msg_valid = '';
 $title_inscription = '';
 $title_reset = '';
-
+include '../../Assets/HTML/admin/mail.php';
 if (isset($_POST['valider_register'])) {
     $firstName = htmlspecialchars(trim($_POST['first_name']));
     $lastName = htmlspecialchars(trim($_POST['last_name']));
     $userName = htmlspecialchars(trim($_POST['username']));
     $email = filter_var(trim($_POST['email']), FILTER_VALIDATE_EMAIL);
+    $phone = htmlspecialchars(trim($_POST['phone']));
     $password = htmlspecialchars(trim($_POST['password']));
     $adress = htmlspecialchars(trim($_POST['adress']));
     $zip = htmlspecialchars(trim($_POST['zip']));
@@ -26,7 +21,7 @@ if (isset($_POST['valider_register'])) {
     $country = htmlspecialchars(trim($_POST['country']));
 
     
-    $msg = $user->register($firstName, $lastName, $userName, $email, $password, $adress, $zip, $city, $country);
+    $msg = $user->register($firstName, $lastName, $userName, $email,$phone, $password, $adress, $zip, $city, $country);
 
 }
 if (isset($_POST['valider_conn'])) {
@@ -34,46 +29,12 @@ if (isset($_POST['valider_conn'])) {
     $email = filter_var(trim($_POST['useremail']), FILTER_VALIDATE_EMAIL);
     $password = htmlspecialchars(trim($_POST['password']));
     $msg = $user->connexion($username, $email, $password);
+    
 }
 if (isset($_POST['valider_reinilisation'])) {
     $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL);
-    // $user->getNewPassword($email);
+    $user->getNewPassword($email,$message);
     
-
-//Import PHPMailer classes into the global namespace
-//These must be at the top of your script, not inside a function
- 
-
-//Instantiation and passing `true` enables exceptions
-$mail = new PHPMailer(true);
-
-try {
-    //Server settings                     //Enable verbose debug output
-    $mail->isSMTP();                                            //Send using SMTP
-    $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
-    $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-    $mail->Username   = 'testemailsb13@gmail.com';                     //SMTP username
-    $mail->Password   = '/testemailsb13/';                               //SMTP password
-    $mail->SMTPSecure = 'ssl';         //Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
-    $mail->Port       = 465;                                    //TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
-
-    //Recipients
-    $mail->setFrom('testemailsb13@gmail.com', 'D&Code');
-    $mail->addAddress($email);              //Name is optional
-    $mail->addReplyTo('no-reply@gmail.com', 'No reply');
-        
-
-    //Content
-    $mail->isHTML(true);                                  //Set email format to HTML
-    $mail->Subject = 'Here is the subject';
-    $mail->Body    = 'This is the HTML message body <b>in bold!</b>';
-    $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
-
-    $mail->send();
-    echo 'Message has been sent';
-} catch (Exception $e) {
-    echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
-}
 }
 ?>
 
@@ -144,6 +105,8 @@ if (isset($_GET['block']) == '') {
                 <input type="text" name="username" id="username" placeholder="Username">
                 <br>
                 <input type="email" name="email" id="email" placeholder="Votre adresse email">
+                <br>
+                <input type="text" name="phone" id="phone" placeholder="12 34 56 78 90" pattern="[0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}">
                 <br>
                 <input type="text" name="adress" id="adress" placeholder="Votre adresse">
                 <br>

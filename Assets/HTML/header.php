@@ -1,4 +1,7 @@
+
+
 <link rel="stylesheet" href="../CSS/header-footer.css">
+<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 <header>
     <ul>
         <li><a href="">Accueil</a></li>
@@ -7,8 +10,14 @@
         <li><a href="">Nouveautés</a></li>
     </ul>
     <h1>D&CODE</h1>
+    <form action="search.php" method="get">
+        <input type="search" name ="search-bar" placeholder="Rechercher un produit">
+        <button type="submit" name="search"><i class="fas fa-search"></i></button>
+    </form>
     <ul class="price">
-        <li><a href=""><img src="../Images/cart.svg" alt="cart-photo"></a>(0€)</li>
-        <li><a href=""><img src="../Images/user.svg" alt="cart-photo"></a>(Login)</li>
+        <li><a href="panier.php"><img src="../Images/cart.svg" alt="cart-photo"></a>(0€)</li>
+        <li><a href="profil.php"><img src="../Images/user.svg" alt="cart-photo"></a>(Login)</li>
     </ul>
+    
 </header>
+

@@ -1,4 +1,6 @@
-
+<?php
+echo $_GET['id'];
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -197,5 +199,8 @@ include 'header.php';
         <!-- ///////////////////////////FIN SECTION 2 ///////////////////////////////////////////// -->
 
     </main>
+    <?php
+    include 'footer.php';
+    ?>
 </body>
 </html>
