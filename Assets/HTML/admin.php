@@ -2,46 +2,18 @@
 
 require '../../Class/product.php';
 $product = new Product();
-
-<<<<<<< HEAD
-    if (isset($_POST['add_to_db'])) {
-        $send = $product -> add_product($_POST['title'],$_POST['description'],$_POST['price'],date("Y-m-d"),$_POST['categorie'],2,$_FILES['image']);
-=======
-if (isset($_POST['add_to_db'])) {
-    $file = $_FILES['image'];
-
-    $fileName = $_FILES['image']['name'];
-    $fileTmpName = $_FILES['image']['tmp_name'];
-    $fileSize = $_FILES['image']['size'];
-    $fileError = $_FILES['image']['error'];
-    $fileType = $_FILES['image']['type'];
-
-    $fileExt = explode('.', $fileName);
-    $fileActualExt = strtolower(end($fileExt));
-
-    $allowed = array('jpg', 'jpeg', 'png');
-
-    if (in_array($fileActualExt, $allowed)) {
-        if ($fileError === 0) {
-            if ($fileSize < 1000000) {
-                $fileNameNew = uniqid('', true) . "." . $fileActualExt;
-                $fileDestination = '../Images/products/' . $fileNameNew;
-                move_uploaded_file($fileTmpName, $fileDestination);
-                $send = $product->add_product($fileNameNew, $_POST['title'], $_POST['description'], $_POST['price'], date("Y-m-d"), $_POST['categorie'], 1, $_FILES['image']);
-                echo "image envoyer";
-            } else {
-                echo "Votre image est très grande";
-            }
-        } else {
-            echo "Il y'a un probleme de telechargement";
-        }
-    } else {
-        echo "Veuillez chosir un format de type png, jpg ou jpeg";
->>>>>>> samy
+$get_categories = $product->get_categories('categories', 'categorie_title');
+$get_discounts = $product->get_categories('discounts', 'name');
+$get_sliders = $product->get_sliders();
+$get_sliders_admin = $product->get_sliders_admin();
+$get_users = $product->get_users();
+$get_commandes = $product->get_commandes();
+$get_products = $product->get_products();
+    if (isset($_POST['retour'])) {
+        header( "refresh:0;url=admin.php" );
     }
-}
-
-?><!DOCTYPE html>
+?>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -55,20 +27,8 @@ if (isset($_POST['add_to_db'])) {
 </head>
 
 <body>
-    <!-- <?php include 'Assets/HTML/header.php'?> -->
-    <header>
-        <ul>
-            <li><a href="">Accueil</a></li>
-            <li><a href="">Nos Produits</a></li>
-            <li><a href="">TOP Produits</a></li>
-            <li><a href="">Nouveautés</a></li>
-        </ul>
-        <h1>D&CODE</h1>
-        <ul class="price">
-            <li><a href=""><img src="../Images/cart.svg" alt="cart-photo"></a>(0€)</li>
-            <li><a href=""><img src="../Images/user.svg" alt="cart-photo"></a>(Login)</li>
-        </ul>
-    </header>
+    <?php include '../HTML/header.php'?>
+
 
     <main>
         <!-- ‡‡‡‡‡‡‡‡‡‡‡‡‡‡ START PRODUCTS ‡‡‡‡‡‡‡‡‡‡‡‡‡‡ -->
@@ -129,20 +89,22 @@ if (isset($_POST['add_to_db'])) {
         <!-- ‡‡‡‡‡‡‡‡‡‡‡‡‡‡ START BLOCK LES ARTICLES ‡‡‡‡‡‡‡‡‡‡‡‡‡‡ -->
         <?php
 
-if (isset($_GET['articles'])) {
-    include 'admin/articles.php';
-} elseif (isset($_GET['utilisateurs'])) {
-    include 'admin/utilisateurs.php';
-} elseif (isset($_GET['reductions'])) {
-    include 'admin/reductions.php';
-} elseif (isset($_GET['sliders'])) {
-    include 'admin/sliders.php';
-} elseif (isset($_GET['commandes'])) {
-    include 'admin/commandes.php';
-} elseif (isset($_GET['categories'])) {
-    include 'admin/categories.php';
-}
-?>
+            if (isset($_GET['articles'])) {
+                include 'admin/articles.php';
+            } elseif (isset($_GET['utilisateurs'])) {
+                include 'admin/utilisateurs.php';
+            } elseif (isset($_GET['reductions'])) {
+                include 'admin/reductions.php';
+            } elseif (isset($_GET['sliders'])) {
+                include 'admin/sliders.php';
+            } elseif (isset($_GET['commandes'])) {
+                include 'admin/commandes.php';
+            } elseif (isset($_GET['categories'])) {
+                include 'admin/categories.php';
+                
+                
+            }
+        ?>
         <!-- ‡‡‡‡‡‡‡‡‡‡‡‡‡‡ END BLOCK LES ARTICLES ‡‡‡‡‡‡‡‡‡‡‡‡‡‡ -->
     </main>
     <footer>

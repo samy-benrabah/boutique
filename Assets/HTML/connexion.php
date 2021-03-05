@@ -94,7 +94,6 @@ try {
 <body>
     <?php require '../HTML/header.php'?>
 
-
     <main class="main_img">
         <section>
             <div class="image_back">
@@ -107,7 +106,6 @@ if (!empty($_GET['block']) == '') {
 ?></p>
             </div>
         </section>
-
         <section class="register_block">
         <div>
                 <?php if ($msg) {?>
