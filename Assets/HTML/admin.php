@@ -3,6 +3,10 @@
 require '../../Class/product.php';
 $product = new Product();
 
+<<<<<<< HEAD
+    if (isset($_POST['add_to_db'])) {
+        $send = $product -> add_product($_POST['title'],$_POST['description'],$_POST['price'],date("Y-m-d"),$_POST['categorie'],2,$_FILES['image']);
+=======
 if (isset($_POST['add_to_db'])) {
     $file = $_FILES['image'];
 
@@ -33,6 +37,7 @@ if (isset($_POST['add_to_db'])) {
         }
     } else {
         echo "Veuillez chosir un format de type png, jpg ou jpeg";
+>>>>>>> samy
     }
 }
 

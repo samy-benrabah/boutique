@@ -1,6 +1,7 @@
 <section class="articles" id="block">
                 <div class="entete">
                     <p>Les articles (5)</p>
+                    <p><?php echo $product->msg; ?></p>
                     <form action="" method="post">
                         <input type="submit" name="add" value="Ajouter un article">
                     </form>
