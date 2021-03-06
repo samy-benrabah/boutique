@@ -67,9 +67,7 @@ include 'header.php';
                                     </div>
                                     <div class="product-prix-number">
                                         <input type="number" name="quantité-number" value="'.$key['qte'].'"  min="1" max="10">
-                                        <div class="prix-nombre">
-                                            <p><b>'.$total.'€</b></p>
-                                        </div>
+                                        <p><b>'.$total.'€</b></p>
                                     </div>
                                 </div>
                             </div>';

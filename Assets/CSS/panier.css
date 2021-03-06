@@ -74,13 +74,18 @@ main .section2 .product-img p {
 }
 
 main .section2 input[name="quantité-number"] {
-    height: 30px;
-    width: 50px;
+    border: none;
+    outline: none;
 }
 
 main .section2 .product-prix-number {
     display: flex;
-    flex-direction: row;
+    border: 1px solid black;
+    justify-content: space-between;
+    align-items: center;
+    height: 30px;
+    width: 100px;
+    padding: 0 6px;
 }
 
 main .section2 .prix-nombre {
