@@ -187,25 +187,34 @@ class User
                     $stmt_select=$this->pdo->prepare("SELECT * FROM users WHERE username = ?");
                     $stmt_select->execute([$newUsername]);
                     $row_username=$stmt_select->fetch(PDO::FETCH_OBJ);
-                    $_SESSION['user']=$row_username;
+                    $_SESSION['user_username']=$row_username;
                 
              
     }
 
     public function updateProfilEmail ($newEmail,$id) 
     {
-                    $this->newEmail=trim(filter_var($newEmail,FILTER_VALIDATE_EMAIL));
+                    
+                    $stmt_select=$this->pdo->prepare("SELECT * FROM users WHERE email = ?");
+                    $stmt_select->execute([$newEmail]);
+                    $row=$stmt_select->fetch(PDO::FETCH_OBJ);
+                    $count=$row->email;
+                    $_SESSION['user_email']=$row;
+                    
+                    
+
+                    if(!$count){
+                        $this->newEmail=trim(filter_var($newEmail,FILTER_VALIDATE_EMAIL));
                 
                     $stmt_update=$this->pdo->prepare("UPDATE users SET email = ? WHERE id = ? ");
                     $stmt_update->execute([$newEmail,$id]);
                     
 
-                    $stmt_select=$this->pdo->prepare("SELECT * FROM users WHERE email = ?");
-                    $stmt_select->execute([$newEmail]);
-                    $row_email=$stmt_select->fetch(PDO::FETCH_OBJ);
-                    $_SESSION['user']=$row_email;
+                    }else{
+                        $msg="Ce email est déja utilisé veuillez changer d'email";
+                    }
                 
-             
+             return $msg;
     }
          
     
@@ -220,7 +229,7 @@ class User
                     $stmt_select=$this->pdo->prepare("SELECT * FROM users WHERE adress = ?");
                     $stmt_select->execute([$newAdress]);
                     $row_adress=$stmt_select->fetch(PDO::FETCH_OBJ);
-                    $_SESSION['user']=$row_adress;
+                    $_SESSION['user_adress']=$row_adress;
                 
              
     }
@@ -237,7 +246,7 @@ class User
                     $stmt_select=$this->pdo->prepare("SELECT * FROM users WHERE phone = ?");
                     $stmt_select->execute([$newPhone]);
                     $row_phone=$stmt_select->fetch(PDO::FETCH_OBJ);
-                    $_SESSION['user']=$row_phone;
+                    $_SESSION['user_phone']=$row_phone;
                 
              
     }

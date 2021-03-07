@@ -37,10 +37,11 @@ if (isset($_POST['ajouter'])) {
         'image' => $get_product->image,
         'qte' => $_POST['quantite'],
         'id' => $get_product->id,
+        
     );
 
     $panier->set($get_product->id, $valeur);
-
+    header('Location:panier.php');
 }
 
 ?>
