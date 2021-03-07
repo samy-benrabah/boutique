@@ -42,7 +42,6 @@ main .section2 .full_code_price-product {
 main .section2 .code_price-product {
     display: flex;
     flex-direction: column;
-    overflow-y: scroll;
 }
 
 main .section2 .img-number {

@@ -26,12 +26,6 @@ main .section1 p {
 
 /*DEBUT SECTION2  */
 
-main .section2 .product-img {
-    /* background-size: 100%;
-    background-position: center;
-    background-repeat: no-repeat; */
-}
-
 main .section2 .product-img img {
     height: 260px;
     width: 260px;
