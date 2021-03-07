@@ -2,28 +2,28 @@
 session_start();
 require '../../Class/user.php';
 $profil = new User();
-var_dump($_SESSION['user']);
+// var_dump($_SESSION['user']);
 if (isset($_POST['valider_username']) && !empty($_POST['new-username'])) {
     $newUsername=htmlspecialchars(trim($_POST['new-username']));
-    $profil->updateProfilUsername($newUsername,$_SESSION['user']->id);
+    $profil->updateProfilUsername($newUsername,$_SESSION['user_username']->id);
 }
 
 
     if (isset($_POST['valider_email'])) {
         $newEmail=trim(filter_var ($_POST['new-email'],FILTER_VALIDATE_EMAIL));
         if( !empty(trim($_POST['new-email'])))
-            $profil->updateProfilEmail($newEmail,$_SESSION['user']->id);
+        $msg=$profil->updateProfilEmail($newEmail,$_SESSION['user_email']->id);
         
     }
 
 if (isset($_POST['valider_adress']) && !empty($_POST['new-adress'])) {
     $newAdress=htmlspecialchars(trim($_POST['new-adress']));
-    $profil->updateProfilAdress($newAdress,$_SESSION['user']->id);
+    $msg=$profil->updateProfilAdress($newAdress,$_SESSION['user_adress']->id);
 }
 
 if (isset($_POST['valider_phone']) && !empty($_POST['new-phone'])) {
     $newPhone=htmlspecialchars(trim($_POST['new-phone']));
-    $profil->updateProfilPhone($newPhone,$_SESSION['user']->id);
+    $profil->updateProfilPhone($newPhone,$_SESSION['user_phone']->id);
 }
 
 if (isset($_POST['valider_password']) && !empty($_POST['new-password'])) {
@@ -70,7 +70,9 @@ include 'header.php';
                  <div class="sous_full-profil">
             <!-- DEBUT PROFIL LEFT -->
                    <div class="profil-left">
-                    
+                    <p class="msg"><?php if (isset($_POST['valider_email'])) {
+                        echo $msg;
+                    }  ?></p>
                     <div class="modification-profil">
                         <?php
 $username = '<div class="text-button">

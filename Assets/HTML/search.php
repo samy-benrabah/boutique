@@ -22,7 +22,7 @@ include 'header.php';
  $bdd=new PDO('mysql:dbname=boutique;host=localhost', "root", "");
 
 //  $query=$bdd->prepare('SELECT * FROM products WHERE title ORDER BY id DESC');
- 
+
  if(isset($_GET['search']) && !empty($_GET['search-bar'])){
      $search=htmlspecialchars(trim($_GET['search-bar']));
      $query=$bdd->prepare('SELECT id,image,title,price FROM products WHERE title LIKE "'.$search.'%"');
@@ -45,7 +45,7 @@ include 'header.php';
             <p>'. $p->price .'$</p>
     </a>
 </div>';
-
+var_dump($p->id);
  }
 }else {
     echo '<p class="search">Aucun résultat pour :'.' '.$search.'</p>';
