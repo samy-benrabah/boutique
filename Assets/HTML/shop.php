@@ -1,5 +1,5 @@
 <?php
-// $path="As"
+session_start();
 require '../../Class/product.php';
 $show_product = new Product();
 $tab = $show_product->showProduct();
@@ -14,7 +14,6 @@ $tab = $show_product->showProduct();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../CSS/shop.css">
     <link rel="stylesheet" href="../CSS/header-footer.css">
-    <!-- <link rel="stylesheet" href="../CSS/morad.css"> -->
     <script src="https://kit.fontawesome.com/218e7c5bb4.js" crossorigin="anonymous"></script>
     <title>Shop</title>
 </head>

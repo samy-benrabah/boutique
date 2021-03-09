@@ -1,9 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;900&display=swap');
-body {
-    font-family: 'Roboto', Courier, monospace;
-    font-weight: 300;
-}
-
 header {
     height: 100px;
     display: flex;
@@ -16,6 +11,23 @@ header {
 header img {
     width: 20px;
     height: auto;
+}
+
+header form {
+    place-content: center;
+}
+
+header form input {
+    border: none;
+    border-bottom: solid black;
+    outline: none;
+    background-color: transparent;
+}
+
+header form button {
+    background-color: transparent;
+    border: none;
+    outline: none;
 }
 
 header .price {
@@ -33,7 +45,6 @@ header .price li {
 header ul {
     display: flex;
     align-items: center;
-    width: 450px;
 }
 
 a {

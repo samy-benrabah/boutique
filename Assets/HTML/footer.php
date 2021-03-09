@@ -1,4 +1,5 @@
 <footer>
+    
         <ul>
             <li><a href="">Service client</a></li>
             <br>
@@ -20,5 +21,6 @@
             <li><a href="">Instagram</a></li>
             <li><a href="">Twitter</a></li>
         </ul>
-    </footer>
+    
+</footer>
     
