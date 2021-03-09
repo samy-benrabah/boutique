@@ -376,7 +376,7 @@ ALTER TABLE `users`
 --
 ALTER TABLE `orders`
   ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `orders_ibfk_3` FOREIGN KEY (`id_discount`) REFERENCES `discounts` (`id`);
+  ADD CONSTRAINT `orders_ibfk_2` FOREIGN KEY (`id_discount`) REFERENCES `discounts` (`id`);
 
 --
 -- Contraintes pour la table `reviews`
@@ -384,3 +384,17 @@ ALTER TABLE `orders`
 ALTER TABLE `reviews`
   ADD CONSTRAINT `reviews_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`),
   ADD CONSTRAINT `reviews_ibfk_2` FOREIGN KEY (`id_product`) REFERENCES `products` (`id`);
+
+--
+-- Contraintes pour la table `products`
+--
+ALTER TABLE `products`
+  ADD CONSTRAINT `products_ibfk_1` FOREIGN KEY (`id_cate`) REFERENCES `categories` (`id_categorie`),
+  ADD CONSTRAINT `products_ibfk_2` FOREIGN KEY (`id_admin`) REFERENCES `admin` (`id_admin`);
+
+--
+-- Contraintes pour la table `container`
+--
+ALTER TABLE `container`
+  ADD CONSTRAINT `container_ibfk_1` FOREIGN KEY (`id_order`) REFERENCES `orders` (`id_order`),
+  ADD CONSTRAINT `container_ibfk_2` FOREIGN KEY (`id_product`) REFERENCES `products` (`id`);
