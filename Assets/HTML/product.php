@@ -1,5 +1,4 @@
 <?php
-session_start();
 require '../../Class/panier_class.php';
 require '../../Class/product.php';
 
