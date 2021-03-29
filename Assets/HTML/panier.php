@@ -1,14 +1,27 @@
 <?php
-    session_start();
-    require '../../Class/panier_class.php';
 
-    $panier = new Panier('produits');
-    $listeProduits = $panier->getPanier();
-   
-    if (isset($_POST['unset'])) {
-        $unset = $panier->clear();
+    require '../../Class/product.php';
+    $class = new Product();
+if(isset($_GET["action"])){
+    if($_GET["action"] == "delete"){
+        $cookie_data = stripslashes($_COOKIE['shopping_cart']);
+        $cart_data = json_decode($cookie_data, true);
+        foreach($cart_data as $keys => $values){
+            if($cart_data[$keys]['item_id'] == $_GET["id"]){
+                unset($cart_data[$keys]);
+                $item_data = json_encode($cart_data);
+                setcookie("shopping_cart", $item_data, time() + (86400 * 30));
+                header("location:panier.php?remove=1");
+            }
+        }
     }
-   
+}
+
+
+if (isset($_POST['chekout'])) {
+    header('location:checkout.php');
+}
+
 
 ?>
 
@@ -28,12 +41,31 @@
 </head>
 <body>
     <!-- ///////////////////////////DEBUT HEADER ///////////////////////////////////////////// -->
-
 <?php
 include 'header.php';
 ?>
 <!-- ///////////////////////////FIN HEADER ///////////////////////////////////////////// -->
+<?php
 
+$msg = "";
+if (isset($_POST['valider-promo'])) {
+    $discount = $class->discount($_POST['name-code']);
+    if ($discount != false) {
+        $_SESSION['id_discount'] = $discount->id;
+        $_SESSION['name_discount'] = $discount->name;
+        $_SESSION['value_discount'] = $discount->value;
+        $msg = '<p style="color=green;">le code a bien été appliqué<p>';
+    }else {
+        $msg =  '<p style="color=red;">le code de reductioin que vous avez saisir n\'est pas valide<p>';
+    }
+}
+if(isset($_POST['clear'])){
+    setcookie("shopping_cart", "", time() - (86400 * 30));
+    header("location:panier.php");
+    unset($_SESSION['total']);
+    
+  }
+?>
 <main>
     <!-- ///////////////////////////DEBUT SECTION 1 ///////////////////////////////////////////// -->
 
@@ -52,66 +84,107 @@ include 'header.php';
             </div>
             <div class="full_code_price-product">
                 <form action="" method="post">
-                <?php
+                    <?php
 
-                    if ($listeProduits) {
-                        foreach ($listeProduits as $key) {
-                            $total = $key['price']*$key['qte'];
-                            echo '
-                            <div class="code_price-product">
-                                <div class="img-number">
-                                    <div class="product-img" style="background-image:url(../Images/products/'.$key['image'].')"></div>
-                                    <div class="price-product">
-                                        <p>'.$key['titre'].'</p>
-                                        <p>'.$key['price'].'€</p>
+                        if (isset($_COOKIE['shopping_cart'])) {
+                            $total = 0;
+                            $cookie_data = stripslashes($_COOKIE['shopping_cart']);
+                            $cart_data = json_decode($cookie_data, true);
+                            $display = "flex";
+                            $reduction = '
+                            <div class="code-reduction">
+                                <form action="" method="post">
+                                    <img src="../Images/coupon.png" alt="coupon-reduction">
+                                    <input type="text" name="name-code" placeholder="Entrer votre code">
+                                    <input type="submit" name="valider-promo" value="VALIDER LE CODE">
+                                </form>
+                            </div>
+                            ';
+                            foreach ($cart_data as $kays => $values) {
+                                $nbr = 0;
+                                $total += ($values['item_price']*$values['item_quantity']); 
+                                echo '
+                                <div class="code_price-product">
+                                    <div class="img-number">
+                                        <div class="product-img" style="background-image:url(../Images/products/'.$values['item_image'].')"></div>
+                                        <div class="price-product">
+                                            <p>'.$values['item_name'].'</p>
+                                            <p>'.$values['item_price'].'€</p>
+                                        </div>
+                                        <div class="product-prix-number">
+                                        <input class="inpQty" type="number" name="quantity" value="'.$values['item_quantity'].'">
+                                        <input type="submit" name="edit'.$nbr.'" value="ok">
+                                            <p><b>'.$values['item_price']*$values['item_quantity'].'€</b></p>
+                                            <a href="panier.php?action=delete&id='.$values["item_id"].'">X</a>
+                                        </div>
                                     </div>
-                                    <div class="product-prix-number">
-                                        <input type="number" name="quantité-number" value="'.$key['qte'].'"  min="1" max="10">
-                                        <p><b>'.$total.'€</b></p>
-                                    </div>
-                                </div>
-                            </div>';
+                                </div>';
+
+
+
+                                //==========================================================================================
+                                // if (isset($_POST['edit'.$nbr])) {
+                                //     $item_id_list = array_column($cart_data, 'item_id');
+                                //     if(in_array($values["item_id"], $item_id_list)){
+                                //         $cart_data[$kays]["item_quantity"] =  $_POST["quantity"];
+                                //     }
+
+                                //     $item_data = json_encode($cart_data);
+                                //     setcookie('shopping_cart', $item_data, time() + (86400 * 30));
+                                // }
+                                //==========================================================================================
+                                $nbr++;
+                            }
+                            echo '<input type="submit" name="clear" value="SUPPRIMER MON PANIER">';
+                        }else {
+                            $display = "none";
+                            $reduction = '
+                            <div class="code-reduction">
+                                <p>Votre panier est vide.  <a href="shop.php">aller vers la page shop</a> </p>
+                            </div>
+                            ';
                         }
-                    }else {
-                        echo "panier vide";
-                    }
-                
-                
-                ?>
-                    <input type="submit" name="maj" value="METTRE A JOUR">
+                    ?>
                 </form>
-                
-                <div class="code-reduction">
-                            <form action="" method="get">
-                                <img src="../Images/coupon.png" alt="coupon-reduction">
-                                <input type="text" name="name-code" placeholder="Entrer votre code" id="">
-                                <input type="submit" name="valider-promo" value="VALIDER LE CODE">
-                            </form>
-                    </div>
+                <?= $reduction?>
+                <?= $msg?>
             </div>
         </div>
-        <div class="total-panier">
+        <div style="display:<?= $display ?>;" class="total-panier">
             <div>
                 <h2>TOTAL DU PANIER</h2>
             </div>
             <div class="p-panier">
-                <p>Total:</p>
-                <p>139$</p>
+                <p>Total produits: &nbsp;&nbsp;</p>
+                <p><?= $total ?> €</p>
             </div>
             <div class="p-panier">
-                <p>Livraison:</p>
+                <p>Livraison:&nbsp;&nbsp;</p>
                 <p>Gratuite</p>
             </div>
-            <div class="line">
+            <div class="p-panier">
+                <p>Reduction:&nbsp;&nbsp;</p>
+                <p><?php  
+                if (isset($_SESSION['value_discount'])) {
 
+                }else {
+                    $_SESSION['value_discount'] = 0;
+                }
+                    echo $_SESSION['value_discount'].'%';
+                
+                ?></p>
+            </div>
+            <div class="line">
             </div>
             <div class="end-panier">
                 <p><strong>TOTAL :</strong></p>
-                <p><strong>139$</strong></p>
+                <p><strong><?php $totalFinal = ($total * $_SESSION['value_discount']) / 100;
+                echo (round($total - $totalFinal, 2));
+                ?> €</strong></p>
             </div>
             <div>
                 <form action="" method="post">
-                    <input type="submit" name="unset" value="CONFIRMER LA COMMANDE">
+                    <input type="submit" name="chekout" value="CONFIRMER LA COMMANDE">
                 </form>
             </div>
         </div>
@@ -119,8 +192,7 @@ include 'header.php';
     <!-- ///////////////////////////FIN SECTION 2 ///////////////////////////////////////////// -->
 
 </main>
-<footer>
-
-</footer>
+<br>
+<?php include 'footer.php'; ?>
 </body>
 </html>

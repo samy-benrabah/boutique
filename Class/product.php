@@ -1,14 +1,13 @@
 <?php
 
 class Product
-{
+{ 
 
     private $id;
     private $pdo;
     public $msg;
 
-    public function __construct()
-    {
+    public function __construct(){
         //$this->pdo = require '../Config/db_conn.php';
         try {
             $pdo = new PDO('mysql:host=localhost;dbname=boutique', "root", "");
@@ -19,7 +18,7 @@ class Product
         
     }
 
-    
+
     //*------------------------------------------------------------------------------------------+
     //*  FUNCTION Pour ajouter les produits dans la base de donnée  / Morad                      |
     //*------------------------------------------------------------------------------------------+
@@ -43,7 +42,7 @@ class Product
                         $fileNameNew = uniqid('', true).".".$fileActualExt;
                         $fileDestination = '../Images/products/'.$fileNameNew;
                         move_uploaded_file($fileTmpName ,$fileDestination);
-                    
+
                         $insert = $this->pdo->prepare('INSERT INTO products(image, title, description, price, product_date, id_cate, id_admin) VALUES(:image, :title, :description, :price, :product_date, :id_categorie, :id_admin)');
                         $insert -> bindParam('image', $fileNameNew);
                         $insert -> bindParam('title', $title);
@@ -318,6 +317,16 @@ class Product
         return $get;
     }
 
+    // ------------------------------------------------------------------------------------------+
+    //  FUNCTION pour afficher les CODE DE REDUCTION dans la page Admin  /  Morad                |
+    // ------------------------------------------------------------------------------------------+
+    public function discount($name){
+        $get = $this->pdo->prepare("SELECT * FROM discounts WHERE name=:name");
+        $get -> bindParam('name', $name);
+        $get -> execute();
+        $get = $get->fetch(PDO::FETCH_OBJ);
+        return $get;
+    }
 
     // ------------------------------------------------------------------------------------------+
     //  FUNCTION pour afficher les COMMANDES dans la page Admin  /  Morad                        |
