@@ -91,30 +91,32 @@ $tab = $slider->showProduct();
             </div>
             <br>
         </section>
-        <section class="section2">
+        <section class="products">
         <?php
-foreach ($tab as $product) {
-     $date = strtotime($product->product_date);
-     $mtn = strtotime(date('Y-m-d'));
-     $to = $mtn - $date;
-    $floor = floor($to/(60*60*24));
-     if ($floor < 15) {
-          $new = '<p class="new" >NEW</p>';
-     }else $new = '';
-    //  '.$product->image.'
-    echo '<div  class ="product-solo">
-                    '.$new.'
-            <a href="../boutique_en_ligne/Assets/HTML/product.php?id='.$product->id.'&name='.$product->title.'">
-                <div class="product-img" style="background-image: url(../../Assets/Images/products/'.$product->image.');">
-                
+            foreach ($tab as $product) {
+                $date = strtotime($product->product_date);
+                $mtn = strtotime(date('Y-m-d'));
+                $to = $mtn - $date;
+                $floor = floor($to/(606024));
+                if ($floor < 15) {
+                    $new = '<p class="new" >NEW</p>';
+                }else $new = '';
+                echo '
+                <a href="Assets/HTML/product.php?id='.$product->id.'&name='.$product->title.'">
+                <div class="product_solo">
+                <div class="product_img" style="background-image: url(Assets/Images/products/'.$product->image.');">
+
                 </div>
                 <p class="titre">'.$product->title.'</p>
                 <p class="prix">'.$product->price.'€</p>
-                </a>
-        </div>';
-}
-?>
-            <!-- <div class="product_solo">
+            </div>
+            </a>';
+            }
+        ?>
+            
+
+
+            <div class="product_solo">
                 <div class="product_img" style="background-image: url(https://depot.qodeinteractive.com/wp-content/uploads/2017/01/h1-product-8-1024x1024.jpg);">
                     
                 </div>
