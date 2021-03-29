@@ -1,5 +1,5 @@
 <?php
-session_start();
+
 require '../../Class/product.php';
 $show_product = new Product();
 $tab = $show_product->showProduct();

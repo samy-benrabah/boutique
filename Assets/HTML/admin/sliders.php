@@ -94,6 +94,7 @@
                                             <br><br>
                                             <input type="text" name="color" id="color" value="'.$slide->back_color.'">
                                             <br><br>
+                                            <label id="affichage">Affichage</label>
                                             <select name="affichage" id="affichage">
                                                 <option value="1">OUI</option>
                                                 <option value="0">NON</option>

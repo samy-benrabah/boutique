@@ -12,8 +12,12 @@
 <body>
 <!-- ///////////////////////////DEBUT HEADER ///////////////////////////////////////////// -->
 
-        <?php
+<?php
 include 'header.php';
+
+if (isset($_POST['paiement'])) {
+    header("location:paiement.php");
+}
 ?>
 <!-- ///////////////////////////FIN HEADER ///////////////////////////////////////////// -->
 
@@ -122,44 +126,70 @@ include 'header.php';
     <!-- ///////////////////////////FIN FORMULAIRE LEFT ///////////////////////////////////////////// -->
     <!-- ///////////////////////////DEBUT FORMULAIRE RIGHT ///////////////////////////////////////////// -->
 
-
             <div class="formulaire-right">
                 <div class="titre-panier">
                     <p>VOTRE PANIER</p>
                 </div>
                 <div class="product-price">
+                    <?php
+                        if (isset($_COOKIE['shopping_cart'])) {
+                            $total = 0;
+                            $cookie_data = stripslashes($_COOKIE['shopping_cart']);
+                            $cart_data = json_decode($cookie_data, true);
+
+                            foreach ($cart_data as $kays => $values) {
+                                $total += ($values['item_price']*$values['item_quantity']); 
+                                echo '
+                                            <div class="product">
+                                                <div class="description">
+                                                    <p>'.$values['item_name'].'&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;'.$values['item_price'].'€ &nbsp;x&nbsp; quantité: '.$values['item_quantity'].'</p>
+                                                </div>
+                                                <div class="price">
+                                                    <p>'.$values['item_price']*$values['item_quantity'].'€</p>
+                                                </div>
+                                            </div>';
+                            }
+                        }else {
+                            header('location:shop.php');
+                        }
+                    ?>
+                    <div class="product">
+                                                <div class="description">
+                                                    <p>Sous-total</p>
+                                                </div>
+                                                <div class="price">
+                                                    <p><?=$total?>€</p>
+                                                </div>
+                                            </div>
+                    <br>
                     <div class="product">
                         <div class="description">
-                            <p>Table</p><p> Black</p><p>Chrome x3</p>
-                        </div>
-                        <div class="price">
-                            <p>130$</p>
-                        </div>
-                    </div>
-                    <div class="product">
-                        <div class="description">
-                            <p>Lampe</p><p> Black</p><p>Chrome x1</p>
-                        </div>
-                        <div class="price">
-                            <p>80$</p>
-                        </div>
-                    </div>
-                    <div class="product">
-                        <div class="description">
-                            <p><span> Code réduction</span></p><p>
-                        </div>
-                        <div class="price">
-                            <p>Labrix 30</p>
+                            <p><span> Code réduction</span></p>
                         </div>
                     </div>
                     <div class="product">
                             <div class="promo">
-                                <p>Labrix 30</p>
+                                <p>
+                                <?php
+
+                                if ($_SESSION['id_discount']) {
+                                    echo $_SESSION['name_discount'];
+                                }else {
+                                    echo "<p>PAS DE REDUCTION</p>";
+                                }
+
+                                ?>
+                                </p>
                             </div>
                             <div class="price-promo">
-                                <p>7,90$</p>
+                                <p><?php if ($_SESSION['id_discount']) {
+                                    echo $_SESSION['value_discount'].'%';
+                                }else {
+                                    echo "0%";
+                                } ?></p>
                             </div>
                     </div>
+                    <br>
                     <div class="product">
                         <div class="description">
                             <p><span>Livraison</span> </p>
@@ -170,18 +200,20 @@ include 'header.php';
                     <div class="product">
                         <div class="description">
                             <div class="choice-livraison">
-                                <p>Express</p>
+                                <p>Gratuite</p>
                             </div>
                         </div>
                         <div class="price-livraison">
-                            <p>10$</p>
+                            <p>00€</p>
                         </div>
                     </div>
                     <div class="total">
                         <div class="description">
                             <p><span>TOTAL</span></p>
                             <div class="total-price">
-                                <p>107.90$</p>
+                                <p><?php $totalFinal = ($total * $_SESSION['value_discount']) / 100;
+                echo (round($total - $totalFinal, 2));
+                ?>€</p>
                             </div>
                         </div>
                     </div>
@@ -189,7 +221,7 @@ include 'header.php';
                 </div>
                 <div class="passage-paiement">
                     <form action="" method="post">
-                        <input type="submit" value="PASSER AU PAIMENT">
+                        <input type="submit" name="paiement" value="PASSER AU PAIMENT">
                     </form>
                 </div>
 

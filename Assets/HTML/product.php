@@ -1,10 +1,8 @@
 <?php
-session_start();
-require '../../Class/panier_class.php';
+
 require '../../Class/product.php';
 
 $class = new Product();
-$panier = new Panier('produits');
 
 $reviews = $class->get_reviews($_GET['id']);
 $star = round($reviews[0]);
@@ -30,19 +28,40 @@ $floor = floor($to/(60*60*24));
 if (isset($_POST['send_avis'])) {
     $send_avis = $class->send_avis($_POST['nombre-etoile'],$_POST['comment'],3,date("y-m-d"),$_GET['id']);
 }
-if (isset($_POST['ajouter'])) {
-    $valeur = array(
-        'titre' => $get_product->title,
-        'price' => $get_product->price,
-        'image' => $get_product->image,
-        'qte' => $_POST['quantite'],
-        'id' => $get_product->id,
-        
-    );
 
-    $panier->set($get_product->id, $valeur);
-    header('Location:panier.php');
+
+$_POST["hidden_id"] = $_GET['id'];
+
+if(isset($_POST["ajouter"])){
+    if(isset($_COOKIE["shopping_cart"])){
+        // $cookie_data = stripslashes($_COOKIE['shopping_cart']);
+        $cart_data = json_decode(stripslashes($_COOKIE['shopping_cart']), true);
+    }
+    else{
+        $cart_data = array();
+    }
+    $item_id_list = array_column($cart_data, 'item_id');
+    if(in_array($_GET['id'], $item_id_list)){
+        foreach($cart_data as $keys => $values){
+            if($cart_data[$keys]["item_id"] == $_GET['id']){
+                $cart_data[$keys]["item_quantity"] = $cart_data[$keys]["item_quantity"] + $_POST["quantity"];
+            }
+        }
+    }else{
+        $item_array = array(
+        'item_id'   => $_GET['id'],
+        'item_name'   => $get_product->title,
+        'item_image'   => $get_product->image,
+        'item_price'  => $get_product->price,
+        'item_quantity'  => $_POST["quantity"]
+        );
+        $cart_data[] = $item_array;
+    }
+
+    $item_data = json_encode($cart_data);
+    setcookie('shopping_cart', $item_data, time() + (86400 * 30));
 }
+
 
 ?>
 <!DOCTYPE html>
@@ -61,15 +80,15 @@ if (isset($_POST['ajouter'])) {
     <main>
         <!-- ///////////////////////////DEBUT HEADER ///////////////////////////////////////////// -->
             <?php
-include 'header.php';
-?>
+                include 'header.php';
+            ?>
 <!-- ///////////////////////////FIN HEADER ///////////////////////////////////////////// -->
 <!-- ///////////////////////////DEBUT SECTION 1 ///////////////////////////////////////////// -->
         <section class="section1">
             <div class="section1-topic1">
                 <div class="description_image">
                     <div>
-                        <p>Home / <?php echo " $get_product->categorie_title / $get_product->title" ?></p>
+                        <p>Home / <?php echo ' <a href="shop.php?categorie='.$get_product->categorie_title.'/">'.$get_product->categorie_title.'</a> / '.$get_product->title.'' ?></p>
                     </div>
                     <div>
                         <?= $new ?>
@@ -100,11 +119,11 @@ include 'header.php';
                         </div>
                         <div>
                             <div>
-                                <pre><?php echo substr($get_product->description, 0, 180).' <a href="?id='.$get_product->id.'&name='.$get_product->title.'#description"><b>Voir la suite</b></a>' ?></pre>
+                                <pre><?php echo substr($get_product->description, 0, 180).' <a href="?id='.$get_product->id.'&name='.$get_product->title.'#description"><b> Voir la suite</b></a>' ?></pre>
                             </div>
                         </div>
                             <form method="post">
-                                <input type="number" name="quantite" value="1" min="1" max="10">
+                                <input type="number" name="quantity" value="1" min="1" max="10">
                                 <input type="submit" name="ajouter" value="Ajouter au panier">
                             </form>
                     </div>
