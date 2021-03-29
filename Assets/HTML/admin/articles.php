@@ -38,7 +38,7 @@
                                 <div>
                                     <input type="submit" name="add_to_db" value="AJOUTER">
                                     <br>
-                                    <input type="submit" name="annuler" value="MODIFIER">
+                                    <input type="submit" name="annuler" value="ANNULER">
                                 </div>
                             </form>
                             ';

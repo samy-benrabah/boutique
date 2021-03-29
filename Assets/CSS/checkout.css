@@ -64,7 +64,7 @@ main .section2 .full-formulaire .formulaire-left {
     flex-direction: column;
     justify-content: space-around;
     height: 750px;
-    width: 450px;
+    width: 500px;
 }
 
 main .section2 .full-formulaire .formulaire-left p {
@@ -75,7 +75,6 @@ main .section2 .full-formulaire .formulaire-left .input_nom_prenom form {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    width: 500px;
 }
 
 main .full-formulaire .formulaire-left .postal-ville-pays form {
@@ -143,7 +142,6 @@ main .full-formulaire .formulaire-right .product-price .product {
 main .full-formulaire .formulaire-right .product-price .product .description {
     display: flex;
     justify-content: space-between;
-    width: 60%;
 }
 
 main .full-formulaire .formulaire-right .product-price .product .description span {
@@ -172,6 +170,7 @@ main .full-formulaire .formulaire-right .passage-paiement form input[type="submi
     width: 150px;
     border: none;
     outline: none;
+    cursor: pointer;
 }
 
 

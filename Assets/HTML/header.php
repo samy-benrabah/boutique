@@ -18,7 +18,7 @@ if (isset($_POST["unset"])) {
     <h1>D&CODE</h1>
     <form action="search.php" method="get">
         <input type="search" name ="search-bar" placeholder="Rechercher un produit">
-        <button type="submit" name="search"><i class="fas fa-search"></i></button>
+        <button id="loop" type="submit" name="search"><i class="fas fa-search"></i></button>
     </form>
     <ul class="price">
         <?php 
@@ -42,6 +42,5 @@ if (isset($_POST["unset"])) {
         
         
     </ul>
-    
 </header>
 

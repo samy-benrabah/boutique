@@ -1,8 +1,8 @@
 <?php
+session_start();
 require 'Class/product.php';
 $slider = new Product();
 $get_sliders = $slider->get_sliders();
-
 ?>
 
 <!DOCTYPE html>
@@ -37,6 +37,7 @@ $get_sliders = $slider->get_sliders();
 
 <body>
     <!-- <?php include'Assets/HTML/header.php'?> -->
+
     <header>
         <ul>
             <li><a href="">Accueil</a></li>
@@ -47,7 +48,9 @@ $get_sliders = $slider->get_sliders();
         <h1>D&CODE</h1>
         <ul class="price">
             <li>
-                <a href=""><img src="Assets/Images/cart.svg" alt="cart-photo"></a>(0€)</li>
+                <a href=""><img src="Assets/Images/cart.svg" alt="cart-photo"></a>(<?php if (isset($_SESSION['total'])) {
+                    echo $_SESSION['total'];
+                }else echo 0; ?>€)</li>
             <li>
                 <a href=""><img src="Assets/Images/user.svg" alt="cart-photo"></a>(Login)</li>
         </ul>
