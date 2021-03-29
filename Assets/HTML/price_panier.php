@@ -9,9 +9,11 @@ if (isset($_COOKIE['shopping_cart'])) {
     foreach ($cart_data as $kays => $values) {
         $total += ($values['item_price']*$values['item_quantity']); 
     }
-    $_SESSION['total'] = $total;
+    setcookie("total", $total, time()+3600);
 }else {
     $total = "0";
+    setcookie("total", $total, time()+3600);
 }
 echo round($total, 2);
+
 ?>

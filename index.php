@@ -3,6 +3,7 @@ session_start();
 require 'Class/product.php';
 $slider = new Product();
 $get_sliders = $slider->get_sliders();
+$tab = $slider->showProduct();
 ?>
 
 <!DOCTYPE html>
@@ -86,56 +87,30 @@ $get_sliders = $slider->get_sliders();
             <br>
         </section>
         <section class="products">
+        <?php
+            foreach ($tab as $product) {
+                $date = strtotime($product->product_date);
+                $mtn = strtotime(date('Y-m-d'));
+                $to = $mtn - $date;
+                $floor = floor($to/(606024));
+                if ($floor < 15) {
+                    $new = '<p class="new" >NEW</p>';
+                }else $new = '';
+                echo '
+                <a href="Assets/HTML/product.php?id='.$product->id.'&name='.$product->title.'">
+                <div class="product_solo">
+                <div class="product_img" style="background-image: url(Assets/Images/products/'.$product->image.');">
 
-            <div class="product_solo">
-                <div class="product_img" style="background-image: url(https://depot.qodeinteractive.com/wp-content/uploads/2017/01/h1-product-8-1024x1024.jpg);">
-                    <!-- <img src="https://depot.qodeinteractive.com/wp-content/uploads/2017/01/h1-product-8-1024x1024.jpg" alt=""> -->
                 </div>
-                <p class="titre">Basket with handles</p>
-                <p class="prix">13€</p>
+                <p class="titre">'.$product->title.'</p>
+                <p class="prix">'.$product->price.'€</p>
             </div>
-            <div class="product_solo">
-                <div class="product_img" style="background-image: url(https://depot.qodeinteractive.com/wp-content/uploads/2017/01/h1-product-7-1024x1024.jpg);">
-                    <!-- <img src="https://depot.qodeinteractive.com/wp-content/uploads/2017/01/h1-product-8-1024x1024.jpg" alt=""> -->
-                </div>
-                <p class="titre">Basket with handles</p>
-                <p class="prix">13€</p>
-            </div>
-            <div class="product_solo">
-                <div class="product_img" style="background-image: url(https://depot.qodeinteractive.com/wp-content/uploads/2017/01/h1-product-6-1024x1024.jpg);">
-                    <!-- <img src="https://depot.qodeinteractive.com/wp-content/uploads/2017/01/h1-product-8-1024x1024.jpg" alt=""> -->
-                </div>
-                <p class="titre">Basket with handles</p>
-                <p class="prix">13€</p>
-            </div>
-            <div class="product_solo">
-                <div class="product_img" style="background-image: url(https://depot.qodeinteractive.com/wp-content/uploads/2017/01/h1-product-5-1024x1024.jpg);">
-                    <!-- <img src="https://depot.qodeinteractive.com/wp-content/uploads/2017/01/h1-product-8-1024x1024.jpg" alt=""> -->
-                </div>
-                <p class="titre">Basket with handles</p>
-                <p class="prix">13€</p>
-            </div>
-            <div class="product_solo">
-                <div class="product_img" style="background-image: url(https://depot.qodeinteractive.com/wp-content/uploads/2017/01/h1-product-4-1024x1024.jpg);">
-                    <!-- <img src="https://depot.qodeinteractive.com/wp-content/uploads/2017/01/h1-product-8-1024x1024.jpg" alt=""> -->
-                </div>
-                <p class="titre">Basket with handles</p>
-                <p class="prix">13€</p>
-            </div>
-            <div class="product_solo">
-                <div class="product_img" style="background-image: url(https://depot.qodeinteractive.com/wp-content/uploads/2017/01/h1-product-2-1024x1024.jpg);">
-                    <!-- <img src="https://depot.qodeinteractive.com/wp-content/uploads/2017/01/h1-product-8-1024x1024.jpg" alt=""> -->
-                </div>
-                <p class="titre">Basket with handles</p>
-                <p class="prix">13€</p>
-            </div>
-            <div class="product_solo">
-                <div class="product_img" style="background-image: url(https://depot.qodeinteractive.com/wp-content/uploads/2017/01/h1-product-3-1024x1024.jpg);">
-                    <!-- <img src="https://depot.qodeinteractive.com/wp-content/uploads/2017/01/h1-product-8-1024x1024.jpg" alt=""> -->
-                </div>
-                <p class="titre">Basket with handles</p>
-                <p class="prix">13€</p>
-            </div>
+            </a>';
+            }
+        ?>
+            
+
+
             <div class="product_solo">
                 <div class="product_img" style="background-image: url(https://depot.qodeinteractive.com/wp-content/uploads/2017/01/h1-product-8-1024x1024.jpg);">
                     <!-- <img src="https://depot.qodeinteractive.com/wp-content/uploads/2017/01/h1-product-8-1024x1024.jpg" alt=""> -->

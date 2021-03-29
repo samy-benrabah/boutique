@@ -63,8 +63,8 @@ if(isset($_POST['clear'])){
     setcookie("shopping_cart", "", time() - (86400 * 30));
     header("location:panier.php");
     unset($_SESSION['total']);
-    
-  }
+    setcookie("total", "", time() - (86400 * 30));
+}
 ?>
 <main>
     <!-- ///////////////////////////DEBUT SECTION 1 ///////////////////////////////////////////// -->
@@ -92,43 +92,38 @@ if(isset($_POST['clear'])){
                             $cart_data = json_decode($cookie_data, true);
                             $display = "flex";
                             $reduction = '
-                            <div class="code-reduction">
-                                <form action="" method="post">
-                                    <img src="../Images/coupon.png" alt="coupon-reduction">
-                                    <input type="text" name="name-code" placeholder="Entrer votre code">
-                                    <input type="submit" name="valider-promo" value="VALIDER LE CODE">
-                                </form>
-                            </div>
-                            ';
+                                        <div class="code-reduction">
+                                            <form action="" method="post">
+                                                <img src="../Images/coupon.png" alt="coupon-reduction">
+                                                <input type="text" name="name-code" placeholder="Entrer votre code">
+                                                <input type="submit" name="valider-promo" value="VALIDER LE CODE">
+                                            </form>
+                                        </div>';
                             foreach ($cart_data as $kays => $values) {
                                 $nbr = 0;
                                 $total += ($values['item_price']*$values['item_quantity']); 
                                 echo '
-                                <div class="code_price-product">
-                                    <div class="img-number">
-                                        <div class="product-img" style="background-image:url(../Images/products/'.$values['item_image'].')"></div>
-                                        <div class="price-product">
-                                            <p>'.$values['item_name'].'</p>
-                                            <p>'.$values['item_price'].'€</p>
+                                    <div class="code_price-product">
+                                        <div class="img-number">
+                                            <div class="product-img" style="background-image:url(../Images/products/'.$values['item_image'].')"></div>
+                                            <div class="price-product">
+                                                <p>'.$values['item_name'].'</p>
+                                                <p>'.$values['item_price'].'€</p>
+                                            </div>
+                                            <div class="product-prix-number">
+                                            <input class="inpQty" type="number" name="quantity" value="'.$values['item_quantity'].'">
+                                            <input type="submit" name="edit'.$nbr.'" value="ok">
+                                                <p><b>'.$values['item_price']*$values['item_quantity'].'€</b></p>
+                                                <a href="panier.php?action=delete&id='.$values["item_id"].'">X</a>
+                                            </div>
                                         </div>
-                                        <div class="product-prix-number">
-                                        <input class="inpQty" type="number" name="quantity" value="'.$values['item_quantity'].'">
-                                        <input type="submit" name="edit'.$nbr.'" value="ok">
-                                            <p><b>'.$values['item_price']*$values['item_quantity'].'€</b></p>
-                                            <a href="panier.php?action=delete&id='.$values["item_id"].'">X</a>
-                                        </div>
-                                    </div>
-                                </div>';
-
-
-
+                                    </div>';    
                                 //==========================================================================================
                                 // if (isset($_POST['edit'.$nbr])) {
                                 //     $item_id_list = array_column($cart_data, 'item_id');
                                 //     if(in_array($values["item_id"], $item_id_list)){
                                 //         $cart_data[$kays]["item_quantity"] =  $_POST["quantity"];
                                 //     }
-
                                 //     $item_data = json_encode($cart_data);
                                 //     setcookie('shopping_cart', $item_data, time() + (86400 * 30));
                                 // }
