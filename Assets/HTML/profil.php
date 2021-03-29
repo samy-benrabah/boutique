@@ -1,36 +1,3 @@
-<?php
-session_start();
-require '../../Class/user.php';
-$profil = new User();
-// var_dump($_SESSION['user']);
-if (isset($_POST['valider_username']) && !empty($_POST['new-username'])) {
-    $newUsername=htmlspecialchars(trim($_POST['new-username']));
-    $profil->updateProfilUsername($newUsername,$_SESSION['user_username']->id);
-}
-
-
-    if (isset($_POST['valider_email'])) {
-        $newEmail=trim(filter_var ($_POST['new-email'],FILTER_VALIDATE_EMAIL));
-        if( !empty(trim($_POST['new-email'])))
-        $msg=$profil->updateProfilEmail($newEmail,$_SESSION['user_email']->id);
-        
-    }
-
-if (isset($_POST['valider_adress']) && !empty($_POST['new-adress'])) {
-    $newAdress=htmlspecialchars(trim($_POST['new-adress']));
-    $msg=$profil->updateProfilAdress($newAdress,$_SESSION['user_adress']->id);
-}
-
-if (isset($_POST['valider_phone']) && !empty($_POST['new-phone'])) {
-    $newPhone=htmlspecialchars(trim($_POST['new-phone']));
-    $profil->updateProfilPhone($newPhone,$_SESSION['user_phone']->id);
-}
-
-if (isset($_POST['valider_password']) && !empty($_POST['new-password'])) {
-    $newPassword=htmlspecialchars(trim($_POST['new-password']));
-    $profil->updateProfilPassword($newPassword,$_SESSION['user']->id);
-}
-?>
 
 
 <!DOCTYPE html>
@@ -48,6 +15,48 @@ if (isset($_POST['valider_password']) && !empty($_POST['new-password'])) {
 <body>
 <?php
 include 'header.php';
+
+require '../../Class/user.php';
+$profil = new User();
+
+
+if (isset($_POST['valider_username']) && !empty($_POST['new-username'])) {
+    $newUsername=htmlspecialchars(trim($_POST['new-username']));
+    $profil->updateProfilUsername($newUsername,$_SESSION['user']->id);
+}
+
+    if (isset($_POST['valider_email']) && !empty(trim($_POST['new-email']))) {
+        $newEmail=trim(filter_var ($_POST['new-email'],FILTER_VALIDATE_EMAIL));
+        $msg=$profil->updateProfilEmail($newEmail,$_SESSION['user']->id);
+        
+    }
+    if (isset($_POST['valider_adress']) && !empty($_POST['new-adress'])) {
+    $newAdress=htmlspecialchars(trim($_POST['new-adress']));
+    $msg=$profil->updateProfilAdress($newAdress,$_SESSION['user']->id);
+}
+
+if (isset($_POST['valider_phone']) && !empty($_POST['new-phone'])) {
+    $newPhone=htmlspecialchars(trim($_POST['new-phone']));
+    $profil->updateProfilPhone($newPhone,$_SESSION['user']->id);
+}
+
+if (isset($_POST['valider_password']) && !empty($_POST['new-password'])) {
+    $newPassword=htmlspecialchars(trim($_POST['new-password']));
+    $profil->updateProfilPassword($newPassword,$_SESSION['user']->id);
+}
+
+if (isset($_POST['valider_zip']) && !empty($_POST['new-zip'])) {
+    $newZip=trim(filter_var($_POST['new-zip'],FILTER_VALIDATE_INT));
+    $profil->updateProfilZip($newZip,$_SESSION['user']->id);
+}
+if (isset($_POST['valider_city']) && !empty($_POST['new-city'])) {
+    $newCity=htmlspecialchars(trim($_POST['new-city']));
+    $profil->updateProfilCity($newCity,$_SESSION['user']->id);
+}
+if (isset($_POST['valider_country']) && !empty($_POST['new-country'])) {
+    $newCountry=htmlspecialchars(trim($_POST['new-country']));
+    $profil->updateProfilCountry($newCountry,$_SESSION['user']->id);
+}
 ?>
     <main>
 
@@ -66,13 +75,14 @@ include 'header.php';
                 <div class="welcome-login">
                             <p>Bonjour <strong><?= $_SESSION['user']->username?> !</strong></p>
                 </div>
+                <p class="msg"><?php if (isset($_POST['valider_email'])) {
+                        echo $msg;
+                    }  ?></p>
                  <!-- DEBUT SOUS FULL PROFIL -->
                  <div class="sous_full-profil">
             <!-- DEBUT PROFIL LEFT -->
                    <div class="profil-left">
-                    <p class="msg"><?php if (isset($_POST['valider_email'])) {
-                        echo $msg;
-                    }  ?></p>
+                    
                     <div class="modification-profil">
                         <?php
 $username = '<div class="text-button">
@@ -206,7 +216,7 @@ echo $phone;
                     
                     <div class="modification-profil">
                         <?php
-$username = '<div class="text-button">
+$password = '<div class="text-button">
                         <form action="" method="post">
                             <div class="text">
                                 <p>Souhaiter vous modifier votre mot de passe ?</p>
@@ -219,7 +229,7 @@ $username = '<div class="text-button">
                         </div>';
 if (isset($_POST['modifier_password'])) {
 
-    $username = '<div class="text-button">
+    $password = '<div class="text-button">
                                                 <form action="" method="post">
                                                     <div class="text">
                                                         <input type="password" name="new-password" id="new-username" placeholder="Entrez votre nouveau mot de passe">
@@ -233,96 +243,96 @@ if (isset($_POST['modifier_password'])) {
                                         </div>';
 
 }
-echo $username;
+echo $password;
 
-$email = '<div class="text-button">
+$zip = '<div class="text-button">
                         <form action="" method="post">
                             <div class="text">
-                                <p>Votre adresse email  :' . $_SESSION['user']->email.'
+                                <p>Votre adresse postal  :' . $_SESSION['user']->zip.'
                                 </p>
                             </div>
 
                                 <div class="button">
-                                    <input type="submit" name="modifier_email" value="MODIFIER">
+                                    <input type="submit" name="modifier_zip" value="MODIFIER">
                                 </div>
                             </form>
                         </div>';
-if (isset($_POST['modifier_email'])) {
+if (isset($_POST['modifier_zip'])) {
 
-    $email = '<div class="text-button">
+    $zip = '<div class="text-button">
                                                 <form action="" method="post">
                                                     <div class="text">
-                                                        <input type="email" name="new-email" id="new-email" placeholder=' . $_SESSION['user']->email.'>
+                                                        <input type="number" name="new-zip" id="new-zip" placeholder=' . $_SESSION['user']->zip.'>
                                                     </div>
                                                     <div>
                                                         <div class="button">
-                                                            <input type="submit" name="valider_email" value="VALIDER">
+                                                            <input type="submit" name="valider_zip" value="VALIDER">
                                                         </div>
                                                     </div>
                                                 </form>
                                         </div>';
 
 }
-echo $email;
+echo $zip;
 
-$adresse = '<div class="text-button">
+$city = '<div class="text-button">
                         <form action="" method="post">
                             <div class="text">
-                                <p>Votre adresse : ' . $_SESSION['user']->adress.'
+                                <p>Votre ville : ' . $_SESSION['user']->city.'
                                 </p>
                             </div>
 
                                 <div class="button">
-                                    <input type="submit" name="modifier_adresse" value="MODIFIER">
+                                    <input type="submit" name="modifier_city" value="MODIFIER">
                                 </div>
                             </form>
                         </div>';
-if (isset($_POST['modifier_adresse'])) {
+if (isset($_POST['modifier_city'])) {
 
-    $adresse = '<div class="text-button">
+    $city = '<div class="text-button">
                                                 <form action="" method="post">
                                                     <div class="text">
-                                                        <input type="text" name="new-adress" id="new-adress" placeholder='.$_SESSION['user']->adress.'>
+                                                        <input type="text" name="new-city" id="new-city" placeholder='.$_SESSION['user']->city.'>
                                                     </div>
                                                     <div>
                                                         <div class="button">
-                                                            <input type="submit" name="valider_adress" value="VALIDER">
+                                                            <input type="submit" name="valider_city" value="VALIDER">
                                                         </div>
                                                     </div>
                                                 </form>
                                         </div>';
 
 }
-echo $adresse;
+echo $city;
 
-$phone = '<div class="text-button">
+$country = '<div class="text-button">
                         <form action="" method="post">
                             <div class="text">
-                                <p>Votre numero de telephone : '.  $_SESSION['user']->phone .'</p>
+                                <p>Votre pays : '.  $_SESSION['user']->country .'</p>
                             </div>
 
                                 <div class="button">
-                                    <input type="submit" name="modifier_phone" value="MODIFIER">
+                                    <input type="submit" name="modifier_country" value="MODIFIER">
                                 </div>
                             </form>
                         </div>';
-if (isset($_POST['modifier_phone'])) {
+if (isset($_POST['modifier_country'])) {
 
-    $phone = '<div class="text-button">
+    $country = '<div class="text-button">
                                                 <form action="" method="post">
                                                     <div class="text">
-                                                        <input type="tel" name="new-phone" id="new-phone" placeholder= "12 34 56 78 90 " pattern="[0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{2}">
+                                                        <input type="text" name="new-country" id="new-country" placeholder= '.$_SESSION['user']->country.' >
                                                     </div>
                                                     <div>
                                                         <div class="button">
-                                                            <input type="submit" name="valider_phone" value="VALIDER">
+                                                            <input type="submit" name="valider_country" value="VALIDER">
                                                         </div>
                                                     </div>
                                                 </form>
                                         </div>';
 
 }
-echo $phone;
+echo $country;
 
 
 

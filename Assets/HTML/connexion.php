@@ -1,13 +1,31 @@
-<?php
-session_start();
-require '../../Class/user.php';
 
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/d34f22fe3f.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="../CSS/morad.css">
+    <link rel="stylesheet" href="../CSS/header-footer.css">
+    
+    <title>Document</title>
+</head>
+
+<body>
+    <?php require '../HTML/header.php'?>
+    <?php
+require '../../Class/user.php';
+require '../../Class/sendmail.php';
+$sendMail = new Mail();
 $user = new User();
 $msg = '';
 $msg_valid = '';
 $title_inscription = '';
 $title_reset = '';
-include '../../Assets/HTML/admin/mail.php';
+// include '../../Assets/HTML/admin/mail.php';
 if (isset($_POST['valider_register'])) {
     $firstName = htmlspecialchars(trim($_POST['first_name']));
     $lastName = htmlspecialchars(trim($_POST['last_name']));
@@ -33,28 +51,10 @@ if (isset($_POST['valider_conn'])) {
 }
 if (isset($_POST['valider_reinilisation'])) {
     $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL);
-    $user->getNewPassword($email,$message);
+    $msg=$sendMail->getNewPassword($email);
     
 }
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://kit.fontawesome.com/d34f22fe3f.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="../CSS/morad.css">
-    <link rel="stylesheet" href="../CSS/header-footer.css">
-    
-    <title>Document</title>
-</head>
-
-<body>
-    <?php require '../HTML/header.php'?>
-
     <main class="main_img">
         <section>
             <div class="image_back">
@@ -72,6 +72,8 @@ if (!empty($_GET['block']) == '') {
                 <?php if ($msg) {?>
                     <p class = "err_msg"><strong> <?=$msg;?></strong> </p>
                 <?php }?>
+
+                
 
                     </div>
         <?php
