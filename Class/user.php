@@ -1,11 +1,5 @@
 <?php
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\SMTP;
-use PHPMailer\PHPMailer\Exception;
 
-require '../../PHPMailer/src/Exception.php';
-require '../../PHPMailer/src/PHPMailer.php';
-require '../../PHPMailer/src/SMTP.php';
 
 class User
 {
@@ -13,6 +7,7 @@ class User
     private $username;
     private $password;
     private $email;
+    private $newEmail;
 
     public function __construct()
     {
@@ -91,6 +86,9 @@ class User
         }  else {
             $msg = "Remplissez le formulaire";
         }
+        
+
+
 
         $stmt_select2 = $this->pdo->prepare("SELECT * FROM users WHERE  email = ? ");
         $stmt_select2->bindParam(1, $this->email, PDO::PARAM_STR, 12);
@@ -123,58 +121,7 @@ class User
     }
 
 
-    public function getNewPassword($email,$message)
-    {
-        //---------- Je verifie si l'input est rempli
-        if (!empty($email)) {
 
-            //------- Uniquid génère un identifiant unique
-            $password = uniqid();
-            //------ Si mon mot de mot de passe a était généré je le hash
-            $hash = password_hash($password, PASSWORD_BCRYPT);
-            //----- Je prepare un message a en envoyer au destinataire avec le nouveau mot de passe
-          
-                
-                            //Import PHPMailer classes into the global namespace
-            //These must be at the top of your script, not inside a function
-            
-
-            //Instantiation and passing `true` enables exceptions
-            $mail = new PHPMailer(true);
-
-            try {
-                //Server settings                     //Enable verbose debug output
-                $mail->isSMTP();                                            //Send using SMTP
-                $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
-                $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-                $mail->Username   = 'testemailsb13@gmail.com';                     //SMTP username
-                $mail->Password   = '/testemailsb13/';                               //SMTP password
-                $mail->SMTPSecure = 'ssl';         //Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
-                $mail->Port       = 465;                                    //TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
-
-                //Recipients
-                $mail->setFrom('testemailsb13@gmail.com', 'D&Code');
-                $mail->addAddress($email);              //Name is optional
-                $mail->addReplyTo('no-reply@gmail.com', 'No reply');
-
-                //Content
-                $mail->isHTML(true);                                  //Set email format to HTML
-                $mail->Subject = 'Reinitialisation mot de passe';
-                $mail->Body    = $message;
-                $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
-
-                $mail->send(); 
-                //Requête de mise a jour de mon mot de passe à l'email existant dans ma bdd
-                $stmt_update = $this->pdo->prepare("UPDATE users SET password=? WHERE email=?");
-                $stmt_update->execute([$hash, $email]);
-                echo 'Message envoyé';
-                header("Location=connexion.php");
-            } catch (Exception $e) {
-                echo "Le message n'a pas pu être envoyé. Mailer Error: {$mail->ErrorInfo}";
-            }
-            
-        }
-    }
 
     public function updateProfilUsername ($newUsername,$id) 
     {
@@ -187,34 +134,27 @@ class User
                     $stmt_select=$this->pdo->prepare("SELECT * FROM users WHERE username = ?");
                     $stmt_select->execute([$newUsername]);
                     $row_username=$stmt_select->fetch(PDO::FETCH_OBJ);
-                    $_SESSION['user_username']=$row_username;
+                    $_SESSION['user']=$row_username;
+                    
                 
              
     }
 
     public function updateProfilEmail ($newEmail,$id) 
     {
-                    
-                    $stmt_select=$this->pdo->prepare("SELECT * FROM users WHERE email = ?");
-                    $stmt_select->execute([$newEmail]);
-                    $row=$stmt_select->fetch(PDO::FETCH_OBJ);
-                    $count=$row->email;
-                    $_SESSION['user_email']=$row;
-                    
-                    
+        if ($newEmail!=$_SESSION['user']->email) {
+            $stmt_update=$this->pdo->prepare("UPDATE users SET email = ? WHERE id = ? ");
+        $stmt_update->execute([$newEmail,$id]);
 
-                    if(!$count){
-                        $this->newEmail=trim(filter_var($newEmail,FILTER_VALIDATE_EMAIL));
-                
-                    $stmt_update=$this->pdo->prepare("UPDATE users SET email = ? WHERE id = ? ");
-                    $stmt_update->execute([$newEmail,$id]);
-                    
-
-                    }else{
-                        $msg="Ce email est déja utilisé veuillez changer d'email";
-                    }
-                
-             return $msg;
+        $stmt_select=$this->pdo->prepare("SELECT * FROM users WHERE email = ? ");
+        $stmt_select->execute([$newEmail]);
+        $row_email=$stmt_select->fetch(PDO::FETCH_OBJ);
+        $_SESSION['user']=$row_email;
+        }else{
+            $msg="Cette email existe déjà veuillez changer d'email";
+            return $msg;
+            }
+             
     }
          
     
@@ -229,7 +169,7 @@ class User
                     $stmt_select=$this->pdo->prepare("SELECT * FROM users WHERE adress = ?");
                     $stmt_select->execute([$newAdress]);
                     $row_adress=$stmt_select->fetch(PDO::FETCH_OBJ);
-                    $_SESSION['user_adress']=$row_adress;
+                    $_SESSION['user']=$row_adress;
                 
              
     }
@@ -246,7 +186,7 @@ class User
                     $stmt_select=$this->pdo->prepare("SELECT * FROM users WHERE phone = ?");
                     $stmt_select->execute([$newPhone]);
                     $row_phone=$stmt_select->fetch(PDO::FETCH_OBJ);
-                    $_SESSION['user_phone']=$row_phone;
+                    $_SESSION['user']=$row_phone;
                 
              
     }
@@ -262,16 +202,58 @@ class User
                     $stmt_select=$this->pdo->prepare("SELECT * FROM users WHERE password = ?");
                     $stmt_select->execute([$newPassword]);
                     $row_password=$stmt_select->fetch(PDO::FETCH_OBJ);
-                    // $_SESSION['user']=$row_password;
+                    
                 
              
     }
        
-       
+          
+    public function updateProfilZip ($newZip,$id) 
+    {
+        
                 
-                
-                
+                    $stmt_update=$this->pdo->prepare("UPDATE users SET zip = ? WHERE id = ? ");
+                    $stmt_update->execute([$newZip,$id]);
+                    
 
+                    $stmt_select=$this->pdo->prepare("SELECT * FROM users WHERE zip = ?");
+                    $stmt_select->execute([$newZip]);
+                    $row_zip=$stmt_select->fetch(PDO::FETCH_OBJ);
+                    $_SESSION['user']=$row_zip;
+                
+             
+    }  
+
+             public function updateProfilCity ($newCity,$id) 
+    {
+        
+                
+                    $stmt_update=$this->pdo->prepare("UPDATE users SET city = ? WHERE id = ? ");
+                    $stmt_update->execute([$newCity,$id]);
+                    
+
+                    $stmt_select=$this->pdo->prepare("SELECT * FROM users WHERE city = ?");
+                    $stmt_select->execute([$newCity]);
+                    $row_city=$stmt_select->fetch(PDO::FETCH_OBJ);
+                    $_SESSION['user']=$row_city;
+                
+             
+    }     
+    public function updateProfilCountry ($newCountry,$id) 
+    {
+        
+                
+                    $stmt_update=$this->pdo->prepare("UPDATE users SET country = ? WHERE id = ? ");
+                    $stmt_update->execute([$newCountry,$id]);
+                    
+
+                    $stmt_select=$this->pdo->prepare("SELECT * FROM users WHERE country = ?");
+                    $stmt_select->execute([$newCountry]);
+                    $row_country=$stmt_select->fetch(PDO::FETCH_OBJ);
+                    $_SESSION['user']=$row_country;
+                
+             
+    }   
 
 
 }

@@ -89,7 +89,15 @@ main .section2 .full-profil .profil-left form input[type="text"] {
     height: 30px;
 }
 
+main .section2 .full-profil .profil-left form input[type="tel"] {
+    height: 30px;
+}
+
 main .section2 .full-profil .profil-left form input[type="email"] {
+    height: 30px;
+}
+
+main .section2 .full-profil .profil-left form input[type="number"] {
     height: 30px;
 }
 
@@ -112,6 +120,13 @@ main .section2 .full-profil .profil-left .modification-profil .text-button .butt
     height: 35px;
     width: 130px;
     outline: none;
+}
+
+.msg {
+    color: red;
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
 }
 
 
@@ -168,6 +183,22 @@ main .section2 .full-profil .profil-right .modification-profil .text-button .but
     height: 35px;
     width: 130px;
     outline: none;
+}
+
+main .section2 .full-profil .profil-right form input[type="text"] {
+    height: 30px;
+}
+
+main .section2 .full-profil .profil-right form input[type="tel"] {
+    height: 30px;
+}
+
+main .section2 .full-profil .profil-right form input[type="email"] {
+    height: 30px;
+}
+
+main .section2 .full-profil .profil-right form input[type="number"] {
+    height: 30px;
 }
 
 
