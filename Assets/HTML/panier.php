@@ -63,7 +63,6 @@ if(isset($_POST['clear'])){
     setcookie("shopping_cart", "", time() - (86400 * 30));
     header("location:panier.php");
     unset($_SESSION['total']);
-    setcookie("total", "", time() - (86400 * 30));
 }
 ?>
 <main>
