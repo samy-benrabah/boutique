@@ -15,6 +15,7 @@
 <?php
 include 'header.php';
 
+
 if (isset($_POST['paiement'])) {
     header("location:paiement.php");
 }
@@ -172,7 +173,7 @@ if (isset($_POST['paiement'])) {
                                 <p>
                                 <?php
 
-                                if ($_SESSION['id_discount']) {
+                                if (isset($_SESSION['id_discount'])) {
                                     echo $_SESSION['name_discount'];
                                 }else {
                                     echo "<p>PAS DE REDUCTION</p>";
@@ -182,7 +183,7 @@ if (isset($_POST['paiement'])) {
                                 </p>
                             </div>
                             <div class="price-promo">
-                                <p><?php if ($_SESSION['id_discount']) {
+                                <p><?php if (isset($_SESSION['id_discount'])) {
                                     echo $_SESSION['value_discount'].'%';
                                 }else {
                                     echo "0%";
