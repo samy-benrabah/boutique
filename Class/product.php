@@ -502,14 +502,6 @@ class Product
 
 
 
-
-
-
-
-
-
-
-
     public function showProduct()
     {
         $stmt = $this->pdo->prepare("SELECT * FROM products ORDER BY product_date DESC");

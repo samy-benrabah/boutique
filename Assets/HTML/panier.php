@@ -88,6 +88,7 @@ if(isset($_POST['clear'])){
 
                         if (isset($_COOKIE['shopping_cart'])) {
                             $total = 0;
+                            //stripslashes permet de supprimer les antislashs d'un string
                             $cookie_data = stripslashes($_COOKIE['shopping_cart']);
                             $cart_data = json_decode($cookie_data, true);
                             $display = "flex";

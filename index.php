@@ -14,7 +14,6 @@ $tab = $slider->showProduct();
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://kit.fontawesome.com/d34f22fe3f.js" crossorigin="anonymous"></script>
-    <!-- <link rel="stylesheet" href="../boutique_en_ligne/Assets/CSS/shop.css"> -->
     <link rel="stylesheet" href="Assets/CSS/morad.css">
     <link rel="stylesheet" href="Assets/CSS/header-footer.css">
     <!------------ BOOTSTRAP -------------->

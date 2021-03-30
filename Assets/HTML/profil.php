@@ -18,7 +18,7 @@ include 'header.php';
 
 require '../../Class/user.php';
 $profil = new User();
-
+$msg='';
 
 if (isset($_POST['valider_username']) && !empty($_POST['new-username'])) {
     $newUsername=htmlspecialchars(trim($_POST['new-username']));
