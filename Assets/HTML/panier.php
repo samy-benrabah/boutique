@@ -99,7 +99,7 @@ if(isset($_POST['clear'])){
                                             </form>
                                         </div>';
                             foreach ($cart_data as $kays => $values) {
-                                $nbr = 0;
+                                //$nbr = 0;
                                 $total += ($values['item_price']*$values['item_quantity']); 
                                 echo '
                                     <div class="code_price-product">
@@ -111,12 +111,13 @@ if(isset($_POST['clear'])){
                                             </div>
                                             <div class="product-prix-number">
                                             <input class="inpQty" type="number" name="quantity" value="'.$values['item_quantity'].'">
-                                            <input type="submit" name="edit'.$nbr.'" value="ok">
+                                            <input type="submit" name="edit" value="ok">
                                                 <p><b>'.$values['item_price']*$values['item_quantity'].'€</b></p>
                                                 <a href="panier.php?action=delete&id='.$values["item_id"].'">X</a>
                                             </div>
                                         </div>
                                     </div>';    
+                                    
                                 //==========================================================================================
                                 // if (isset($_POST['edit'.$nbr])) {
                                 //     $item_id_list = array_column($cart_data, 'item_id');
@@ -127,9 +128,10 @@ if(isset($_POST['clear'])){
                                 //     setcookie('shopping_cart', $item_data, time() + (86400 * 30));
                                 // }
                                 //==========================================================================================
-                                $nbr++;
+                                //$nbr++;
                             }
                             echo '<input type="submit" name="clear" value="SUPPRIMER MON PANIER">';
+                            
                         }else {
                             $display = "none";
                             $reduction = '

@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../CSS/checkout.css">
     <link rel="stylesheet" href="../CSS/header-footer.css">
+    <script src="https://js.stripe.com/v3/"></script>
     <script src="https://kit.fontawesome.com/218e7c5bb4.js" crossorigin="anonymous"></script>
     <title>Checkout</title>
 </head>
@@ -14,12 +15,8 @@
 
 <?php
 include 'header.php';
-
-
-if (isset($_POST['paiement'])) {
-    header("location:paiement.php");
-}
 ?>
+
 <!-- ///////////////////////////FIN HEADER ///////////////////////////////////////////// -->
 
 <main>
@@ -54,18 +51,18 @@ if (isset($_POST['paiement'])) {
                             <label for="prenom">Prenom</label>
                             <input type="text" name="prenom" id="">
                         </div>
-                    </form>
+
                 </div>
                 <div>
-                    <form action="" method="post">
+
                         <div class="label-input">
                             <label for="adresse">Adresse</label>
                             <input type="text" name="adresse" id="">
                         </div>
-                    </form>
+
                 </div>
                 <div class="postal-ville-pays">
-                    <form action="" method="post">
+
                         <div class="label-input">
                             <label for="postal">Code Postal</label>
                             <input type="text" name="postal" id="">
@@ -78,49 +75,31 @@ if (isset($_POST['paiement'])) {
                             <label for="pays">Pays/Region</label>
                             <input type="text" name="pays" id="">
                         </div>
-                    </form>
+
                 </div>
                 <div>
-                    <form action="" method="post">
+
                         <div class="label-input">
                             <label for="email">Email</label>
                             <input type="email" name="email" id="">
                         </div>
-                    </form>
+
                 </div>
                 <div>
-                    <form action="" method="post">
+
                         <div class="label-input">
                             <label for="telephone">Telephone</label>
                             <input type="text" name="telephone" id="">
                         </div>
-                    </form>
+
                 </div>
                 <div>
-                    <form action="" method="post">
-                        <div class="label-input">
-                            <label for="livraison">Choix de livraison</label>
-                            <select name="livraison" id="" style="height=100px;">
-                                <option value="Express">Colis Express</option>
-                                <option value="Economique">Economique</option>
-                            </select>
-                        </div>
-                    </form>
-                </div>
-                <div>
-                    <form action="" method="post">
-                        <div class="label-input-checkbox">
-                            <input type="checkbox" name="checkbox-newcount" id="">
-                            <label for="checkbox-newcount">Creer un compte?</label>
-                        </div>
-                    </form>
-                </div>
-                <div>
-                    <form action="" method="post">
+
                         <div class="label-input">
                             <label for="Mot de Passe">Mot de passe</label>
                             <input type="text" name="mtp" id="">
                         </div>
+                        <input type="submit" name="register" value="VALIDER">
                     </form>
                 </div>
             </div>
@@ -221,9 +200,11 @@ if (isset($_POST['paiement'])) {
 
                 </div>
                 <div class="passage-paiement">
-                    <form action="" method="post">
-                        <input type="submit" name="paiement" value="PASSER AU PAIMENT">
-                    </form>
+
+
+                            <input id="checkout-button" type="submit" value="PASSER AU PAIMENT">
+                        
+
                 </div>
 
             </div>
@@ -237,5 +218,33 @@ if (isset($_POST['paiement'])) {
 <footer>
 
 </footer>
+
+<script type="text/javascript">
+    // Create an instance of the Stripe object with your publishable API key
+    var stripe = Stripe("pk_test_DkjdfN592lhNndXa1ZKhruf6");
+    var checkoutButton = document.getElementById("checkout-button");
+    checkoutButton.addEventListener("click", function () {
+      fetch("test.php", {
+        method: "POST",
+      })
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (session) {
+          return stripe.redirectToCheckout({ sessionId: session.id });
+        })
+        .then(function (result) {
+          // If redirectToCheckout fails due to a browser or network
+          // error, you should display the localized error message to your
+          // customer using error.message.
+          if (result.error) {
+            alert(result.error.message);
+          }
+        })
+        .catch(function (error) {
+          console.error("Error:", error);
+        });
+    });
+  </script>
 </body>
 </html>

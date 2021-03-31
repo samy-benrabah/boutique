@@ -34,13 +34,13 @@ $tab = $slider->showProduct();
 
         <header>
             <div>
-            <i id="burger" class="fas fa-bars"></i>
+            <i id="open" class="fas fa-bars"></i>
+            
             <ul>
-                    <li> <i class="far fa-times-circle"></i></li>
-                    <li><a href="">Accueil</a></li>
-                    <li><a href="">Nos Produits</a></li>
-                    <li><a href="">TOP Produits</a></li>
-                    <li><a href="">Nouveautés</a></li>
+                <li><a href="">Accueil</a></li>
+                <li><a href="">Nos Produits</a></li>
+                <li><a href="">TOP Produits</a></li>
+                <li><a href="">Nouveautés</a></li>
             </ul>
             </div>
             
