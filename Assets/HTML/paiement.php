@@ -1,8 +1,4 @@
-<?php
 
-
-
-?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -16,11 +12,12 @@
 
     <title>Panier</title>
 </head>
+
 <body>
     <!-- ///////////////////////////DEBUT HEADER ///////////////////////////////////////////// -->
 
 <?php
-include 'header.php';
+    include 'header.php';
 ?>
 <!-- ///////////////////////////FIN HEADER ///////////////////////////////////////////// -->
 
@@ -84,10 +81,10 @@ include 'header.php';
                                         <label for="checkbox">J'accepte les conditions général</label>
                                     </div>
                             </div>
-                            <div class="button-valider">
-                                <input type="submit" value="VALIDER">
-                            </div>
                         </form>
+                        <div class="button-valider">
+                                <input id="checkout-button" type="submit" value="VALIDER">
+                            </div>
                     </div>
              </div>
              <!-- ///////////////////////////FIN FORMULAIRE LEFT ///////////////////////////////////////////// -->
@@ -199,12 +196,7 @@ include 'header.php';
 <footer>
 
 </footer>
-
-<script src="https://js.stripe.com/v3/"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script>
-var stripe = Stripe('pk_test_DkjdfN592lhNndXa1ZKhruf6');
 
-</script>
 </body>
 </html>

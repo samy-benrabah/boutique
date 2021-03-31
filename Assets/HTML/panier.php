@@ -117,7 +117,7 @@ if(isset($_POST['clear'])){
                                             </div>
                                         </div>
                                     </div>';    
-                                    // var_dump($values["item_id"]);
+                                    
                                 //==========================================================================================
                                 // if (isset($_POST['edit'.$nbr])) {
                                 //     $item_id_list = array_column($cart_data, 'item_id');
