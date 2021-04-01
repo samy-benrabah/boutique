@@ -61,8 +61,10 @@ if (isset($_POST['valider-promo'])) {
 }
 if(isset($_POST['clear'])){
     setcookie("shopping_cart", "", time() - (86400 * 30));
+    unset($_SESSION['id_discount']);
+    unset($_SESSION['name_discount']);
+    unset($_SESSION['value_discount']);
     header("location:panier.php");
-    unset($_SESSION['total']);
 }
 ?>
 <main>
