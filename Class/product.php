@@ -300,12 +300,22 @@ class Product
     //  FUNCTION pour afficher les USERS dans la page Admin  /  Morad                            |
     // ------------------------------------------------------------------------------------------+
     public function get_users(){
-    $get = $this->pdo->prepare("SELECT * FROM users");
+    $get = $this->pdo->prepare("SELECT * FROM users ORDER BY admin DESC");
     $get -> execute();
     $get = $get->fetchALL(PDO::FETCH_OBJ);
     return $get;
     }
 
+    // ------------------------------------------------------------------------------------------+
+    //  FUNCTION pour modifier le statu des l'utilsateur dans la page Admin  /  Morad                            |
+    // ------------------------------------------------------------------------------------------+
+    public function change_status($statut, $id){
+        $maj = $this->pdo->prepare("UPDATE users SET admin=:statut WHERE id=:id_to");
+        $maj -> bindParam('statut', $statut);
+        $maj -> bindParam('id_to', $id);
+        $maj -> execute();
+    }
+    
     // ------------------------------------------------------------------------------------------+
     //  FUNCTION pour afficher les CODE DE REDUCTION dans la page Admin  /  Morad                |
     // ------------------------------------------------------------------------------------------+
@@ -502,8 +512,39 @@ class Product
 
 
 
+    // ------------------------------------------------------------------------------------------+
+    //  FUNCTION pour Ajouter une Order (commande)  dans la base de donnée  / Morad       |
+    // ------------------------------------------------------------------------------------------+
+    public function add_order($id_user, $id_discount){
+        $date = date("Y-m-d H:i:s");
+        $processing = 0;
+        $insert = $this->pdo->prepare("INSERT INTO orders(order_date, processing, id_user, id_discount) VALUES(:order_date, :processing, :id_user, :id_discount)");
+        $insert -> bindParam('order_date', $date);
+        $insert -> bindParam('processing', $processing);
+        $insert -> bindParam('id_user', $id_user);
+        $insert -> bindParam('id_discount', $id_discount);
+        $insert -> execute();
+    }
+    //* ------------------------------------------------------------------------------------------+
+    //*  FUNCTION pour afficher le produit dans la page Product  / Morad                          |
+    //* ------------------------------------------------------------------------------------------+
+    public function get_order_id(){
+        $get = $this->pdo->prepare("SELECT * FROM orders ORDER BY order_date DESC");
+        $get -> execute();
+        $get = $get->fetch(PDO::FETCH_OBJ);
+        return $get;
+    }
+    // ------------------------------------------------------------------------------------------+
+    //  FUNCTION pour Ajouter une Order (commande) to container dans la base de donnée  / Morad       |
+    // ------------------------------------------------------------------------------------------+
+    public function add_order_to_container($id_order, $id_product, $quantity){
 
-
+        $insert = $this->pdo->prepare("INSERT INTO container(id_order, id_product, quantity) VALUES(:id_order, :id_product, :quantity)");
+        $insert -> bindParam('id_order', $id_order);
+        $insert -> bindParam('id_product', $id_product);
+        $insert -> bindParam('quantity', $quantity);
+        $insert -> execute();
+    }
 
 
 
