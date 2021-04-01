@@ -159,11 +159,11 @@ if(isset($_POST['clear'])){
                             $class->addCookieBdd(intval($id_user),intval($id_product),$image_product,$title_product,floatval($price_product),intval($quantity_product));
                             $tab=$class->getCookieBdd(intval($id_user));
                             $display = "none";
-                            // $reduction = '
-                            // <div class="code-reduction">
-                            //     <p>Votre panier est vide.  <a href="shop.php">aller vers la page shop</a> </p>
-                            // </div>
-                            // ';
+                            $reduction = '
+                            <div class="code-reduction">
+                                <p>Votre panier est vide.  <a href="shop.php">aller vers la page shop</a> </p>
+                            </div>
+                            ';
                             // foreach ($tab as $key ) {
                             //     echo '
                             //         <div class="code_price-product">

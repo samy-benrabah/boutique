@@ -1,5 +1,8 @@
 
 
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,6 +18,10 @@
 <body>
 <?php
 include 'header.php';
+
+if (isset($_SESSION['user'])!=true) {
+    header('Location:connexion.php');
+}
 
 require '../../Class/user.php';
 $profil = new User();
