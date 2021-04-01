@@ -3,9 +3,9 @@
 require '../../Class/product.php';
 $product = new Product();
 
-    if (isset($_POST['add_to_db'])) {
-        $send = $product -> add_product($_POST['title'],$_POST['description'],$_POST['price'],date("Y-m-d"),$_POST['categorie'],2,$_FILES['image']);
-    }
+if (isset($_POST['add_to_db'])) {
+    $send = $product -> add_product($_POST['title'],$_POST['description'],$_POST['price'],date("Y-m-d"),$_POST['categorie'],2,$_FILES['image']);
+}
 $get_categories = $product->get_categories('categories', 'categorie_title');
 $get_discounts = $product->get_categories('discounts', 'name');
 $get_sliders = $product->get_sliders();

@@ -35,8 +35,7 @@ slider>* {
     overflow: hidden;
 }
 
-
-/* slide:nth-child(1) {
+slide:nth-child(1) {
     left: 0%;
     animation-delay: -1s;
 }
@@ -52,7 +51,7 @@ slide:nth-child(3) {
 slide:nth-child(4) {
     left: 0%;
     animation-delay: 8s;
-} */
+}
 
 @keyframes slide {
     0% {
@@ -103,7 +102,7 @@ slide p {
     color: rgb(58, 58, 58);
 }
 
-slide img {
+slider img {
     height: 500px;
     width: auto;
 }
@@ -476,4 +475,89 @@ hr {
 .valid_msg {
     color: green;
     margin-bottom: 5%;
+}
+
+#open {
+    display: none;
+}
+
+
+/* MEDIA QUERY */
+
+@media screen and (max-width: 650px) {
+    .products {
+        justify-content: center;
+    }
+    .slider img {
+        height: 300px;
+        width: auto;
+        position: absolute;
+        top: 30%;
+        left: 70%;
+        transform: translate(-50%, -50%);
+    }
+    slide div {
+        z-index: 1;
+        padding: 10px 20px;
+    }
+    .categories {
+        grid-template-columns: 1fr;
+    }
+    .articles .article_solo {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media screen and (max-width: 860px) {
+    header div ul li:nth-child(1),
+    header div ul li:nth-child(2),
+    header div ul li:nth-child(3),
+    header div ul li:nth-child(4) {
+        margin-top: 20px;
+        font-size: 20px;
+    }
+    header {
+        position: relative;
+    }
+    header div ul {
+        color: white;
+        position: absolute;
+        flex-direction: column;
+        align-items: flex-start;
+        z-index: 1;
+        background-color: #272727;
+        top: 0;
+        left: -100%;
+        width: 80%;
+        height: 100vh;
+        transition: 1.6s;
+        padding: 20px 0 20px 20px;
+    }
+    #open {
+        cursor: pointer;
+        display: block;
+    }
+    #open:active~ul {
+        left: 0;
+        transition: 1s;
+    }
+    #open:active~#close {
+        display: block;
+    }
+    header div ul:hover {
+        left: 0;
+        transition: 1.6s;
+    }
+    .categories {
+        grid-template-columns: 1fr 1fr;
+    }
+    .commandes {
+        flex-direction: column-reverse;
+    }
+}
+
+@media screen and (max-width: 960px) {
+    .commandes {
+        padding: 0;
+    }
 }

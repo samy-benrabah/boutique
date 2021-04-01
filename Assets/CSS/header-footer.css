@@ -1,76 +1,140 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;900&display=swap');
-header {
-    height: 100px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #fff;
-    padding: 0 7%;
-}
-
-header img {
-    width: 20px;
-    height: auto;
-}
-
-header form {
-    place-content: center;
-}
-
-header form input {
-    border: none;
-    border-bottom: solid black;
-    outline: none;
-    background-color: transparent;
-}
-
-#loop {
-    background-color: transparent;
-    border: none;
-    outline: none;
-    color: black;
-    padding: 0;
-}
-
-header .price {
-    font-weight: lighter;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-}
-
-header .price li {
-    display: flex;
-    margin-right: 30px;
-}
-
-header ul {
-    display: flex;
-    align-items: center;
-}
-
-a {
-    color: inherit;
-    text-decoration: none;
-}
-
-header li {
-    margin: 0 10px 0 0;
-}
-
-
-/* FOOOOOTER */
-
-footer {
-    display: flex;
-    justify-content: space-around;
-    background-color: black;
-    color: white;
-    padding: 40px 7%;
-    margin-top: 60px;
-    position: relative;
-}
-
-ul {
-    list-style: none;
-}
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;900&display=swap');
+    header {
+        height: 100px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #fff;
+        padding: 0 7%;
+    }
+    
+    header img {
+        width: 20px;
+        height: auto;
+    }
+    
+    header form {
+        place-content: center;
+    }
+    
+    header form input {
+        border: none;
+        border-bottom: solid black;
+        outline: none;
+        background-color: transparent;
+    }
+    
+    #loop {
+        background-color: transparent;
+        border: none;
+        outline: none;
+        color: black;
+        padding: 0;
+    }
+    
+    header .price {
+        font-weight: lighter;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+    }
+    
+    header .price li {
+        display: flex;
+        margin-right: 30px;
+    }
+    
+    header ul {
+        display: flex;
+        align-items: center;
+    }
+    
+    a {
+        color: inherit;
+        text-decoration: none;
+    }
+    
+    header li {
+        margin: 0 10px 0 0;
+    }
+    /* FOOOOOTER */
+    
+    footer {
+        display: flex;
+        justify-content: space-around;
+        background-color: black;
+        color: white;
+        padding: 40px 7%;
+        margin-top: 60px;
+        position: relative;
+    }
+    
+    ul {
+        list-style: none;
+    }
+    
+    #open {
+        display: none;
+    }
+    
+    .formMini {
+        display: none;
+    }
+    
+    @media screen and (max-width: 1060px) {
+        header div ul li:nth-child(1),
+        header div ul li:nth-child(2),
+        header div ul li:nth-child(3),
+        header div ul li:nth-child(4) {
+            margin-top: 20px;
+            font-size: 20px;
+        }
+        header {
+            position: relative;
+        }
+        header div ul {
+            color: white;
+            position: absolute;
+            flex-direction: column;
+            align-items: flex-start;
+            z-index: 1;
+            background-color: #272727;
+            top: 0;
+            left: -100%;
+            width: 80%;
+            height: 100vh;
+            transition: 1.6s;
+            padding: 20px 0 20px 40px;
+        }
+        #open {
+            cursor: pointer;
+            display: block;
+        }
+        #open:active~ul {
+            left: 0;
+            transition: 1s;
+        }
+        #open:active~#close {
+            display: block;
+        }
+        header div ul:hover {
+            left: 0;
+            transition: 1.6s;
+        }
+        .formBig {
+            display: none;
+        }
+        .formMini {
+            display: block;
+        }
+        header ul form {
+            margin-top: 40px;
+        }
+        header ul form input {
+            border-bottom: solid rgb(255, 255, 255);
+            color: white;
+        }
+        #loop {
+            color: white;
+        }
+    }
