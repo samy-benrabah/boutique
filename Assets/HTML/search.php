@@ -45,6 +45,7 @@ include 'header.php';
             <p>'. $p->price .'$</p>
     </a>
 </div>';
+
  }
 }else {
     echo '<p class="search">Aucun résultat pour :'.' '.$search.'</p>';

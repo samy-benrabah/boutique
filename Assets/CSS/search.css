@@ -31,8 +31,7 @@ main .section2 {
 }
 
 main .section2 .product-img {
-    height: 300px;
-    width: 240px;
+    margin: 0;
     background-size: 100%;
     background-position: center;
     background-repeat: no-repeat;

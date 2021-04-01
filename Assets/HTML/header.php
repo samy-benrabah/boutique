@@ -4,7 +4,10 @@ if (isset($_POST["unset"])) {
     unset($_SESSION['user']);
     header('Location:connexion.php');
 }
-include 'price_panier.php';
+if (isset($_POST["unset_admin"])) {
+    unset($_SESSION['admin']);
+    header('Location:connexion.php');
+}
 ?>
 
 <link rel="stylesheet" href="../CSS/header-footer.css">
@@ -29,18 +32,30 @@ include 'price_panier.php';
         <button id="loop" type="submit" name="search"><i class="fas fa-search"></i></button>
     </form>
     <ul class="price">
-        <?php
-        if (!empty($_SESSION['user'])) {
-           echo "<li><a href='panier.php'><img src='../Images/cart.svg' alt='cart-photo'>(".include '../HTML/price_panier.php'." €)</a></li>
+        <?php 
+        if (isset($_SESSION['user'])) {
+           echo "<li><a href='panier.php'><img src='../Images/cart.svg' alt='cart-photo'>(0$)</a></li>
            <li><a href='profil.php'><img src='../Images/user.svg' alt='cart-photo'>(".$_SESSION['user']->username.")</a></li>
           <form method='post'>
           <input name='unset' type='submit' value='Deconnexion'>
-          </form>";
-        }else {
-            echo "<li><a href='panier.php'><img src='../Images/cart.svg' alt='cart-photo'>(".$total."€)</a></li>
+          </form>
+          
+          ";
+          
+        }
+        elseif (isset($_SESSION['admin'])) {
+            echo "<li><a href='panier.php'><img src='../Images/cart.svg' alt='cart-photo'>(0$)</a></li>
+            <li><a href='profil.php'><img src='../Images/user.svg' alt='cart-photo'>(".$_SESSION['admin']->username .' '.'<p>administrateur</p>'.")</a></li>
+           <form method='post'>
+           <input name='unset_admin' type='submit' value='Deconnexion'>
+           </form>";
+          }
+        else {
+            echo "<li><a href='panier.php'><img src='../Images/cart.svg' alt='cart-photo'></a>(0€)</li>
             <li><a href='connexion.php'><img src='../Images/user.svg' alt='cart-photo'>(Connexion)</a></li>
             ";
         }
+        
          ?>
         
         
