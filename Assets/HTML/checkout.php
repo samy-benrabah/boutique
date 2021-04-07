@@ -32,78 +32,14 @@ include 'header.php';
 
     <section class="section2">
         <div class="compte">
-            <p>Vous avez deja un compte?</p>
+            <p>Vous êtes déjà un compte ?</p>
             <a href="../HTML/connexion.php">Cliquer ici pour vous identifier</a>
-
+        </div>
+        <div class="compte">
+            <p>Vous êtes un nouveau ?</p>
+            <a href="../HTML/connexion.php?block=Inscription">Cliquer ici pour vous inscrire</a>
         </div>
         <div class="full-formulaire">
-    <!-- ///////////////////////////DEBUT FORMULAIRE LEFT ///////////////////////////////////////////// -->
-
-            <div class="formulaire-left">
-                <p>ADRESSE DE LIVRAISON</p>
-                <div class="input_nom_prenom">
-                    <form action="" method="post">
-                        <div class="label-input">
-                            <label for="nom">Nom</label>
-                            <input type="text" name="nom" id="">
-                        </div>
-                        <div class="label-input">
-                            <label for="prenom">Prenom</label>
-                            <input type="text" name="prenom" id="">
-                        </div>
-
-                </div>
-                <div>
-
-                        <div class="label-input">
-                            <label for="adresse">Adresse</label>
-                            <input type="text" name="adresse" id="">
-                        </div>
-
-                </div>
-                <div class="postal-ville-pays">
-
-                        <div class="label-input">
-                            <label for="postal">Code Postal</label>
-                            <input type="text" name="postal" id="">
-                        </div>
-                        <div class="label-input">
-                            <label for="ville">Ville</label>
-                            <input type="text" name="ville" id="">
-                        </div>
-                        <div class="label-input">
-                            <label for="pays">Pays/Region</label>
-                            <input type="text" name="pays" id="">
-                        </div>
-
-                </div>
-                <div>
-
-                        <div class="label-input">
-                            <label for="email">Email</label>
-                            <input type="email" name="email" id="">
-                        </div>
-
-                </div>
-                <div>
-
-                        <div class="label-input">
-                            <label for="telephone">Telephone</label>
-                            <input type="text" name="telephone" id="">
-                        </div>
-
-                </div>
-                <div>
-
-                        <div class="label-input">
-                            <label for="Mot de Passe">Mot de passe</label>
-                            <input type="text" name="mtp" id="">
-                        </div>
-                        <input type="submit" name="register" value="VALIDER">
-                    </form>
-                </div>
-            </div>
-    <!-- ///////////////////////////FIN FORMULAIRE LEFT ///////////////////////////////////////////// -->
     <!-- ///////////////////////////DEBUT FORMULAIRE RIGHT ///////////////////////////////////////////// -->
 
             <div class="formulaire-right">
@@ -215,9 +151,9 @@ include 'header.php';
     <!-- ///////////////////////////FIN SECTION 2 ///////////////////////////////////////////// -->
 
 </main>
-<footer>
-
-</footer>
+<?php
+include 'footer.php';
+?>
 
 <script type="text/javascript">
     // Create an instance of the Stripe object with your publishable API key
