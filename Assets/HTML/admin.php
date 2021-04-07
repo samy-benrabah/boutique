@@ -1,5 +1,6 @@
 <?php
 
+
 require '../../Class/product.php';
 $product = new Product();
 
@@ -25,15 +26,17 @@ $get_products = $product->get_products();
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://kit.fontawesome.com/d34f22fe3f.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="../CSS/header-footer.css">
     <link rel="stylesheet" href="../CSS/morad.css">
     <title>Document</title>
 </head>
 
 <body>
-    <?php include '../HTML/header.php'?>
-
-
+    <?php include '../HTML/header.php';
+   
+   if (isset($_SESSION['admin'])!=true) {
+    header('Location:connexion.php');
+}
+?>
     <main>
         <!-- ‡‡‡‡‡‡‡‡‡‡‡‡‡‡ START PRODUCTS ‡‡‡‡‡‡‡‡‡‡‡‡‡‡ -->
         <section class="categories">

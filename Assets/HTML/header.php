@@ -8,6 +8,7 @@ if (isset($_POST["unset_admin"])) {
     unset($_SESSION['admin']);
     header('Location:connexion.php');
 }
+
 ?>
 
 <link rel="stylesheet" href="../CSS/header-footer.css">
@@ -44,8 +45,8 @@ if (isset($_POST["unset_admin"])) {
           
         }
         elseif (isset($_SESSION['admin'])) {
-            echo "<li><a href='panier.php'><img src='../Images/cart.svg' alt='cart-photo'>(0$)</a></li>
-            <li><a href='profil.php'><img src='../Images/user.svg' alt='cart-photo'>(".$_SESSION['admin']->username .' '.'<p>administrateur</p>'.")</a></li>
+            echo "<li ><a href='panier.php'><img src='../Images/cart.svg' alt='cart-photo'>(0$)</a></li>
+            <li><a class='a_header' href='admin.php'><img src='../Images/user.svg' alt='cart-photo'>(".$_SESSION['admin']->username.'<p>__</p> '.'<p>administrateur</p>'.")</a></li>
            <form method='post'>
            <input name='unset_admin' type='submit' value='Deconnexion'>
            </form>";
@@ -55,7 +56,6 @@ if (isset($_POST["unset_admin"])) {
             <li><a href='connexion.php'><img src='../Images/user.svg' alt='cart-photo'>(Connexion)</a></li>
             ";
         }
-        
          ?>
         
         

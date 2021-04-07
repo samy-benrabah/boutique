@@ -62,58 +62,66 @@ class User
         $this->username = trim($username);
         $this->password = trim($password);
         $msg='';
-        $stmt_select1 = $this->pdo->prepare("SELECT * FROM users WHERE  username = ? OR email = ?");
+        $stmt_select1 = $this->pdo->prepare("SELECT * FROM users WHERE  username = ? ");
         $stmt_select1->bindParam(1, $this->username, PDO::PARAM_STR, 12);
-        $stmt_select1->bindParam(2, $this->email, PDO::PARAM_STR, 12);
         $stmt_select1->execute();
         $row1 = $stmt_select1->fetch(PDO::FETCH_OBJ);
-        
+
+        $stmt_select2 = $this->pdo->prepare("SELECT * FROM users WHERE email = ?");
+        $stmt_select2->bindParam(1, $this->email, PDO::PARAM_STR, 12);
+        $stmt_select2->execute();
+        $row2 = $stmt_select2->fetch(PDO::FETCH_OBJ);
         
         if (!empty($username) || !empty($email) ) {
-            if (!empty($password)) {
-               
-                if ($row1->username == $this->username || $row1->email == $this->email ) {
-                    $stmt_select2 = $this->pdo->prepare("SELECT password FROM users WHERE username = ? OR email = ?");
-                    $stmt_select2->execute([$username,$email]);
-                    $row2=$stmt_select2->fetch(PDO::FETCH_OBJ);
-                    
-                    $verif_pass = password_verify($password, $row2->password);
-                    
-                    if ( $verif_pass == $password) {
-                        $admin=$row1->admin;
-                        if ($admin == 0) {
-                            $this->id=$row1->id;
-                        $_SESSION['user']=$row1;
-                        // var_dump($_SESSION['user']);
-                        header('Location:shop.php');
-                        
-                        }
-                        elseif ($admin == 1) {
-                            $_SESSION['admin']=$row1;
-                            // echo"admin";
-                            header('Location:admin.php');
-                        }
-                    } else {
-                        $msg = "Mauvais mot de passe";
+            
+                if ($this->username==!empty($row1->username)  || $this->email==!empty($row2->email) ) {
+                    $stmt_select3 = $this->pdo->prepare("SELECT * FROM users WHERE username = ? OR email = ?");
+                    $stmt_select3->execute([$username,$email]);
+                    $row3=$stmt_select3->fetch(PDO::FETCH_OBJ);
 
-                    }
-                    } 
-                        else {
-                            $msg = "Identifiant non répertorié";
+                   
+                    if (!empty($password) && isset($row3->password)) {
+                         $verif_pass = password_verify($password, $row3->password);
+                        if ( $verif_pass == $password) {
+                            
+                        
+                            if ($row3->admin  == 0) {
+                                
+                                $this->id=$row3->id;
+                                $_SESSION['user']=$row3;
+                                header('Location:shop.php');
+                            
+                            }
+                            
+                            elseif ($row3->admin == 1) {
+                                $_SESSION['admin']=$row3;
+                                header('Location:admin.php');
+                            }
+
+                            
+                        } else {
+                            $msg = "Mauvais mot de passe";
+
                         }
                     }else {
                         $msg="Entrée votre mot de passe";
                     }
-                }  
-                else {
-                    $msg = "Choisissez un identifiant";
-                }
-                return $msg;
+                        } 
+                            else {
+                                $msg = "Identifiant non répertorié";
+                            }
+                        
+                    }  
+                    else {
+                        $msg = "Choisissez un identifiant";
+                    }
+                    return $msg;
+                    
             }
 
                 
             
-            
+        
     
 
 
