@@ -9,14 +9,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://kit.fontawesome.com/d34f22fe3f.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../CSS/morad.css">
-    <link rel="stylesheet" href="../CSS/header-footer.css">
     
     <title>Document</title>
 </head>
 
 <body>
-    <?php require '../HTML/header.php'?>
-    <?php
+    <?php require '../HTML/header.php';
+    
 require '../../Class/user.php';
 require '../../Class/sendmail.php';
 $sendMail = new Mail();
