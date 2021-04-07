@@ -7,6 +7,7 @@
 
         public function __construct($name)
         {
+            
             $this->name = $name;
         }
 
@@ -41,11 +42,7 @@
                 unset( $_SESSION['paniers'][$this->name]);
         }
 
-
-
-
-
-
+       
 
     }
 ?>

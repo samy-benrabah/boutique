@@ -558,4 +558,31 @@ class Product
         $tab = $stmt->fetchALL(PDO::FETCH_OBJ);
         return $tab;
     }
+
+    public function addCookieBdd($id_user,$id_product,$image_product,$title_product,$price_product,$quantity_product){
+        $stmt_insert=$this->pdo->prepare(" INSERT INTO panier_members(id_user,id_product,image_product,title_product,price_product,quantity_product) VALUES (?,?,?,?,?,?) ");
+        $stmt_insert->bindParam(1,$id_user);
+        $stmt_insert->bindParam(2,$id_product);
+        $stmt_insert->bindParam(3,$image_product);
+        $stmt_insert->bindParam(4,$title_product);
+        $stmt_insert->bindParam(5,$price_product);
+        $stmt_insert->bindParam(6,$quantity_product);
+        $stmt_insert->execute();
+
+       
+    }
+    public function getCookieBdd($id_user){
+        $stmt_select=$this->pdo->prepare("SELECT * FROM panier_members WHERE id_user = ?");
+        $stmt_select->execute([$id_user]);
+        $tab=$stmt_select->fetchAll(PDO::FETCH_OBJ);
+        return$tab;
+    }
+
+    public function storyBuy($id_user){
+        $stmt_select=$this->pdo->prepare("SELECT * FROM orders INNER JOIN container on orders.id_order = container.id_order INNER JOIN products on products.id = container.id_product WHERE id_user = ? ");
+        $stmt_select->execute([$id_user]);
+        $fetch=$stmt_select->fetchAll(PDO::FETCH_OBJ);
+        return$fetch;
+        
+    }
 }

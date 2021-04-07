@@ -59,67 +59,70 @@ class User
     public function connexion($username, $email, $password)
     {
         $this->email = filter_var(trim($email), FILTER_VALIDATE_EMAIL);
-        $this->username = htmlspecialchars(trim($username));
-        $this->password = htmlspecialchars(trim($password));
+        $this->username = trim($username);
+        $this->password = trim($password);
+        $msg='';
         $stmt_select1 = $this->pdo->prepare("SELECT * FROM users WHERE  username = ? ");
         $stmt_select1->bindParam(1, $this->username, PDO::PARAM_STR, 12);
         $stmt_select1->execute();
         $row1 = $stmt_select1->fetch(PDO::FETCH_OBJ);
 
-        if (!empty($username) && empty($email) && !empty($password)) {
-            if ($row1->username == $this->username) {
-                $stmt_select3 = $this->pdo->prepare("SELECT password FROM users WHERE username = ? ");
-                $stmt_select3->bindParam(1, $this->username, PDO::PARAM_STR, 12);
-                $stmt_select3->execute();
-                $row3 = $stmt_select3->fetch(PDO::FETCH_OBJ);
-                $verif_pass = password_verify($password, $row3->password);
-                if ( $verif_pass == $password) {
-                    $this->id=$row1->id;
-                    $_SESSION['user']=$row1;
-                    header('Location:shop.php');
-                } else {
-                    $msg = "Mauvais mot de passe";
-                }
-            } else {
-                $msg = "Identifiant non répertorié";
-            }
-        }  else {
-            $msg = "Remplissez le formulaire";
-        }
-        
-
-
-
-        $stmt_select2 = $this->pdo->prepare("SELECT * FROM users WHERE  email = ? ");
+        $stmt_select2 = $this->pdo->prepare("SELECT * FROM users WHERE email = ?");
         $stmt_select2->bindParam(1, $this->email, PDO::PARAM_STR, 12);
         $stmt_select2->execute();
-        $row2=$stmt_select2->fetch(PDO::FETCH_OBJ);
+        $row2 = $stmt_select2->fetch(PDO::FETCH_OBJ);
+        
+        if (!empty($username) || !empty($email) ) {
+            
+                if ($this->username==!empty($row1->username)  || $this->email==!empty($row2->email) ) {
+                    $stmt_select3 = $this->pdo->prepare("SELECT * FROM users WHERE username = ? OR email = ?");
+                    $stmt_select3->execute([$username,$email]);
+                    $row3=$stmt_select3->fetch(PDO::FETCH_OBJ);
 
-        if (!empty($email) && !empty($password)) {
-            if ($row2->email == $this->email) {
-                $stmt_select3 = $this->pdo->prepare("SELECT password FROM users WHERE email = ? ");
-                $stmt_select3->bindParam(1, $this->email, PDO::PARAM_STR, 12);
-                $stmt_select3->execute();
-                $row3 = $stmt_select3->fetch(PDO::FETCH_OBJ);
-                $verif_pass = password_verify($password, $row3->password);
-                if ($verif_pass == $password) {
-                    $this->id=$row2->id;
+                   
+                    if (!empty($password) && isset($row3->password)) {
+                         $verif_pass = password_verify($password, $row3->password);
+                        if ( $verif_pass == $password) {
+                            
+                        
+                            if ($row3->admin  == 0) {
+                                
+                                $this->id=$row3->id;
+                                $_SESSION['user']=$row3;
+                                header('Location:shop.php');
+                            
+                            }
+                            
+                            elseif ($row3->admin == 1) {
+                                $_SESSION['admin']=$row3;
+                                header('Location:admin.php');
+                            }
+
+                            
+                        } else {
+                            $msg = "Mauvais mot de passe";
+
+                        }
+                    }else {
+                        $msg="Entrée votre mot de passe";
+                    }
+                        } 
+                            else {
+                                $msg = "Identifiant non répertorié";
+                            }
+                        
+                    }  
+                    else {
+                        $msg = "Choisissez un identifiant";
+                    }
+                    return $msg;
                     
-                    $_SESSION['user']=$row2;
-                    header('Location:shop.php');
-                } else {
-                    $msg = "Mauvais mot de passe";
-                }
-            } else {
-                $msg = "Identifiant non répertorié";
             }
-        } else {
-            $msg = "Remplissez le formulaire";
-        }
 
-        return $msg;
-    }
-
+                
+            
+        
+    
 
 
 
@@ -142,8 +145,11 @@ class User
 
     public function updateProfilEmail ($newEmail,$id) 
     {
-        if ($newEmail!=$_SESSION['user']->email) {
-            $stmt_update=$this->pdo->prepare("UPDATE users SET email = ? WHERE id = ? ");
+        $stmt_select1=$this->pdo->prepare("SELECT email FROM users WHERE email=?");
+        $stmt_select1->execute([$newEmail]);
+        $row_count=$stmt_select1->rowCount();
+        if ($row_count == 0) {
+        $stmt_update=$this->pdo->prepare("UPDATE users SET email = ? WHERE id = ? ");
         $stmt_update->execute([$newEmail,$id]);
 
         $stmt_select=$this->pdo->prepare("SELECT * FROM users WHERE email = ? ");

@@ -19,7 +19,7 @@ if (isset($_COOKIE['shopping_cart'])) {
 require '../../vendor/autoload.php';
 \Stripe\Stripe::setApiKey('sk_test_51D9K3cC4WsdowLo8jnT4ZQg44UEUsBXAMQ8cKAdThufyTufGh7iLf4n5oF2jYLL45ihAN5oSlhfHMs9xhrvnXZ8p00Lg1TzP5Z');
 
-$YOUR_DOMAIN = 'http://localhost:8888/PHP&SQL/Project_pool2/08%20-%20Boutique%20en%20ligne/assets/HTML';
+$YOUR_DOMAIN = 'http://www.localhost/ProjectPool2/boutique_en_ligne/Assets/HTML';
 
 $checkout_session = \Stripe\Checkout\Session::create([
     'payment_method_types' => ['card'],

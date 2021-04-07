@@ -1,29 +1,4 @@
-<?php
 
-    require '../../Class/product.php';
-    $class = new Product();
-if(isset($_GET["action"])){
-    if($_GET["action"] == "delete"){
-        $cookie_data = stripslashes($_COOKIE['shopping_cart']);
-        $cart_data = json_decode($cookie_data, true);
-        foreach($cart_data as $keys => $values){
-            if($cart_data[$keys]['item_id'] == $_GET["id"]){
-                unset($cart_data[$keys]);
-                $item_data = json_encode($cart_data);
-                setcookie("shopping_cart", $item_data, time() + (86400 * 30));
-                header("location:panier.php?remove=1");
-            }
-        }
-    }
-}
-
-
-if (isset($_POST['chekout'])) {
-    header('location:checkout.php');
-}
-
-
-?>
 
 
 
@@ -46,6 +21,31 @@ include 'header.php';
 ?>
 <!-- ///////////////////////////FIN HEADER ///////////////////////////////////////////// -->
 <?php
+
+
+    require '../../Class/product.php';
+    $class = new Product();
+if(isset($_GET["action"])){
+    if($_GET["action"] == "delete"){
+        $cookie_data = stripslashes($_COOKIE['shopping_cart']);
+        $cart_data = json_decode($cookie_data, true);
+        foreach($cart_data as $keys => $values){
+            if($cart_data[$keys]['item_id'] == $_GET["id"]){
+                unset($cart_data[$keys]);
+                $item_data = json_encode($cart_data);
+                setcookie("shopping_cart", $item_data, time() + (86400 * 30));
+                header("location:panier.php?remove=1");
+            }
+        }
+    }
+}
+
+
+
+if (isset($_POST['chekout'])) {
+    header('location:checkout.php');
+}
+
 
 $msg = "";
 if (isset($_POST['valider-promo'])) {
@@ -88,7 +88,9 @@ if(isset($_POST['clear'])){
                     <?php
 
                         if (isset($_COOKIE['shopping_cart'])) {
+                            // var_dump($_SESSION);
                             $total = 0;
+                            //stripslashes permet de supprimer les antislashs d'un string
                             $cookie_data = stripslashes($_COOKIE['shopping_cart']);
                             $cart_data = json_decode($cookie_data, true);
                             $display = "flex";
@@ -100,8 +102,7 @@ if(isset($_POST['clear'])){
                                                 <input type="submit" name="valider-promo" value="VALIDER LE CODE">
                                             </form>
                                         </div>';
-                            foreach ($cart_data as $kays => $values) {
-                                //$nbr = 0;
+                            foreach ($cart_data as $kays => $values) {$nbr = 0;
                                 $total += ($values['item_price']*$values['item_quantity']); 
                                 echo '
                                     <div class="code_price-product">
@@ -113,7 +114,6 @@ if(isset($_POST['clear'])){
                                             </div>
                                             <div class="product-prix-number">
                                             <input class="inpQty" type="number" name="quantity" value="'.$values['item_quantity'].'">
-                                            <input type="submit" name="edit" value="ok">
                                                 <p><b>'.$values['item_price']*$values['item_quantity'].'€</b></p>
                                                 <a href="panier.php?action=delete&id='.$values["item_id"].'">X</a>
                                             </div>
@@ -130,8 +130,10 @@ if(isset($_POST['clear'])){
                                 //     setcookie('shopping_cart', $item_data, time() + (86400 * 30));
                                 // }
                                 //==========================================================================================
-                                //$nbr++;
+                                
+                                
                             }
+                            
                             echo '<input type="submit" name="clear" value="SUPPRIMER MON PANIER">';
                             
                         }else {
@@ -141,7 +143,49 @@ if(isset($_POST['clear'])){
                                 <p>Votre panier est vide.  <a href="shop.php">aller vers la page shop</a> </p>
                             </div>
                             ';
+                            
                         }
+                        
+
+                        // if (isset($_SESSION['user'])) {
+                        //     // var_dump($_SESSION['user']);
+                        //     // var_dump($id_product);
+                            
+                        //     // $_COOKIE['shopping_cart'] == false;
+                        //     $id_user=$_SESSION['user']->id;
+                        //     $id_product=$values["item_id"];
+                        //     $image_product=$values["item_image"];
+                        //     $title_product=$values["item_name"];
+                        //     $price_product=$values['item_price'];
+                        //     $quantity_product=$values['item_quantity'];
+                        //     $class->addCookieBdd(intval($id_user),intval($id_product),$image_product,$title_product,floatval($price_product),intval($quantity_product));
+                        //     $tab=$class->getCookieBdd(intval($id_user));
+                        //     $display = "none";
+                        //     $reduction = '
+                        //     <div class="code-reduction">
+                        //         <p>Votre panier est vide.  <a href="shop.php">aller vers la page shop</a> </p>
+                        //     </div>
+                        //     ';
+                            // foreach ($tab as $key ) {
+                            //     echo '
+                            //         <div class="code_price-product">
+                            //             <div class="img-number">
+                            //                 <div class="product-img" style="background-image:url(../Images/products/'.$key->image_product.')"></div>
+                            //                 <div class="price-product">
+                            //                     <p>'.$key->title_product.'</p>
+                            //                     <p>'.$key->price_product.'€</p>
+                            //                 </div>
+                            //                 <div class="product-prix-number">
+                            //                 <input class="inpQty" type="number" name="quantity" value="'.$key->quantity_product.'">
+                            //                 <input type="submit" name="edit'.$nbr.'" value="ok">
+                            //                     <p><b>'.$key->price_product*$key->quantity_product.'€</b></p>
+                            //                     <a href="panier.php?action=delete&id='.$key->id_product.'">X</a>
+                            //                 </div>
+                            //             </div>
+                            //         </div>';   
+                            // }
+                            
+                        // }
                     ?>
                 </form>
                 <?= $reduction?>
