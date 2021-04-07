@@ -1,4 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+@media all and (max-width: 700px) {
+    main .section2 .full-profil .full-profil {
+        border: none;
+    }
+    .profil-left {
+        border: none;
+    }
+    form {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+}
+
 *,
 html {
     margin: 0;
@@ -40,13 +54,30 @@ main .section2 {
 main .section2 .full-profil {
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
-    height: 800px;
+    justify-content: space-between;
     border: solid black;
 }
 
 main .section2 .full-profil .welcome-login {
     text-align: center;
+}
+
+.full-story {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 280px);
+    justify-content: center;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.story_buy {
+    padding: 3%;
+    justify-content: space-between;
+    background-color: gainsboro;
+    /* height: 250px; */
+    width: 180px;
+    border-radius: 2px;
+    margin-bottom: 15px;
 }
 
 main .section2 .full-profil .welcome-login p {
@@ -57,9 +88,10 @@ main .section2 .full-profil .welcome-login p {
 /* DEBUT SOUS FULL PROFIL */
 
 main .section2 .full-profil .sous_full-profil {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
+    display: grid;
+    grid-template-rows: repeat(auto-fill, 380px);
+    justify-content: center;
+    /* justify-content: space-around; */
 }
 
 
@@ -69,18 +101,16 @@ main .section2 .full-profil .sous_full-profil {
 /*  DEBUT PROFIL LEFT */
 
 main .section2 .full-profil .profil-left {
-    height: 1500px;
     width: 600px;
     border: solid gainsboro;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: space-between;
     height: 90%;
 }
 
 main .section2 .full-profil .profil-left form {
     display: flex;
-    flex-direction: row;
     justify-content: space-between;
     width: 100%;
 }
@@ -102,8 +132,6 @@ main .section2 .full-profil .profil-left form input[type="number"] {
 }
 
 main .section2 .full-profil .profil-left .modification-profil .text-button {
-    display: flex;
-    flex-direction: row;
     justify-content: space-around;
     padding: 3% 4% 5%;
 }
@@ -147,7 +175,6 @@ main .section2 .full-profil .profil-right {
 
 main .section2 .full-profil .profil-right form {
     display: flex;
-    flex-direction: row;
     justify-content: space-between;
     width: 100%;
 }
@@ -166,7 +193,6 @@ main .section2 .full-profil .profil-right form input[type="email"] {
 
 main .section2 .full-profil .profil-right .modification-profil .text-button {
     display: flex;
-    flex-direction: row;
     justify-content: space-around;
     padding: 3% 4% 5%;
 }

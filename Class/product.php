@@ -577,4 +577,12 @@ class Product
         $tab=$stmt_select->fetchAll(PDO::FETCH_OBJ);
         return$tab;
     }
+
+    public function storyBuy($id_user){
+        $stmt_select=$this->pdo->prepare("SELECT * FROM orders INNER JOIN container on orders.id_order = container.id_order INNER JOIN products on products.id = container.id_product WHERE id_user = ? ");
+        $stmt_select->execute([$id_user]);
+        $fetch=$stmt_select->fetchAll(PDO::FETCH_OBJ);
+        return$fetch;
+        
+    }
 }

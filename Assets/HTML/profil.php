@@ -24,7 +24,10 @@ if (isset($_SESSION['user'])!=true) {
 }
 
 require '../../Class/user.php';
+require '../../Class/product.php';
 $profil = new User();
+$product= new Product();
+$tab=$product->storyBuy($_SESSION['user']->id);
 $msg='';
 
 if (isset($_POST['valider_username']) && !empty($_POST['new-username'])) {
@@ -82,6 +85,22 @@ if (isset($_POST['valider_country']) && !empty($_POST['new-country'])) {
                 <div class="welcome-login">
                             <p>Bonjour <strong><?= $_SESSION['user']->username?> !</strong></p>
                 </div>
+                <div class="full-story">
+                <?php 
+                foreach ($tab as $key) {
+              echo  
+               ' 
+                    <div class ="story_buy">
+                        <p>Nom: '.$key->title.'</p> 
+                        <p>Prix: '.$key->price.'$</p> 
+                        <p>Quantité: '.$key->quantity.'</p>  
+                        <p>Total: '.$key->quantity*$key->price.'$</p>     
+                        <p>Date: '.$key->order_date.'</p>           
+                    </div>
+                    
+                ';
+            } ?>
+            </div>
                 <p class="msg"><?php if (isset($_POST['valider_email'])) {
                         echo $msg;
                     }  ?></p>

@@ -147,25 +147,25 @@ if(isset($_POST['clear'])){
                         }
                         
 
-                        if (isset($_SESSION['user'])) {
-                            // var_dump($_SESSION['user']);
-                            // var_dump($id_product);
+                        // if (isset($_SESSION['user'])) {
+                        //     // var_dump($_SESSION['user']);
+                        //     // var_dump($id_product);
                             
-                            // $_COOKIE['shopping_cart'] == false;
-                            $id_user=$_SESSION['user']->id;
-                            $id_product=$values["item_id"];
-                            $image_product=$values["item_image"];
-                            $title_product=$values["item_name"];
-                            $price_product=$values['item_price'];
-                            $quantity_product=$values['item_quantity'];
-                            $class->addCookieBdd(intval($id_user),intval($id_product),$image_product,$title_product,floatval($price_product),intval($quantity_product));
-                            $tab=$class->getCookieBdd(intval($id_user));
-                            $display = "none";
-                            $reduction = '
-                            <div class="code-reduction">
-                                <p>Votre panier est vide.  <a href="shop.php">aller vers la page shop</a> </p>
-                            </div>
-                            ';
+                        //     // $_COOKIE['shopping_cart'] == false;
+                        //     $id_user=$_SESSION['user']->id;
+                        //     $id_product=$values["item_id"];
+                        //     $image_product=$values["item_image"];
+                        //     $title_product=$values["item_name"];
+                        //     $price_product=$values['item_price'];
+                        //     $quantity_product=$values['item_quantity'];
+                        //     $class->addCookieBdd(intval($id_user),intval($id_product),$image_product,$title_product,floatval($price_product),intval($quantity_product));
+                        //     $tab=$class->getCookieBdd(intval($id_user));
+                        //     $display = "none";
+                        //     $reduction = '
+                        //     <div class="code-reduction">
+                        //         <p>Votre panier est vide.  <a href="shop.php">aller vers la page shop</a> </p>
+                        //     </div>
+                        //     ';
                             // foreach ($tab as $key ) {
                             //     echo '
                             //         <div class="code_price-product">
@@ -185,7 +185,7 @@ if(isset($_POST['clear'])){
                             //         </div>';   
                             // }
                             
-                        }
+                        // }
                     ?>
                 </form>
                 <?= $reduction?>

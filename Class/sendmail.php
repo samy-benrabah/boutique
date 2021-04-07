@@ -86,5 +86,9 @@ require '../../PHPMailer/src/SMTP.php';
             } $msg="Remplissez le formulaire";
             return $msg;
         }
+
+       public function getPromoRegister(){
+           
+       }
     }
 ?>
