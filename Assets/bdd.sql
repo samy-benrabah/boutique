@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:8889
--- Généré le : Dim 07 mars 2021 à 09:59
+-- Généré le : lun. 05 avr. 2021 à 12:27
 -- Version du serveur :  5.7.32
 -- Version de PHP : 7.4.12
 
@@ -13,29 +13,6 @@ SET time_zone = "+00:00";
 --
 -- Base de données : `boutique`
 --
-
--- --------------------------------------------------------
-
---
--- Structure de la table `admin`
---
-
-CREATE TABLE `admin` (
-  `id_admin` int(11) NOT NULL,
-  `first_name` varchar(255) DEFAULT NULL,
-  `last_name` varchar(255) DEFAULT NULL,
-  `username` varchar(255) DEFAULT NULL,
-  `email` varchar(255) DEFAULT NULL,
-  `password` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Déchargement des données de la table `admin`
---
-
-INSERT INTO `admin` (`id_admin`, `first_name`, `last_name`, `username`, `email`, `password`) VALUES
-(1, 'Morad', 'LABRID', 'Moradii.84', 'morad.labrid@laplateforme.io', '123123'),
-(2, 'Samy', 'BENRABAH', 'samy', 'samy.benrabah@laplateforme.io', 'samy');
 
 -- --------------------------------------------------------
 
@@ -81,7 +58,11 @@ INSERT INTO `container` (`id`, `id_order`, `id_product`, `quantity`) VALUES
 (1, 1, 3, 1),
 (2, 1, 10, 2),
 (3, 2, 12, 1),
-(4, 3, 5, 3);
+(4, 3, 5, 3),
+(5, 5, 11, 2),
+(6, 5, 3, 1),
+(7, 5, 6, 3),
+(8, 6, 6, 3);
 
 -- --------------------------------------------------------
 
@@ -101,7 +82,7 @@ CREATE TABLE `discounts` (
 
 INSERT INTO `discounts` (`id`, `name`, `value`) VALUES
 (2, 'REMY10OFF', 10),
-(4, 'LAJOLIETTE', 0),
+(4, 'LAJOLIETTE', 20),
 (6, 'LAPLATEFORME4', 40);
 
 -- --------------------------------------------------------
@@ -124,8 +105,11 @@ CREATE TABLE `orders` (
 
 INSERT INTO `orders` (`id_order`, `order_date`, `processing`, `id_user`, `id_discount`) VALUES
 (1, '2021-02-12 00:00:00', 1, 1, 6),
-(2, '2021-01-28 00:00:00', 1, 2, 4),
-(3, '2020-12-30 00:00:00', 1, 1, 2);
+(2, '2021-03-28 00:00:00', 1, 2, 4),
+(3, '2020-12-30 00:00:00', 1, 1, 2),
+(4, '2021-03-31 00:00:00', 1, 2, 6),
+(5, '2021-03-31 14:11:54', 1, 2, 6),
+(6, '2021-03-31 14:46:05', 0, 2, 0);
 
 -- --------------------------------------------------------
 
@@ -158,7 +142,7 @@ INSERT INTO `products` (`id`, `image`, `title`, `description`, `price`, `product
 (9, '009.jpg', 'Clew', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ut ullamcorper leo, eget euismod orci. Cum sociis natoque penatibus et magnis dis parturient montes nascetur ridiculus mus. Vestibulum ultricies aliquam convallis.', 12, '2021-02-18', 5, 2),
 (10, '602f9382719510.75868677.jpg', 'BASKET WITH HANDLES', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ut ullamcorper leo, eget euismod orci. Cum sociis natoque penatibus et magnis dis parturient montes nascetur ridiculus mus. Vestibulum ultricies aliquam convallis.vase', 19, '2021-02-19', 8, 1),
 (11, '603cfd96a440d7.59283265.jpg', 'Bulb lumieres', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ut ullamcorper leo, eget euismod orci. Cum sociis natoque penatibus et magnis dis parturient montes nascetur ridiculus mus. Vestibulum ultricies aliquam convallis.', 39, '2021-03-01', 7, 1),
-(12, '603dffc7e3aa68.74366932.jpg', 'gazelle', 'Lorem ipsum dolor sit amet, consectetur \r\nadipiscing elit. In ut ullamcorper leo, eget euismod orci. \r\nCum sociis natoque penatibus et magnis dis parturient montes nascetur ridiculus mus. Vestibulum ultricies aliquam samyyyy.vase', 60, '2021-03-01', 8, 2);
+(12, '603dffc7e3aa68.74366932.jpg', 'gazelle', 'tres belle tete de gazelle en plastqiue Lorem ipsum dolor sit amet, consectetur \r\nadipiscing elit. In ut ullamcorper leo, eget euismod orci. \r\nCum sociis natoque penatibus et magnis dis parturient montes nascetur ridiculus mus. Vestibulum ultricies aliquam .vase', 60, '2021-03-01', 7, 2);
 
 -- --------------------------------------------------------
 
@@ -190,7 +174,8 @@ INSERT INTO `reviews` (`id`, `star`, `comment`, `date`, `id_user`, `id_product`)
 (9, 3, 'tres jolie vase, je recommande vivement', '2021-03-05', 3, 6),
 (10, 3, 'j\'aime bien...', '2021-03-05', 3, 2),
 (11, 3, 'decu', '2021-03-05', 3, 2),
-(12, 3, 'pas mal dommage que ca viens de chine', '2021-03-05', 3, 11);
+(12, 3, 'pas mal dommage que ca viens de chine', '2021-03-05', 3, 11),
+(13, 1, 'decu', '2021-03-25', 3, 6);
 
 -- --------------------------------------------------------
 
@@ -235,27 +220,23 @@ CREATE TABLE `users` (
   `zip` varchar(255) DEFAULT NULL,
   `city` varchar(255) DEFAULT NULL,
   `country` varchar(255) DEFAULT NULL,
-  `registre_date` datetime DEFAULT NULL
+  `registre_date` datetime DEFAULT NULL,
+  `admin` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `users`
 --
 
-INSERT INTO `users` (`id`, `first_name`, `last_name`, `username`, `email`, `phone`, `password`, `adress`, `zip`, `city`, `country`, `registre_date`) VALUES
-(1, 'Ruben', 'HABIB', 'ruben13', 'ruben@hotmail.com', '0624565538', '123', '8 rue d‘hosier', '13002', 'Marseile', 'France', '2021-02-13 00:00:00'),
-(2, 'Jessica', 'Soriano', 'Jessica13', 'jessica@hotmail.com', '0771040112', '123', '8 rue d‘hosier', '13002', 'Paris', 'France', '2020-11-05 00:00:00'),
-(3, 'Assia', 'Ali', 'Assia13', 'assia-ali@gmail.com', '0745826715', '123', '152 avenue du prado', '13006', 'Marseille', 'France', '2021-01-02 00:00:00');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `username`, `email`, `phone`, `password`, `adress`, `zip`, `city`, `country`, `registre_date`, `admin`) VALUES
+(1, 'Ruben', 'HABIB', 'ruben13', 'ruben@hotmail.com', '0624565538', '123', '8 rue d‘hosier', '13002', 'Marseile', 'France', '2021-02-13 00:00:00', 0),
+(2, 'Jessica', 'Soriano', 'Jessica13', 'jessica@hotmail.com', '0771040112', '123', '8 rue d‘hosier', '13002', 'Paris', 'France', '2020-11-05 00:00:00', 0),
+(3, 'Assia', 'Ali', 'Assia13', 'assia-ali@gmail.com', '0745826715', '123', '152 avenue du prado', '13006', 'Marseille', 'France', '2021-01-02 00:00:00', 0),
+(4, 'morad', 'LABRID', 'morad084', 'labrid.morad@hotmail.com', '0782151203', 'morad123', '13 rue de bone', '84000', 'Avignon', 'france', '2021-02-28 00:00:00', 1);
 
 --
 -- Index pour les tables déchargées
 --
-
---
--- Index pour la table `admin`
---
-ALTER TABLE `admin`
-  ADD PRIMARY KEY (`id_admin`);
 
 --
 -- Index pour la table `categories`
@@ -267,7 +248,9 @@ ALTER TABLE `categories`
 -- Index pour la table `container`
 --
 ALTER TABLE `container`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `container_ibfk_1` (`id_order`),
+  ADD KEY `container_ibfk_2` (`id_product`);
 
 --
 -- Index pour la table `discounts`
@@ -287,7 +270,9 @@ ALTER TABLE `orders`
 -- Index pour la table `products`
 --
 ALTER TABLE `products`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `products_ibfk_1` (`id_cate`),
+  ADD KEY `products_ibfk_2` (`id_admin`);
 
 --
 -- Index pour la table `reviews`
@@ -314,12 +299,6 @@ ALTER TABLE `users`
 --
 
 --
--- AUTO_INCREMENT pour la table `admin`
---
-ALTER TABLE `admin`
-  MODIFY `id_admin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
 -- AUTO_INCREMENT pour la table `categories`
 --
 ALTER TABLE `categories`
@@ -329,7 +308,7 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT pour la table `container`
 --
 ALTER TABLE `container`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT pour la table `discounts`
@@ -341,7 +320,7 @@ ALTER TABLE `discounts`
 -- AUTO_INCREMENT pour la table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id_order` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_order` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT pour la table `products`
@@ -353,7 +332,7 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT pour la table `reviews`
 --
 ALTER TABLE `reviews`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT pour la table `sliders`
@@ -365,32 +344,11 @@ ALTER TABLE `sliders`
 -- AUTO_INCREMENT pour la table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Contraintes pour les tables déchargées
 --
-
---
--- Contraintes pour la table `orders`
---
-ALTER TABLE `orders`
-  ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `orders_ibfk_2` FOREIGN KEY (`id_discount`) REFERENCES `discounts` (`id`);
-
---
--- Contraintes pour la table `reviews`
---
-ALTER TABLE `reviews`
-  ADD CONSTRAINT `reviews_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `reviews_ibfk_2` FOREIGN KEY (`id_product`) REFERENCES `products` (`id`);
-
---
--- Contraintes pour la table `products`
---
-ALTER TABLE `products`
-  ADD CONSTRAINT `products_ibfk_1` FOREIGN KEY (`id_cate`) REFERENCES `categories` (`id_categorie`),
-  ADD CONSTRAINT `products_ibfk_2` FOREIGN KEY (`id_admin`) REFERENCES `admin` (`id_admin`);
 
 --
 -- Contraintes pour la table `container`
@@ -398,3 +356,21 @@ ALTER TABLE `products`
 ALTER TABLE `container`
   ADD CONSTRAINT `container_ibfk_1` FOREIGN KEY (`id_order`) REFERENCES `orders` (`id_order`),
   ADD CONSTRAINT `container_ibfk_2` FOREIGN KEY (`id_product`) REFERENCES `products` (`id`);
+
+--
+-- Contraintes pour la table `orders`
+--
+ALTER TABLE `orders`
+  ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`);
+
+--
+-- Contraintes pour la table `products`
+--
+ALTER TABLE `products`
+  ADD CONSTRAINT `products_ibfk_1` FOREIGN KEY (`id_cate`) REFERENCES `categories` (`id_categorie`);
+
+--
+-- Contraintes pour la table `reviews`
+--
+ALTER TABLE `reviews`
+  ADD CONSTRAINT `reviews_ibfk_2` FOREIGN KEY (`id_product`) REFERENCES `products` (`id`);
