@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,57 +9,54 @@
     <script src="https://kit.fontawesome.com/218e7c5bb4.js" crossorigin="anonymous"></script>
     <title>Document</title>
 </head>
-<body>
-   
-    <?php
-include 'header.php';
 
-?>
-   
+<body>
+
+    <?php
+    include 'header.php';
+
+    ?>
+
     <main>
         <section class="section2">
-    <?php 
- $bdd=new PDO('mysql:dbname=boutique;host=localhost', "root", "");
+            <?php
+            $bdd = new PDO('mysql:dbname=boutique;host=localhost', "root", "");
 
-//  $query=$bdd->prepare('SELECT * FROM products WHERE title ORDER BY id DESC');
+            //  $query=$bdd->prepare('SELECT * FROM products WHERE title ORDER BY id DESC');
 
- if(isset($_GET['search']) && !empty($_GET['search-bar'])){
-     $search=htmlspecialchars(trim($_GET['search-bar']));
-     $query=$bdd->prepare('SELECT id,image,title,price FROM products WHERE title LIKE "'.$search.'%"');
-     $query->execute();
-     $result = $query->fetchAll(PDO::FETCH_OBJ);
- 
- if ($query->rowCount() > 0) {
-     
- 
+            $stmt = $bdd->prepare("SELECT * FROM products WHERE id=?");
+            $stmt->execute([$_GET['id']]);
+            $fetch = $stmt->fetchAll(PDO::FETCH_OBJ);
+            if ($stmt->rowCount() > 0) {
 
- foreach($result as $p) 
- {echo
- '<div class="product">
-    <a href="product.php?id='.$p->id.'">
+
+
+                foreach ($fetch as $p) {
+                    echo
+                    '<div class="product">
+    <a href="product.php?id=' . $p->id . '">
         <div class="product-img">
             
-                <img src="../../Assets/Images/products/'.$p->image.'">
+                <img src="../../Assets/Images/products/' . $p->image . '">
         </div>
-            <h4>'. $p->title.'</h4>
-            <p>'. $p->price .'$</p>
+            <h4>' . $p->title . '</h4>
+            <p>' . $p->price . '$</p>
     </a>
 </div>';
+                }
+            } else {
+                echo '<p class="search">Aucun résultat pour :' . ' ' . $search . '</p>';
+            }
 
- }
-}else {
-    echo '<p class="search">Aucun résultat pour :'.' '.$search.'</p>';
-}
-}
-  ?>
-  </section>
+            ?>
+        </section>
     </main>
 
-   
-        <?php
-    include '../HTML/footer.php'
-?>
-    
-</body>
-</html>
 
+    <?php
+    include '../HTML/footer.php'
+    ?>
+
+</body>
+
+</html>

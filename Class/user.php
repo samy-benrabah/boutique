@@ -16,13 +16,12 @@ class User
             $pdo = new PDO('mysql:host=localhost;dbname=boutique', "root", ""); // PDO Driver DSN. Throws A PDOException.
         } catch (PDOException $Exception) {
             // Note The Typecast To An Integer!
-            throw new MyDatabaseException($Exception->getMessage(), (int) $Exception->getCode());
+            throw new Exception($Exception->getMessage(), (int) $Exception->getCode());
         }
         $this->pdo = $pdo;
-
     }
 
-    public function register($firstName, $lastName, $userName, $email,$phone, $password, $adress, $zip, $city, $country)
+    public function register($firstName, $lastName, $userName, $email, $phone, $password, $adress, $zip, $city, $country)
     {
         $stmt_select = $this->pdo->prepare("SELECT email FROM users WHERE email = ?");
         $stmt_select->bindParam(1, $email);
@@ -61,7 +60,7 @@ class User
         $this->email = filter_var(trim($email), FILTER_VALIDATE_EMAIL);
         $this->username = trim($username);
         $this->password = trim($password);
-        $msg='';
+        $msg = '';
         $stmt_select1 = $this->pdo->prepare("SELECT * FROM users WHERE  username = ? ");
         $stmt_select1->bindParam(1, $this->username, PDO::PARAM_STR, 12);
         $stmt_select1->execute();
@@ -71,195 +70,166 @@ class User
         $stmt_select2->bindParam(1, $this->email, PDO::PARAM_STR, 12);
         $stmt_select2->execute();
         $row2 = $stmt_select2->fetch(PDO::FETCH_OBJ);
-        
-        if (!empty($username) || !empty($email) ) {
-            
-                if ($this->username==!empty($row1->username)  || $this->email==!empty($row2->email) ) {
-                    $stmt_select3 = $this->pdo->prepare("SELECT * FROM users WHERE username = ? OR email = ?");
-                    $stmt_select3->execute([$username,$email]);
-                    $row3=$stmt_select3->fetch(PDO::FETCH_OBJ);
 
-                   
-                    if (!empty($password) && isset($row3->password)) {
-                         $verif_pass = password_verify($password, $row3->password);
-                        if ( $verif_pass == $password) {
-                            
-                        
-                            if ($row3->admin  == 0) {
-                                
-                                $this->id=$row3->id;
-                                $_SESSION['user']=$row3;
-                                header('Location:shop.php');
-                            
-                            }
-                            
-                            elseif ($row3->admin == 1) {
-                                $_SESSION['admin']=$row3;
-                                header('Location:admin.php');
-                            }
+        if (!empty($username) || !empty($email)) {
 
-                            
-                        } else {
-                            $msg = "Mauvais mot de passe";
+            if ($this->username == !empty($row1->username)  || $this->email == !empty($row2->email)) {
+                $stmt_select3 = $this->pdo->prepare("SELECT * FROM users WHERE username = ? OR email = ?");
+                $stmt_select3->execute([$username, $email]);
+                $row3 = $stmt_select3->fetch(PDO::FETCH_OBJ);
 
+
+                if (!empty($password) && isset($row3->password)) {
+                    $verif_pass = password_verify($password, $row3->password);
+                    if ($verif_pass == $password) {
+
+
+                        if ($row3->admin  == 0) {
+
+                            $this->id = $row3->id;
+                            $_SESSION['user'] = $row3;
+                            header('Location:shop.php');
+                        } elseif ($row3->admin == 1) {
+                            $_SESSION['admin'] = $row3;
+                            header('Location:admin.php');
                         }
-                    }else {
-                        $msg="Entrée votre mot de passe";
+                    } else {
+                        $msg = "Mauvais mot de passe";
                     }
-                        } 
-                            else {
-                                $msg = "Identifiant non répertorié";
-                            }
-                        
-                    }  
-                    else {
-                        $msg = "Choisissez un identifiant";
-                    }
-                    return $msg;
-                    
+                } else {
+                    $msg = "Entrée votre mot de passe";
+                }
+            } else {
+                $msg = "Identifiant non répertorié";
             }
-
-                
-            
-        
-    
-
-
-
-    public function updateProfilUsername ($newUsername,$id) 
-    {
-        
-                
-                    $stmt_update=$this->pdo->prepare("UPDATE users SET username = ? WHERE id = ? ");
-                    $stmt_update->execute([$newUsername,$id]);
-                    
-
-                    $stmt_select=$this->pdo->prepare("SELECT * FROM users WHERE username = ?");
-                    $stmt_select->execute([$newUsername]);
-                    $row_username=$stmt_select->fetch(PDO::FETCH_OBJ);
-                    $_SESSION['user']=$row_username;
-                    
-                
-             
+        } else {
+            $msg = "Choisissez un identifiant";
+        }
+        return $msg;
     }
 
-    public function updateProfilEmail ($newEmail,$id) 
+
+
+
+
+
+
+
+    public function updateProfilUsername($newUsername, $id)
     {
-        $stmt_select1=$this->pdo->prepare("SELECT email FROM users WHERE email=?");
+
+
+        $stmt_update = $this->pdo->prepare("UPDATE users SET username = ? WHERE id = ? ");
+        $stmt_update->execute([$newUsername, $id]);
+
+
+        $stmt_select = $this->pdo->prepare("SELECT * FROM users WHERE username = ?");
+        $stmt_select->execute([$newUsername]);
+        $row_username = $stmt_select->fetch(PDO::FETCH_OBJ);
+        $_SESSION['user'] = $row_username;
+    }
+
+    public function updateProfilEmail($newEmail, $id)
+    {
+        $stmt_select1 = $this->pdo->prepare("SELECT email FROM users WHERE email=?");
         $stmt_select1->execute([$newEmail]);
-        $row_count=$stmt_select1->rowCount();
+        $row_count = $stmt_select1->rowCount();
         if ($row_count == 0) {
-        $stmt_update=$this->pdo->prepare("UPDATE users SET email = ? WHERE id = ? ");
-        $stmt_update->execute([$newEmail,$id]);
+            $stmt_update = $this->pdo->prepare("UPDATE users SET email = ? WHERE id = ? ");
+            $stmt_update->execute([$newEmail, $id]);
 
-        $stmt_select=$this->pdo->prepare("SELECT * FROM users WHERE email = ? ");
-        $stmt_select->execute([$newEmail]);
-        $row_email=$stmt_select->fetch(PDO::FETCH_OBJ);
-        $_SESSION['user']=$row_email;
-        }else{
-            $msg="Cette email existe déjà veuillez changer d'email";
+            $stmt_select = $this->pdo->prepare("SELECT * FROM users WHERE email = ? ");
+            $stmt_select->execute([$newEmail]);
+            $row_email = $stmt_select->fetch(PDO::FETCH_OBJ);
+            $_SESSION['user'] = $row_email;
+        } else {
+            $msg = "Cette email existe déjà veuillez changer d'email";
             return $msg;
-            }
-             
-    }
-         
-    
-    public function updateProfilAdress ($newAdress,$id) 
-    {
-        
-                
-                    $stmt_update=$this->pdo->prepare("UPDATE users SET adress = ? WHERE id = ? ");
-                    $stmt_update->execute([$newAdress,$id]);
-                    
-
-                    $stmt_select=$this->pdo->prepare("SELECT * FROM users WHERE adress = ?");
-                    $stmt_select->execute([$newAdress]);
-                    $row_adress=$stmt_select->fetch(PDO::FETCH_OBJ);
-                    $_SESSION['user']=$row_adress;
-                
-             
+        }
     }
 
 
-    public function updateProfilPhone ($newPhone,$id) 
+    public function updateProfilAdress($newAdress, $id)
     {
-        
-                
-                    $stmt_update=$this->pdo->prepare("UPDATE users SET phone = ? WHERE id = ? ");
-                    $stmt_update->execute([$newPhone,$id]);
-                    
 
-                    $stmt_select=$this->pdo->prepare("SELECT * FROM users WHERE phone = ?");
-                    $stmt_select->execute([$newPhone]);
-                    $row_phone=$stmt_select->fetch(PDO::FETCH_OBJ);
-                    $_SESSION['user']=$row_phone;
-                
-             
+
+        $stmt_update = $this->pdo->prepare("UPDATE users SET adress = ? WHERE id = ? ");
+        $stmt_update->execute([$newAdress, $id]);
+
+
+        $stmt_select = $this->pdo->prepare("SELECT * FROM users WHERE adress = ?");
+        $stmt_select->execute([$newAdress]);
+        $row_adress = $stmt_select->fetch(PDO::FETCH_OBJ);
+        $_SESSION['user'] = $row_adress;
     }
 
-    public function updateProfilPassword ($newPassword,$id) 
-    {
-                    $crypted=password_hash($newPassword,PASSWORD_BCRYPT);
-                
-                    $stmt_update=$this->pdo->prepare("UPDATE users SET password = ? WHERE id = ? ");
-                    $stmt_update->execute([$crypted,$id]);
-                    
 
-                    $stmt_select=$this->pdo->prepare("SELECT * FROM users WHERE password = ?");
-                    $stmt_select->execute([$newPassword]);
-                    $row_password=$stmt_select->fetch(PDO::FETCH_OBJ);
-                    
-                
-             
+    public function updateProfilPhone($newPhone, $id)
+    {
+
+
+        $stmt_update = $this->pdo->prepare("UPDATE users SET phone = ? WHERE id = ? ");
+        $stmt_update->execute([$newPhone, $id]);
+
+
+        $stmt_select = $this->pdo->prepare("SELECT * FROM users WHERE phone = ?");
+        $stmt_select->execute([$newPhone]);
+        $row_phone = $stmt_select->fetch(PDO::FETCH_OBJ);
+        $_SESSION['user'] = $row_phone;
     }
-       
-          
-    public function updateProfilZip ($newZip,$id) 
+
+    public function updateProfilPassword($newPassword, $id)
     {
-        
-                
-                    $stmt_update=$this->pdo->prepare("UPDATE users SET zip = ? WHERE id = ? ");
-                    $stmt_update->execute([$newZip,$id]);
-                    
+        $crypted = password_hash($newPassword, PASSWORD_BCRYPT);
 
-                    $stmt_select=$this->pdo->prepare("SELECT * FROM users WHERE zip = ?");
-                    $stmt_select->execute([$newZip]);
-                    $row_zip=$stmt_select->fetch(PDO::FETCH_OBJ);
-                    $_SESSION['user']=$row_zip;
-                
-             
-    }  
+        $stmt_update = $this->pdo->prepare("UPDATE users SET password = ? WHERE id = ? ");
+        $stmt_update->execute([$crypted, $id]);
 
-             public function updateProfilCity ($newCity,$id) 
+
+        $stmt_select = $this->pdo->prepare("SELECT * FROM users WHERE password = ?");
+        $stmt_select->execute([$newPassword]);
+        $row_password = $stmt_select->fetch(PDO::FETCH_OBJ);
+    }
+
+
+    public function updateProfilZip($newZip, $id)
     {
-        
-                
-                    $stmt_update=$this->pdo->prepare("UPDATE users SET city = ? WHERE id = ? ");
-                    $stmt_update->execute([$newCity,$id]);
-                    
 
-                    $stmt_select=$this->pdo->prepare("SELECT * FROM users WHERE city = ?");
-                    $stmt_select->execute([$newCity]);
-                    $row_city=$stmt_select->fetch(PDO::FETCH_OBJ);
-                    $_SESSION['user']=$row_city;
-                
-             
-    }     
-    public function updateProfilCountry ($newCountry,$id) 
+
+        $stmt_update = $this->pdo->prepare("UPDATE users SET zip = ? WHERE id = ? ");
+        $stmt_update->execute([$newZip, $id]);
+
+
+        $stmt_select = $this->pdo->prepare("SELECT * FROM users WHERE zip = ?");
+        $stmt_select->execute([$newZip]);
+        $row_zip = $stmt_select->fetch(PDO::FETCH_OBJ);
+        $_SESSION['user'] = $row_zip;
+    }
+
+    public function updateProfilCity($newCity, $id)
     {
-        
-                
-                    $stmt_update=$this->pdo->prepare("UPDATE users SET country = ? WHERE id = ? ");
-                    $stmt_update->execute([$newCountry,$id]);
-                    
-
-                    $stmt_select=$this->pdo->prepare("SELECT * FROM users WHERE country = ?");
-                    $stmt_select->execute([$newCountry]);
-                    $row_country=$stmt_select->fetch(PDO::FETCH_OBJ);
-                    $_SESSION['user']=$row_country;
-                
-             
-    }   
 
 
+        $stmt_update = $this->pdo->prepare("UPDATE users SET city = ? WHERE id = ? ");
+        $stmt_update->execute([$newCity, $id]);
+
+
+        $stmt_select = $this->pdo->prepare("SELECT * FROM users WHERE city = ?");
+        $stmt_select->execute([$newCity]);
+        $row_city = $stmt_select->fetch(PDO::FETCH_OBJ);
+        $_SESSION['user'] = $row_city;
+    }
+    public function updateProfilCountry($newCountry, $id)
+    {
+
+
+        $stmt_update = $this->pdo->prepare("UPDATE users SET country = ? WHERE id = ? ");
+        $stmt_update->execute([$newCountry, $id]);
+
+
+        $stmt_select = $this->pdo->prepare("SELECT * FROM users WHERE country = ?");
+        $stmt_select->execute([$newCountry]);
+        $row_country = $stmt_select->fetch(PDO::FETCH_OBJ);
+        $_SESSION['user'] = $row_country;
+    }
 }
