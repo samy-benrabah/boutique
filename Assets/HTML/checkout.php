@@ -16,7 +16,7 @@
     <!-- ///////////////////////////DEBUT HEADER ///////////////////////////////////////////// -->
 
     <?php
-    include 'header.php';
+    require 'header.php';
     ?>
 
     <!-- ///////////////////////////FIN HEADER ///////////////////////////////////////////// -->
@@ -34,13 +34,14 @@
 
         <section class="section2">
             <?php
+
             if (isset($_SESSION['user']) != true) {
-                '<div class="compte">
-                <p>Vous êtes déjà un compte ?</p>
+                echo '<div class="compte">
+                <p>Avez vous un compte ?</p>
                 <a href="../HTML/connexion.php">Cliquer ici pour vous identifier</a>
                 </div>
                 <div class="compte">
-                <p>Vous êtes un nouveau ?</p>
+                <p>Vous êtes nouveau ?</p>
                 <a href="../HTML/connexion.php?block=Inscription">Cliquer ici pour vous inscrire</a>
                 </div>';
             }
@@ -143,9 +144,11 @@
                     </div>
                     <div class="passage-paiement">
 
-
-                        <input id="checkout-button" type="submit" value="PASSER AU PAIMENT">
-
+                        <?php
+                        if (isset($_SESSION['user']) != false) {
+                            echo '<input id="checkout-button" type="submit" value="PASSER AU PAIMENT">';
+                        }
+                        ?>
 
                     </div>
 

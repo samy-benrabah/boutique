@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => 'd207ed1708ba3e1d60e427390aba4a717e39804d',
+    'reference' => 'de5938a069d7847781d66f25b37413cdd985ba80',
     'name' => '__root__',
   ),
   'versions' => 
@@ -18,16 +18,16 @@
       'aliases' => 
       array (
       ),
-      'reference' => 'd207ed1708ba3e1d60e427390aba4a717e39804d',
+      'reference' => 'de5938a069d7847781d66f25b37413cdd985ba80',
     ),
     'stripe/stripe-php' => 
     array (
-      'pretty_version' => 'v7.76.0',
-      'version' => '7.76.0.0',
+      'pretty_version' => 'v7.89.0',
+      'version' => '7.89.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => '47e66d4186712be33c593fe820dccf270a04d5d6',
+      'reference' => 'fea12a15d46d15c017b3fe76f78aa7c983cb5928',
     ),
   ),
 );

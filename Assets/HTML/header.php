@@ -1,5 +1,6 @@
 <?php
 session_start();
+require 'price_panier.php';
 if (isset($_POST["unset"])) {
     unset($_SESSION['user']);
     header('Location:connexion.php');
@@ -17,8 +18,8 @@ if (isset($_POST["unset_admin"])) {
     <div>
         <i id="open" class="fas fa-bars"></i>
         <ul>
-            <li><a href="">Accueil</a></li>
-            <li><a href="product.php">Nos Produits</a></li>
+            <li><a href="../../index.php">Accueil</a></li>
+            <li><a href="shop.php">Nos Produits</a></li>
             <li><a href="">TOP Produits</a></li>
             <li><a href="">Nouveautés</a></li>
         </ul>
@@ -35,7 +36,7 @@ if (isset($_POST["unset_admin"])) {
     <ul class="price">
         <?php
         if (isset($_SESSION['user'])) {
-            echo "<li><a href='panier.php'><img src='../Images/cart.svg' alt='cart-photo'>(0$)</a></li>
+            echo "<li><a href='panier.php'><img src='../Images/cart.svg' alt='cart-photo'>(" . $_SESSION['total'] . ")</a></li>
            <li><a href='profil.php'><img src='../Images/user.svg' alt='cart-photo'>(" . $_SESSION['user']->username . ")</a></li>
           <form method='post'>
           <input name='unset' type='submit' value='Deconnexion'>
@@ -43,7 +44,7 @@ if (isset($_POST["unset_admin"])) {
           
           ";
         } elseif (isset($_SESSION['admin'])) {
-            echo "<li ><a href='panier.php'><img src='../Images/cart.svg' alt='cart-photo'>(0$)</a></li>
+            echo "
             <li><a class='a_header' href='admin.php'><img src='../Images/user.svg' alt='cart-photo'>(" . $_SESSION['admin']->username . '<p>__</p> ' . '<p>administrateur</p>' . ")</a></li>
            <form method='post'>
            <input name='unset_admin' type='submit' value='Deconnexion'>
